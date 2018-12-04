@@ -1,0 +1,26 @@
+\clearpage
+\pagenumbering{roman} 				
+\setcounter{page}{1}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\renewcommand{\headrulewidth}{0.1ex}
+\renewcommand{\footrulewidth}{0.1ex}
+\fancyfoot[LE,RO]{\thepage}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[LE,RO]{\thepage}\renewcommand{\headrulewidth}{0ex}}
+
+\section*{\Huge Summary}
+\addcontentsline{toc}{chapter}{Summary}	
+$\\[0.5cm]$
+
+\noindent 
+
+%A major challenge for autonomous operations at sea is collision avoidance. Obstacles need to be detected in real-time and this can be achieved with a combination of different sensors. In this work, the performance of using a regular camera for object detection will be studied. It aims to compare how two state-of-the-art deep learning based detection algorithms perform in a maritime environment. A thorough theoretical and experimental analysis are important contributions in this report. 
+
+%\vspace{5mm}
+
+%In the spring of 2017, Espen Tangstad wrote a master thesis about object detection in a maritime environment \citep{Tangstad2017}, and used the detection algorithm Faster R-CNN \citep{FasterR-CNN}. In this report, Tangstad's version of Faster R-CNN is compared to YOLO (You Only Look Once) \citep{YOLOv1} on a custom test dataset. The custom test dataset consists of four sub-datasets with images captured in different environments and lighting conditions. Both Faster R-CNN and YOLO were tested on the dataset and the results show that YOLO has as good, or better, accuracy than Faster R-CNN. YOLO's other great advantage is that its processing time is much lower than Faster R-CNN, and is therefore more applicable in a real-time system such as an autonomous ferry. 
+
+\clearpage
