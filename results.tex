@@ -254,6 +254,20 @@ There are also some examples where SSD2 misclassifies buildings as boats, while 
 \label{img:misclass_ssd}
 \end{figure}
 
+\vspace{3mm}
+
+As mentioned Yolo2 and Yolo3 does not differ as clearly as SSD2 and SSD3. There are examples of Yolo2 performing better than Yolo3 and vice versa. In many of the misclassifications in the test data both Yolo2 and Yolo3 mistakes the same object as a boat. By analysing the results from both Yolo2 and Yolo3 the following conclusions can be drawn:
+
+\begin{itemize}
+    \item Yolo2 and Yolo3 has a tendency to mistake the same objects as boats. See Appendix C chapter \ref{sec:same_mistake} for example images.
+    \item Yolo2 performs better in some cases, while Yolo3 performs better in other. It is not clear what makes one better than the other in each specific case. See Appendix C chapter \ref{sec:3better} and \ref{sec:2better} for example images
+    \item Yolo2 makes some misclassifications that could imply that training on a building class makes Yolo3 more robust to the more incomrehensible misclassifications. See appendix C chapter \ref{sec:yolo2_spec_misc} for example images.
+\end{itemize}
+
+
+
+
+
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
