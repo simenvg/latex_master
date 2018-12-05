@@ -212,11 +212,28 @@ The hypothesis before running the experiment was that the bbnb dataset would be 
 
 \subsection{Tested on bc, bf}
 
-The datasets \textit{bc} and \textit{bf} consists mostly of images taken towards open sea, of boats that are sailing, i.e. the boats are not moored. It is on this dataset the performance differences between Yolo2 and Yolo3 and between SSD2 and SSD3 differ the most, as can be seen in figure \ref{fig:case_build}.
+The datasets \textit{bc} and \textit{bf} consists mostly of images taken towards open sea, of boats that are sailing, i.e. the boats are not moored. It is on this dataset the performance differences between Yolo2 and Yolo3 and between SSD2 and SSD3 differ the most, as can be seen in figure \ref{fig:bcbf_prec}.
+
+\begin{figure}[h!]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/bcbf.png}
+  \caption{Yolo tested on bc, bf}
+  \label{fig:ex_bcbf_prec_rec_yolo}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/bcbf.png}
+  \caption{SSD tested on bc, bf}
+  \label{fig:ex_bcbf_prec_rec_ssd}
+\end{subfigure}
+\caption{Yolo2, Yolo3, SSD2, SSD3 example image from \textit{bbnb} test set. Green bounding boxes are ground truth, red bounding boxes are detected boats, blue bounding boxes are detected buildings}
+\label{fig:bcbf_prec}
+\end{figure}
 
 \vspace{3mm}
 
-By going through the 300 test images some differences between the models become apparent. While the differences between SSD2 and SSD3 are somewhat obvious, the difference between Yolo2 and Yolo3 are more nuanced. Around 10 percent of the test images SSD2 detects land as a boat, in none of these images does SSD3 perform the same way. An example of this is shown in figure \ref{img:bixbox_ssd}. More examples of this behaviour can be found in appendix C in chapter \ref{sec:bigbox}
+By going through the around 300 test images some differences between the models become apparent. While the differences between SSD2 and SSD3 are somewhat obvious, the difference between Yolo2 and Yolo3 are more nuanced. In around 10 percent of the test images SSD2 detects land as a boat, in none of these images does SSD3 perform the same way. An example of this is shown in figure \ref{img:bixbox_ssd}. More examples of this behaviour can be found in appendix C in chapter \ref{sec:bigbox}
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -235,7 +252,7 @@ By going through the 300 test images some differences between the models become 
 \label{img:bixbox_ssd}
 \end{figure}
 
-There are also some examples where SSD2 misclassifies buildings as boats, while SSD3 does not. One example is shown in 
+There are also some examples where SSD2 misclassifies buildings as boats, while SSD3 does not. One example is shown in figure \ref{img:misclass_ssd}
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -255,61 +272,66 @@ There are also some examples where SSD2 misclassifies buildings as boats, while 
 \end{figure}
 
 \vspace{3mm}
+\newpage
 
-As mentioned Yolo2 and Yolo3 does not differ as clearly as SSD2 and SSD3. There are examples of Yolo2 performing better than Yolo3 and vice versa. In many of the misclassifications in the test data both Yolo2 and Yolo3 mistakes the same object as a boat. By analysing the results from both Yolo2 and Yolo3 the following conclusions can be drawn:
+As mentioned Yolo2 and Yolo3 does not differ as clearly as SSD2 and SSD3. There are examples of Yolo2 performing better than Yolo3 and vice versa. In many of the misclassifications in the test data both Yolo2 and Yolo3 mistakes the same object as a boat. By analysing the results from both Yolo2 and Yolo3 the following tendencies can be seen:
 
 \begin{itemize}
-    \item Yolo2 and Yolo3 has a tendency to mistake the same objects as boats. See Appendix C chapter \ref{sec:same_mistake} for example images.
+    \item Yolo2 and Yolo3 has a disposition to mistake the same objects as boats. See Appendix C chapter \ref{sec:same_mistake} for example images.
     \item Yolo2 performs better in some cases, while Yolo3 performs better in other. It is not clear what makes one better than the other in each specific case. See Appendix C chapter \ref{sec:3better} and \ref{sec:2better} for example images
     \item Yolo2 makes some misclassifications that could imply that training on a building class makes Yolo3 more robust to the more incomrehensible misclassifications. See appendix C chapter \ref{sec:yolo2_spec_misc} for example images.
 \end{itemize}
 
+As opposed to the differences between SSD2 and SSD3 the differences in the results between Yolo2 and Yolo3 are hard to pinpoint. Both Yolo2 and Yolo3 makes misclassifications, but Yolo2 seems to make slightly more than Yolo3. Yolo3 also avoids making some misclassifications Yolo2 makes in the background, as shown in figure \ref{img:misclass_yolo}.
 
+\begin{figure}[h!]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.9\linewidth]{results/case_buildings/yolo23/grove/yolo2/selected_06_25_frame0357.jpg}
+  \caption{Yolo2}
+  \label{fig:misclass_yolo2}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{results/case_buildings/yolo23/grove/yolo3/selected_06_25_frame0357.jpg}
+  \caption{Yolo3}
+  \label{fig:misclass_yolo3}
+\end{subfigure}
+\caption{Yolo 2 misclassifies a cloud as a boat, Yolo3 does not. Red bounding boxes are detections, green bounding boxes are ground truth.}
+\label{img:misclass_yolo}
+\end{figure}
 
+\newpage
 
+\subsection{Tested on trf}
+
+The precision/recall curve for Yolo2, Yolo3, SSD2 and SSD3 on trf can be seen in figure \ref{fig:trf_prec}. All the models perform very well on this dataset, where Yolo3 almost gets a perfect score with an average precision of 0.908, meaning it is very close to detecting all the objects while having almost no misclassifications. This result could be an indication of overtraining on this dataset, and will be discussed further in chapter \ref{dataset_divers}. 
+
+\vspace{3mm}
+
+Both the models trained on the building class, perform better than the model only trained on the boat class. As for the tests on bc and bf the differences between SSD2 and SSD3 are clearer than the differences between Yolo2 and Yolo3. SSD2 has some of the same behaviour on trf as it had on bc and bf. For instance 
 
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/bcbf.png}
-  \caption{Yolo tested on bc, bf}
-  \label{fig:ex_bcbf_prec_rec_yolo}
+  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/trf.png}
+  \caption{Yolo tested on trf}
+  \label{fig:ex_trf_prec_rec_yolo}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/bcbf.png}
-  \caption{SSD tested on bc, bf}
-  \label{fig:ex_bcbf_prec_rec_ssd}
+  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/trf.png}
+  \caption{SSD tested on trf}
+  \label{fig:ex_trf_prec_rec_ssd}
 \end{subfigure}
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/IMG_2077_bbnb.jpg}
-  \caption{Yolo2}
-  \label{fig:ex_bbnb_yolo2}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/IMG_2077_bbnb.jpg}
-  \caption{SSD2}
-  \label{fig:ex_bbnb_ssd2}
-\end{subfigure}
-
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/IMG_2077_build.jpg}
-  \caption{Yolo3}
-  \label{fig:ex_bbnb_yolo3}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/IMG_2077_build.jpg}
-  \caption{SSD3}
-  \label{fig:ex_bbnb_ssd3}
-\end{subfigure}
-\caption{Yolo2, Yolo3, SSD2, SSD3 example image from \textit{bbnb} test set. Green bounding boxes are ground truth, red bounding boxes are detected boats, blue bounding boxes are detected buildings}
-\label{img:bbnb_ex}
+\caption{Precision/recall curves for Yolo2, Yolo3, SSD2 and SSD3 on trf}
+\label{fig:trf_prec}
 \end{figure}
+
+
+
+
 
 
 

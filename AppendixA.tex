@@ -1,0 +1,87 @@
+\chapter{Appendix A - Setting up Google cloud}
+\label{ap_gcloud}
+There are several cloud services that provides GPU processing, and cloud computing, some of the most popular are Amazon AWS, Microsoft Azure and Google Cloud. These cloud services makes it possible to run code on customisable hardware, and they provide libraries and documentation that makes it easy to set up. In this project Google Cloud was chosen because it gives you 300 USD worth of credit when you open an account, which makes it possible to get to know the framework before you have to pay. That being said, the code being used in this project should be able to run on cloud services by other providers as well. This appendix explains how you set up an account on Google cloud, how you create an instance with the correct hardware, and how one can access a Google Cloud instance from the command line on your own computer. 
+
+\section{Creating an account}
+Go to \url{cloud.google.com} and sign in using a Google account. Press "try free", and fill out the form. This will set up a project called "My first project"
+
+\section{Setting up an instance}
+After setting up your account, go to the navigation menu in the top left corner, and go to compute engine. Go to VM instances and press create instance. Your screen should look like figure \ref{fig:create_instance1}.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.35]{images/create_instance1.png}
+    \caption{Create instance}
+    \label{fig:create_instance1}
+\end{figure}
+
+\newpage
+A configuration that has been tested to work is shown in figure \ref{fig:gcloud2}. Here the "Machine type" has been configured with one Nvidia Tesla K80 GPU. Boot disk has been set to Ubuntu 16.04 LTS, and http traffic is allowed. In this example the region is set to "europe-west1(Belgium)", and the zone to "europe-west1-b". The region and zone will affect the hourly price, and some zones and regions does not provide GPUs. There might be different combinations that serves other projects better than the combination chosen in this project. Also the size of the hard drive has been changed from its default value of 10 GB to 100 GB. Which might be necessary when uploading data to the instance. 
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.9]{images/gcloud_2.png}
+    \caption{Tested configuration}
+    \label{fig:gcloud2}
+\end{figure}
+
+Press "create instance" and the site will be directed to figure \ref{fig:created_instance}. The green symbol indicates that the instance is running.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.5]{images/created_instance.png}
+    \caption{Created instance}
+    \label{fig:created_instance}
+\end{figure}
+\newpage
+
+\section{Setting up  and using gcloud command line tool on local computer}
+
+Install guides for all supported systems can be found on \url{cloud.google.com/sdk/docs/quickstarts}. This guide will take you through the installation process and the initialization process. The initialization process connects the gcloud command line tool to your google cloud account, and lets you access your instances easily when set up correctly. You will be prompted to log in to your Google account, choose project and default zone. Project can be chosen to be the on Gcloud set up when creating your account, and will be the only choice if you did not create new projects. The default zone can be chosen based on your own preference, in this project "europe-west1-b" was used. 
+
+\section{Accessing an instance from local computer using Gcloud command line tool}
+
+When the gcloud command line tool is installed and set up correctly, it can be used to access your instance. The way it has been accessed in this project is through SSH, and with SCP to transfer files. 
+
+\vspace{3mm}
+\subsection{SSH in to instance}
+To SSH into an instance the following command can be used. <name> and <zone> should be the name and zone of your created instance, as shown in figure \ref{fig:created_instance}.
+
+\begin{lcverbatim}
+    gcloud compute ssh <name> --zone <zone>
+\end{lcverbatim}
+\begin{lcverbatim}
+    gcloud compute ssh instance-1 --zone europe-west1-b
+\end{lcverbatim}
+
+\subsection{SCP file to instance}
+To transfer files to an instance the following command can be used. 
+\begin{lcverbatim}
+gcloud compute scp <path/to/local/file> \\ 
+<name>:/path/to/remote/file --zone <zone>
+\end{lcverbatim}
+\begin{lcverbatim}
+gcloud compute scp /home/data/image.jpg  \\
+instance-1:/home/images --zone europe-west1-b
+\end{lcverbatim}
+
+This command will transfer the file image.jpg to the images repository on the cloud instance.
+
+\subsection{SCP repository to instance}
+
+\vspace{3mm}
+To transfer repositories and their content the following command can be used
+
+\begin{lcverbatim}
+gcloud compute scp --recurse </path/to/local/repo> \\ 
+<name>:</path/to/remote/repo --zone <zone>
+\end{lcverbatim}
+
+\begin{lcverbatim}
+gcloud compute scp --recurse /home/data instance-1:/home/ \\ 
+--zone europe-west1-b
+\end{lcverbatim}
+\vspace{3mm}
+
+This command will transfer the "data" repository and its content to the home directory of the instance.
+

@@ -1,0 +1,56 @@
+\chapter{Appendix B - Using cloud\_detection\_framework}
+After accessing an instance with SSH, the instance can be set up using the Github repository cloud-detection-framework. 
+
+\begin{lcverbatim}
+git clone https://github.com/simenvg/cloud\_detection\_framework
+\end{lcverbatim}
+
+When the github repository has been cloned, run setup.sh with the following command from your root directory.
+
+\begin{lcverbatim}
+./cloud\_detection\_framework/setup.sh
+\end{lcverbatim}
+
+This will install CUDA, cudnn, tensorflow and other necessary libraries correctly, build darknet and set up an environment for training and testing both YOLOv3 and SSD. The setup file will run for approximately 10-15 minutes. There exists other releases of the libraries installed, that might be advantageous for other projects. The versions chosen here, are chosen because they are compatible with the hardware used, and work for both the SSD and YOLO implementation. There is no guarantee that anything will work, even after the smallest changes to this file or the hardware of the instance, as I have painfully 
+
+\section{Training}
+Both YOLO and SSD uses pretrained weights, this framework makes it possible to further train the networks on a custom dataset. The data can be uploaded to the cloud instance using SCP. 
+\newpage
+\subsection{Adding datasets and directory structure setup}
+In the cloud instance the following directory structure should be used for datasets
+
+
+\dirtree{%
+.1 root.
+.2 data.
+.3 dataset1.
+.4 test.
+.5 img1.jpg.
+.5 img1.xml.
+.4 train.
+.5 img2.jpg.
+.5 img2.xml.
+.3 dataset2.
+.3 dataset3.
+}
+
+When adding a new dataset, it should be labelled using the VOC format annotation. This can be done using labelImg, from \url{https://github.com/tzutalin/labelImg}. This will produce an xml file for each jpg file labelled, with the same name. Put all the xml and jpg files in the same folder, and run the file split\_dataset.py on the folder by running the following command.
+
+\begin{lcverbatim}
+python split_dataset.py /path/to/dataset
+\end{lcverbatim}
+
+
+
+
+\subsection{Training YOLO}
+To train Yolo, run the file train.py in cloud-detection-framework. To run this file you need to provide the path to darknet, and the path to your data directory.
+
+\begin{lcverbatim}
+python train.py /home/user/darknet /home/user/data
+\end{lcverbatim}
+
+This file will ask the user which datasets in the data directory Yolo should be trained on, and begin training. 
+
+\subsection{Training SSD}
+To train SSD two files need to be run. The first one being convert\_tfrecords.py, and the second being
