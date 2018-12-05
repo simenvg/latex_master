@@ -35,9 +35,9 @@ Henceforth the model names in table \ref{tab_models} will be used to distinguish
 \centering
 \begin{tabular}{l|ll}
 Model name  & Trained on datasets    & Description                        \\ \hline
-Yolo1, SSD1 & trf, bc, bf            & Open sea                           \\
-Yolo2, SSD2 & trf, bc, bf, bbnb      & Open sea and coast-near            \\
-Yolo3, SSD3 & trf, bc, bf, bb, build & Open sea, coast-near and buildings
+Yolo1, SSD1 & trf, bc, bf            & Boats sailing                           \\
+Yolo2, SSD2 & trf, bc, bf, bbnb      & Boats sailing, boats moored            \\
+Yolo3, SSD3 & trf, bc, bf, bb, build & Boats sailing, boats moored, buildings
 \end{tabular}
 \caption{Model description}
 \label{tab_models}
@@ -161,6 +161,7 @@ In figure \ref{fig:case_build} the precision/recall-curves for the models are pl
 
 \newpage
 
+
 \subsection{Tested on bbnb}
 
 The hypothesis before running the experiment was that the bbnb dataset would be the most postively affected by training on a building class. Since \textit{bbnb} consists of mostly moored boats, where there are images that contain buildings close to sea level one could suspect could be mistaken as boats, as shown in \ref{img:bbnb_ex}. The building in the bottom left corner is close to sea level, while also being relatively close in size to the boats compared to the other buildings in the image, which makes it a good candidate for a misclassification. However, neither Yolo2 nor SSD2 classifies this building as a boat. All the detectors, Yolo2, Yolo3, SSD2 and SSD3 detects all the boats in the image. Both SSD2 and SSD3 detects the rightmost boat two times, and the bounding box differences between Yolo2 and Yolo3 and between SSD2 and SSD3 are so insignificant that training on the building class does not seem to help improve performance on this particular image. Both Yolo3 and ssd3 detects the buildings in the image well, as can be seen in figure \ref{fig:ex_bbnb_yolo3} and \ref{fig:ex_bbnb_ssd3}.
@@ -233,7 +234,10 @@ The datasets \textit{bc} and \textit{bf} consists mostly of images taken towards
 
 \vspace{3mm}
 
-By going through the around 300 test images some differences between the models become apparent. While the differences between SSD2 and SSD3 are somewhat obvious, the difference between Yolo2 and Yolo3 are more nuanced. In around 10 percent of the test images SSD2 detects land as a boat, in none of these images does SSD3 perform the same way. An example of this is shown in figure \ref{img:bixbox_ssd}. More examples of this behaviour can be found in appendix C in chapter \ref{sec:bigbox}
+By going through the around 300 test images some differences between the models become apparent. While the differences between SSD2 and SSD3 are somewhat obvious, the difference between Yolo2 and Yolo3 are more nuanced. 
+
+\subsubsection{SSD2 and SSD3 on bc, bf}
+In around 10 percent of the test images SSD2 detects land as a boat, in none of these images does SSD3 perform the same way. An example of this is shown in figure \ref{img:bixbox_ssd}. More examples of this behaviour can be found in appendix C in chapter \ref{sec:bigbox}
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -274,6 +278,8 @@ There are also some examples where SSD2 misclassifies buildings as boats, while 
 \vspace{3mm}
 \newpage
 
+\subsubsection{Yolo2 and Yolo3 on bc, bf}
+
 As mentioned Yolo2 and Yolo3 does not differ as clearly as SSD2 and SSD3. There are examples of Yolo2 performing better than Yolo3 and vice versa. In many of the misclassifications in the test data both Yolo2 and Yolo3 mistakes the same object as a boat. By analysing the results from both Yolo2 and Yolo3 the following tendencies can be seen:
 
 \begin{itemize}
@@ -309,7 +315,7 @@ The precision/recall curve for Yolo2, Yolo3, SSD2 and SSD3 on trf can be seen in
 
 \vspace{3mm}
 
-Both the models trained on the building class, perform better than the model only trained on the boat class. As for the tests on bc and bf the differences between SSD2 and SSD3 are clearer than the differences between Yolo2 and Yolo3. SSD2 has some of the same behaviour on trf as it had on bc and bf. For instance 
+Both the models trained on the building class, perform better than the model only trained on the boat class. As for the tests on bc and bf the differences between SSD2 and SSD3 are clearer than the differences between Yolo2 and Yolo3. The preformance difference between SSD2 and SSD3 is also bigger than between Yolo2 and Yolo3, as can be seen in figure \ref{fig:trf_prec}
 
 
 \begin{figure}[h!]
@@ -329,16 +335,153 @@ Both the models trained on the building class, perform better than the model onl
 \label{fig:trf_prec}
 \end{figure}
 
+\subsubsection{SSD2 and SSD3 on trf}
 
+SSD2 has some of the same behaviour on trf as it had on bc and bf. For instance it some times classifies land as a boat, as shown in figure \ref{fig:ssd_trf_bigbox}. More examples of this behaviour can be seen in Appendix C, chapter \ref{fig:ssd_trf_bigbox}.
 
+\begin{figure}[h!]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.8\linewidth]{results/case_buildings/ssdtrf/ssd2/grov2/IMG_2325.jpg}
+  \caption{SSD2}
+  \label{fig:ex_trf_prec_rec_yolo}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{results/case_buildings/ssdtrf/ssd3/grov2/IMG_2325.jpg}
+  \caption{SSD3}
+  \label{fig:ex_trf_prec_rec_ssd}
+\end{subfigure}
+\caption{SSD2 and SSD3 example image}
+\label{fig:ssd_trf_bigbox}
+\end{figure}
 
+There are examples where SSD2 detects boats correctly while SSD3 don't, and vice versa. For example images of this behaviour see Appendix C, chapter \ref{sec_ssd3_better_trf} and \ref{sec_ssd2_better_trf}. In a few test images SSD3 wrongly classifies buildings as boats, while SSD2 does not. This is counter intuitive since the idea behind training SSD3 on buildings was to make it supress these detections. An example of this is shown in figure \ref{fig:ssd3_misclassify}.
 
+\begin{figure}[h!]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.8\linewidth]{results/case_buildings/ssdtrf/ssd2/grov3/IMG_2680.jpg}
+  \caption{SSD2}
+  \label{fig:ex_trf_prec_rec_yolo}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{results/case_buildings/ssdtrf/ssd3/grov3/IMG_2680.jpg}
+  \caption{SSD3}
+  \label{fig:ex_trf_prec_rec_ssd}
+\end{subfigure}
+\caption{SSD3 misclassifies two buildings as boats}
+\label{fig:ssd3_misclassify}
+\end{figure}
 
+In this figure \ref{fig:ssd3_misclassify} SSD3 does not detect the buildings as buildings, this will be discussed further in chapter \ref{sec:build_trf}.
 
+\vspace{3mm}
 
+\subsubsection{Yolo2 and Yolo3 on trf}
+
+Yolo2 and Yolo3 both have very good results on trf, but Yolo2 has a few misclassifications that Yolo3 does not have. In figure \ref{fig:yolo2_misclassify} Yolo2 detects land as a boat, and in figure \ref{fig:Yolo3_better_trf} Yolo3 detects a boat that Yolo2 does not. There are not many examples where their performance differ much, but there are a few which makes Yolo3 a little more robust than Yolo2.
+
+\begin{figure}[h!]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.8\linewidth]{results/case_buildings/yolotrf/Yolo2/IMG_2300.jpg}
+  \caption{Yolo2}
+  %\label{fig:ex_trf_prec_rec_yolo}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{results/case_buildings/yolotrf/Yolo3/IMG_2300.jpg}
+  \caption{Yolo3}
+  %\label{fig:ex_trf_prec_rec_ssd}
+\end{subfigure}
+\caption{Yolo2 misclassifies land as boat}
+\label{fig:yolo2_misclassify}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.8\linewidth]{results/case_buildings/yolotrf/Yolo2/IMG_2350.jpg}
+  \caption{Yolo2}
+  %\label{fig:ex_trf_prec_rec_yolo}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{results/case_buildings/yolotrf/Yolo3/IMG_2350.jpg}
+  \caption{Yolo3}
+  %\label{fig:ex_trf_prec_rec_ssd}
+\end{subfigure}
+\caption{Yolo2 does not detect rightmost boat, Yolo3 does}
+\label{fig:Yolo3_better_trf}
+\end{figure}
 
 \newpage
 
-\section{Video streaks}
+
 \section{YOLO ssd}
+\section{Effect of training on moored boats testing for sailing boats}
+
+\section{Video streaks}
+In \citep{Bohn2018} the issue of detection in data over time, such as e.g. video, is measured as \textit{streaks}. The goal is to make a detector that robustly detects boats in video. This does not necessarily mean that the boat needs to be detected in every frame of a video, since this can be solved e.g. by using a Markov chain as in \citep{Markov}. Still, the boat needs to be detected by some frequency, in order for the tracking algorithm to be able to track it. To implment a tracking algorithm is not a part of this project, however, an experiment on how well the detection algorithms work on video has been done. 
+
+\vspace{3mm}
+
+Three videos of boats in the Trondheim fjord has been captured, each approximately 20 seconds long. Yolo1 was run on each of them. The three videos are merged together and available at \url{https://www.youtube.com/watch?v=kcirhao_PQc}. Frames from each of the videos are shown in figure \ref{fig:videos}.
+
+\begin{figure}[h!]
+\centering
+\begin{subfigure}[b]{0.78\textwidth}
+   \includegraphics[width=1\linewidth]{results/video/video1/frame35.jpg}
+   \caption{Video1}
+   \label{fig:video1} 
+\end{subfigure}
+
+\begin{subfigure}[b]{0.78\textwidth}
+   \includegraphics[width=1\linewidth]{results/video/video2/frame3.jpg}
+   \caption{Video2}
+   \label{fig:video2}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.78\textwidth}
+   \includegraphics[width=1\linewidth]{results/video/video3/frame20.jpg}
+   \caption{Video3}
+   \label{fig:video3}
+\end{subfigure}
+\caption{Frames from video1, video2 and video3}
+\label{fig:videos}
+\end{figure}
+
+\newpage
+
+In video1 and video2 the boat are detected correctly in every frame, thus streaks is not an issue in these videos. In both video1 and video2 there is only one boat present. In video3 there are three boats, where one of the boats passes behind another during the video. Yolo1 detects the boats in all frames where the boats are clearly separated, as shown in figure \ref{fig:video3_sep}. When the third boat is behind the second, and beginning to emerge behind it, Yolo1 detects the two boats as one, this is shown in figure \ref{fig:video3_bigboat}. When the third boat is only slightly visible by human assessment, Yolo1 only detects two boats as shown in figure \ref{fig:video3_slightly}. 
+
+\begin{figure}[h!]
+\centering
+\begin{subfigure}[b]{0.78\textwidth}
+   \includegraphics[width=1\linewidth]{results/video/video3/frame677.jpg}
+   \caption{Three separated boats}
+   \label{fig:video3_sep} 
+\end{subfigure}
+
+\begin{subfigure}[b]{0.78\textwidth}
+   \includegraphics[width=1\linewidth]{results/video/video3/frame479.jpg}
+   \caption{Part of third boat clearly visible}
+   \label{fig:video3_bigboat}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.78\textwidth}
+   \includegraphics[width=1\linewidth]{results/video/video3/frame208.jpg}
+   \caption{Third boat slightly visible}
+   \label{fig:video3_slightly}
+\end{subfigure}
+\caption{Example frames from Video3}
+\label{fig:video3}
+\end{figure}
+
+\newpage
+
+In video3 all parts of boats are detected as boats, though two boats are classified as one big boat instead of two smaller ones when one is in the shadow of the other. This is a hard problem to solve for an object detector alone, and will be discussed further in chapter \ref{sec:boat_parts}. 
+
 
