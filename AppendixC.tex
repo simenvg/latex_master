@@ -483,8 +483,6 @@ This appendix contains example images referenced in the thesis.
   \includegraphics[width=.8\linewidth]{results/case_buildings/ssdtrf/ssd3/2better/IMG_2459.jpg}
   \caption{SSD3}
 \end{subfigure}
-\caption{Yolo2 specific misclassifications on bc bf}
-\label{img:yolo2_misclas}
 
 \begin{subfigure}{.5\textwidth}
   \centering
@@ -500,3 +498,108 @@ This appendix contains example images referenced in the thesis.
 \label{img:ssd_trf_3better}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Yolo1 and Yolo2 differences}
+
+\subsection{Yolo1 overestimating ship size}
+\label{sec:yolo1_big_box}
+\begin{figure}[h!]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.75\linewidth]{results/case_tr_moor/yolo12/yolo1/big/IMG_2213.jpg}
+  \caption{Yolo1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.75\linewidth]{results/case_tr_moor/yolo12/yolo2/big/IMG_2213.jpg}
+  \caption{Yolo2}
+\end{subfigure}
+
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.75\linewidth]{results/case_tr_moor/yolo12/yolo1/big/IMG_2537.jpg}
+  \caption{Yolo1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.75\linewidth]{results/case_tr_moor/yolo12/yolo2/big/IMG_2537.jpg}
+  \caption{Yolo2}
+\end{subfigure}
+
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.75\linewidth]{results/case_tr_moor/yolo12/yolo1/big/IMG_2566.jpg}
+  \caption{Yolo1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.75\linewidth]{results/case_tr_moor/yolo12/yolo2/big/IMG_2566.jpg}
+  \caption{Yolo2}
+\end{subfigure}
+
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.75\linewidth]{results/case_tr_moor/yolo12/yolo1/big/IMG_2670.jpg}
+  \caption{Yolo1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.75\linewidth]{results/case_tr_moor/yolo12/yolo2/big/IMG_2670.jpg}
+  \caption{Yolo2}
+\end{subfigure}
+\caption{Example images where Yolo1 overestimates size of ship, while Yolo2 does not}
+\label{img:yolo1_big_box}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\subsection{Yolo1 detecting same boat multiple times}
+\label{sec:yolo1_multidetect}
+\begin{figure}[h!]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.8\linewidth]{results/case_tr_moor/yolo12/yolo1/2better/IMG_2365.jpg}
+  \caption{Yolo1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{results/case_tr_moor/yolo12/yolo2/2better/IMG_2365.jpg}
+  \caption{Yolo2}
+\end{subfigure}
+
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.8\linewidth]{results/case_tr_moor/yolo12/yolo1/2better/IMG_2591.jpg}
+  \caption{Yolo1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{results/case_tr_moor/yolo12/yolo2/2better/IMG_2591.jpg}
+  \caption{Yolo2}
+\end{subfigure}
+
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.8\linewidth]{results/case_tr_moor/yolo12/yolo1/2better/IMG_2574.jpg}
+  \caption{Yolo1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{results/case_tr_moor/yolo12/yolo2/2better/IMG_2574.jpg}
+  \caption{Yolo2}
+\end{subfigure}
+
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.8\linewidth]{results/case_tr_moor/yolo12/yolo1/2better/IMG_2269.jpg}
+  \caption{Yolo1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{results/case_tr_moor/yolo12/yolo2/2better/IMG_2269.jpg}
+  \caption{Yolo2}
+\end{subfigure}
+\caption{Example images where Yolo1 detects boat multiple times, while Yolo2 does not}
+\label{img:yolo1_multi_detect}
+\end{figure}
