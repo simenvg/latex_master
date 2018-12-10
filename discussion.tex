@@ -138,13 +138,13 @@ The buildings in figure \ref{fig:buildings} and in figure \ref{fig:yolo3_no_buil
 
 \newpage
 
-\section{Labelling}
+\section{Labeling}
 
 During labeling of the dataset, the guidelines mentioned in CHAP was used. Three problems were encountered during the work with this project related to how the boats were labeled
 
-\subsection{Labelling of sail boats}
+\subsection{Labeling of sail boats}
 
-As shown in figure \ref{fig:yolo3_sailboat} there are examples where sailboats are detected differently. In figure \ref{fig:yolo3_sailboat_whol} the whole sailboat is detected, with mast, in figure \ref{fig:yolo3_sailboat_part} the mast is not detected as a part of the boat. As can be seen in both figure \ref{fig:yolo3_sailboat_whol} and \ref{fig:yolo3_sailboat_part} sailboats are labelled with mast. Thus, the correct detection set by the labeling standards would include the mast, however, to detect the mast may not be necessary for an autonomous vessel. The shape of the sailboat hull is comparable to the hulls of motor boats and also larger ships. By labeling sailboats with the mast, instead of only the hull of the boat, the detector might be less likely to be able to generalize the hull shape. Labeling only the sailboat hull makes the boats more alike, which may make the detector model more certain when classifying. 
+As shown in figure \ref{fig:yolo3_sailboat} there are examples where sailboats are detected differently. In figure \ref{fig:yolo3_sailboat_whol} the whole sailboat is detected, with mast, in figure \ref{fig:yolo3_sailboat_part} the mast is not detected as a part of the boat. As can be seen in both figure \ref{fig:yolo3_sailboat_whol} and \ref{fig:yolo3_sailboat_part} sailboats are labeled with mast. Thus, the correct detection set by the labeling standards would include the mast, however, to detect the mast may not be necessary for an autonomous vessel. The shape of the sailboat hull is comparable to the hulls of motor boats and also larger ships. By labeling sailboats with the mast, instead of only the hull of the boat, the detector might be less likely to be able to generalize the hull shape. Labeling only the sailboat hull makes the boats more alike, which may make the detector model more certain when classifying. 
 
 
 
@@ -185,3 +185,14 @@ Both Yolo and SSD have good results when there is a limited amount of boats in t
 
 For Yolo, there are two main ways of approaching this problem. Either the grid can be resized and that way Yolo can detect smaller objects. This because there will be more cells in the grid, thereby creating more object proposals. The other solution, which might work better in this case, is to identify where there might be clusters and run Yolo on this sub-region of the image. This would require some form of cluster detection, which has been done in \citep{VanEtten}, though on detection of boats in satellite images. 
 
+\section{Results on video from \citep{Kamsvag2018}}
+
+The purpose of training Yolo3 on a building class was for it to be more robust to misclassifications of boats as buildings. In the results shown in CHAP REF, this was not the case. Yolo2, which is not trained on the building class, has fewer detections of buildings as boats than Yolo3. Yolo1, Yolo2 and Yolo3 all gets worse results on this video compared to the results on the rest of the test data. This is not entirely unexpected, since the video from \citep{Kamsvag2018} are different from the training data in several ways. Firstly, the video from \citep{Kamsvag2018} is captured from a small boat close to sea level. This makes the angle between the center of the camera and the center of the boats vastly different compared to the ones in e.g. the trf dataset, where the images are taken from the top of a ferry. While the features of the boat does not change much due to the change of angle, the background be different, expecially in coast-near environments. When the pictures are captured from a higher point above sea level the background of the boat will be more uniform, and in some cases consists of only water, while the background can be buildings or land in images taken closer to sea level as in figure \ref{fig:kamsvaag_vid}. 
+
+\vspace{3mm}
+
+While this can be a factor to the weaker boat detections on the video from \citep{Kamsvag2018}, it does not explain why Yolo3 classifies more buildings as boats than Yolo2. MER HER
+
+\vspace{3mm}
+
+This being said, it should be noted that the detections of buildings as boats are not consistent over time, and could probably be filtered out in post processing.

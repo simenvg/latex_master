@@ -503,7 +503,7 @@ Yolo1 also has a penchant to detect the same boat twice, where Yolo2 does not, a
 \newpage
 
 \section{Video streaks}
-In \citep{Bohn2018} the issue of detection in data over time, such as e.g. video, is measured as \textit{streaks}. The goal is to make a detector that robustly detects boats in a video. This does not necessarily mean that the boat needs to be detected in every frame of a video since this can be solved e.g., by using a Markov chain as in \citep{Markov}. Still, the boat needs to be detected by some frequency, for the tracking algorithm to be able to track it. To implement a tracking algorithm is not a part of this project. However, an experiment on how well the detection algorithms work on video has been done. 
+In \citep{Bohn2018} the issue of detections in data over time is addressed, and is to referred to as \textit{streaks}. The goal is to make a detector that robustly detects boats in a video. This does not necessarily mean that the boat needs to be detected in every frame of a video since this can be solved e.g., by using a Markov chain as in \citep{Markov}. Still, the boat needs to be detected by some frequency, for the tracking algorithm to be able to track it. To implement a tracking algorithm is not a part of this project. However, an experiment on how well the detection algorithms work on video has been done. 
 
 \vspace{3mm}
 
@@ -564,3 +564,33 @@ In video1 and video2 the boat is detected correctly in every frame. Thus streaks
 In video3 all parts of boats are detected as boats, though two boats are classified as one big boat instead of two smaller ones when one is in the shadow of the other. This is a hard problem to solve for an object detector alone, and will be discussed further in chapter \ref{sec:boat_parts}. 
 
 
+\section{Video from \citep{Kamsvag2018}}
+
+in \citep{Kamsvag2018} Faster R-CNN was implemented for boat detection. One of the prominent problems encountered in this work was the misclassification of buildings as boats. This was one of the main reasons to train SSD and Yolo on a building class, to see if this could help suppress these detections. Yolo1, Yolo2 and Yolo3 was run on a video used in \citep{Kamsvag2018}, and the results can be found on \url{https://www.youtube.com/watch?v=A_qETwNuFYI}. Example frames from the video are shown in figure \ref{fig:kamsvaag_vid}.
+
+\vspace{3mm}
+
+In this video the images are captured much closer to sea level than the ones used in training, which may have affected the results. Yolo1, Yolo2 and Yolo3 does all have some problems detecting the boats in the video in every frame, while Yolo1 gets the worst results. Yolo3 and Yolo2 have similar results on boat detection, but Yolo3 has more misclassifications of buildings as boats than Yolo2. Yolo3 classifies some of the buildings as buildings, but this does not seem to help suppress the wrong identifications. This will be further discussed in CHAP REF
+
+\begin{figure}[h!]
+\centering
+\begin{subfigure}[b]{0.6\textwidth}
+   \includegraphics[width=1\linewidth]{results/kamsvag/yolo1_figure_1451.jpg}
+   \caption{Yolo1}
+   %\label{fig:video3_sep} 
+\end{subfigure}
+
+\begin{subfigure}[b]{0.6\textwidth}
+   \includegraphics[width=1\linewidth]{results/kamsvag/yolo2_figure_1479.jpg}
+   \caption{Yolo2}
+   %\label{fig:video3_bigboat}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.6\textwidth}
+   \includegraphics[width=1\linewidth]{results/kamsvag/yolo3_figure_1479.jpg}
+   \caption{Yolo3}
+   %\label{fig:video3_slightly}
+\end{subfigure}
+\caption{Example frames from video from \citep{Kamsvag2018}. Red bounding boxes are boat detections, blue boxes are building detections for Yolo3.}
+\label{fig:kamsvaag_vid}
+\end{figure}

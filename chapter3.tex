@@ -133,9 +133,19 @@ Figure \ref{fig:ssd_training} shows how SSD detects objects with different sizes
 \section{Object Detection in Maritime Environments}
 \label{sec:obj_det}
 
+Several ways of solving the problem of object detection in maritime environments have been tried. Here, the methods have been divided into deep learning-based methods and algorithms based on traditional computer vision methods (Traditional CV). 
 
-\subsection{General Purpose Object Detectors}
-In recent years several deep learning based object detectors have come along. These are trained on general datasets like VOC \citep{Everingham2012}\citep{Everingham2007}, ImageNet \citep{Imagenet} and COCO \citep{COCO},  and can be further trained for specific cases, such as object detection in maritime environments. These methods can be separated into two groups 
+\subsection{Traditional Computer Vision Methods}
+
+\subsubsection{Background Modelling}
+Background modeling methods aim to model the background to detect foreground or moving objects. In \citep{BackgroundWaveletSubstract} the authors propose a method for detecting boats using dynamic background modeling and shadow suppression to detect boats. \citep{SeeCoast}, \citep{Pires2010} uses background modelling for port surveillance. \citep{Tran2016} uses background subtraction to detect moving boats, and saliency detection to detect non-moving boats. These results are finally fused to generate the detected boats in the scene. All these methods rely on a stationary camera to model the background, and is therefore not likely to perform well on an autonomous ferry.
+
+\subsubsection{Appearance-based Methods}
+Appearance-based methods seek to model the vessels appearance and to classify it. These methods extracts features from the boats using edge-detection methods or thermal fingerprint to detect boats. \citep{HOGdetection} uses HOG-like features and background subtraction together to detect boats. \citep{HAARdetection} detects boats from a rotatable camera using HAAR-like features. \citep{RIBDetection} detects small, fast-moving RIB boats by using thermal cameras operating on different bands of the infrared spectra. While these methods have good results in controlled environments, they are susceptible to noise like sun glare, lighting conditions and other non-optimal weather conditions. 
+
+
+\subsection{Deep Learning-based Methods}
+Earlier in this chapter Faster-RCNN, Yolo and SSD was presented, these are general purpose deep learning-based object detectors. They can be trained on new data, to repurpose them as specialiszed object detectors, such as e.g. a boat detector. There also exist several different similar algorithms, and they all can be separated into two categories:
 
 \begin{enumerate}
 \item Region proposal based methods, which include R-CNN \citep{R-CNN}, Fast R-CNN \citep{FastR-CNN}, Faster R-CNN \citep{FasterR-CNN}, R-FCN \citep{R-FCN}, Mask R-CNN \citep{MaskRCNN}
@@ -143,43 +153,55 @@ In recent years several deep learning based object detectors have come along. Th
 \end{enumerate}
 
 
-
-
-\subsection{Background Modelling}
-
-Background modeling methods aim to model the background to detect foreground or moving objects. In \citep{BackgroundWaveletSubstract} the authors propose a method for detecting boats using dynamic background modeling and shadow suppression to detect boats. Other articles dealing with port surveillance with object detection are \citep{SeeCoast}, \citep{Pires2010}. \citep{Tran2016} uses background subtraction to detect moving boats, and saliency detection to detect non-moving boats. These results are finally fused to generate the detected boats in the scene. 
-
-\subsection{Appearance Based Methods}
-Appearance-based methods seek to model the vessels appearance and to classify it. \citep{HOGdetection} uses HOG-like features and background subtraction together to detect boats. \citep{HAARdetection} detects boats from a rotatable camera using HAAR-like features. In \citep{Wedel2007} video is used to verify obstacles, and find obstacle boundaries, to supplement radar signals. \citep{RIBDetection} detects small, fast-moving RIB boats that are hard for radars to identify and track.  
-
-\vspace{3mm}
-
 \citep{SSD_detection2018} aims to develop a real-time detection and tracking system for surveillance cameras in harbours. They have gathered a dataset of 48,966 images containing 70,513 ships from several viewpoints and trained a detector based on SSD \citep{SSD} to perform detection. 
 
+\vspace{3mm}
 
-\subsection{Other relevant research}
-
-In \citep{KITTI}, the KITTI Vision Benchmark Suite is presented as "In this paper, we take advantage
-of our autonomous driving platform to develop novel challenging
-benchmarks for the tasks of stereo, optical flow, visual
-odometry / SLAM, and 3D object detection."  KITTI is a dataset that can be used to benchmark detection algorithms for autonomous cars.
-
-\citep{Sun2006} gives a thorough review of the detection methods used for autonomous cars. 
+In \citep{VanEtten2018}, a combination of traditional CV methods and Deep Learning based methods are used to detect boats in satellite images. Large parts of the satellite images do not contain boats, while smaller subframes contains many boats. The solution is to find these subframes by using edge detection methods and then run YOLO. This problem is to some degree relatable to the issue of detecting boats from ships. However, satellite images have much less background noise, e.g., from waves. Thus, running the same edge detection algorithms on images taken at sea level returns a lot of noise, and the result is therefore hard to replicate with the same success.
 
 \vspace{3mm}
 
-In \citep{Hog1} and \citep{Hog2}, the author tries to detect small boats in satellite images with very high resolution. Large parts of the image do not contain boats, while smaller subframes contains many boats. His solution is to find these subframes by using edge detection methods and then run YOLO. This problem is to some degree relatable to the issue of detecting boats from ships. However, satellite images have much less background noise, e.g., from waves. Running the same edge detection algorithms on images taken at sea level returns a lot of noise, and the result is therefore hard to replicate with the same success. 
+In \citep{Goring2017}, deep learning-based detection algorithms are trained and tested on detecting maritime navigational markers. In this project a review of how this can be implemented on a boat, with hardware specifications, is also done. 
+
+
+\subsection{Challenges in Detection of Maritime Vessels}
+
+In \citep{Challenges2016} a thorough review of the challenges in video based object detection in a maritime scenario is presented. The paper focuses on challenges regarding horizon detection, background subtraction, foreground detection and tracking. While this paper gives a good indication of where traditional CV methods has trouble detecting maritime vessels, it does not address the same problem for deep learning-based methods. It discusses how noise in the background, like wakes, foams, clouds, etc. can make the detection process hard. It also discusses how the maritime scene is affected by illumination conditions such as sunlight, twilight conditions, night, rain, haze, fog, etc. and thus making a model suitable for one weather condition useless for a different environment.
 
 \vspace{3mm}
 
+Similar research done for deep learning-based methods has not been found.
+
+
+
+
+\subsection{Vehicle Detection for Autonomous Cars}
+
+The field of vehicle detection for autonomous cars is in some ways similar to detection of maritime vessels. While the environment around the object of interest is different and has their own unique challenges, there are similiraties in how the desired finished product should be. 
+
+\vspace{3mm}
+
+For vehicle detection a benchmark suite has been made. \citep{KITTI} provides a platform to "develop novel challenging benchmarks for the tasks of stereo, optical flow, visual odometry / SLAM, and 3D object detection" called KITTI. KITTI simplifies the process of testing new detection algorithms and benchmarking them against previously tested algorithms. It also provides data of which scenarios the detection algorithms perform well, and where it struggles. This gives an indication of how trustworthy the detector will be in a real scenario, also in different environments. On the KITTI website there are links to the highest performing object detectors, with information on how they were implemented.
+
+\vspace{3mm}
+
+In \citep{Wedel2007} video is used to verify obstacles, and find obstacle boundaries, to supplement radar signals for autonomous cars.\citep{Sun2006} gives a thorough review of the detection methods used for autonomous cars. 
+
+
+\subsection{Literary Review Summed Up ????}
 Summed up there are many different approaches to the problem of detecting boats in images. A problem with these articles is that even though they give performance metrics on their dataset, there is no way of concluding that their solution will perform as well in other environments. \citep{SSD_detection2018} for instance, trains an SSD detector for detection of boats, it discusses how the detector performs on boats of different sizes, and it also mentions that it performs worse in "difficult situations such as low light, tiny ships and clutter from in-harbor ships" \citep{SSD_detection2018}. Still, the only performance statistic provided is how well the detector performs on the dataset as a whole. This gives a good indication that SSD can be a good option. However, an object detector meant to supplement other sensors on an autonomous ship should have known performance statistics in different environments and under different circumstances to be able to trust it in a real scenario. 
 
 \vspace{3mm}
 
-The work in this project addresses this problem by making it easy to test and train different object detectors on various data. This way different detectors can be benchmarked against each other, while trained and tested on the same data. During this project YOLO and SSD have been chosen as a starting point in this research, training the detectors on data where boats are moored, at sea, far away and close. They are also trained and tested on images captured in areas where it is desirable that it will perform well.
+For object detectors for maritime vessels to be sufficiently trustworthy to be implemented on an autonomous ferry there needs to be well known performance statistics. If the performance statistics in for instance foggy conditions are unknown, the object detector is practically useless in these conditions. Even if the detector performs well, there is no way of telling if the detections are wrong or right if there is no data supporting the trustworthiness of the output.
 
+\vspace{3mm}
 
+A platform such as KITTI \citep{KITTI} for detection of maritime vessels could be highly useful to get the required performance statistics, to be able to trust an object detector in a maritime scenario. Such a system could be used to see how different training data affects the performance of the algorithm in different environments, how different detection algorithms compare to each other and how push future research by giving clear goals to beat. 
 
+\vspace{3mm}
+
+This project aims to set a starting point for figuring out how well detection of maritime vessels can get, and to set up a system that can be used to easily test and find statistics for detection algorithms trained on different data. This way challenges in deep learning-based methods can be found more easily, and the work on trying to overcome these challenges can be simplified by having a framework that systematize this process. The scope of this paper involves setting up a framework for testing and training of SSD and Yolo, to build a dataset, and to start the process of finding out what makes an object detector better at identifying maritime vessels in video.
 
 
 \cleardoublepage
