@@ -1,6 +1,19 @@
 \chapter{Results}
+\label{sec:results}
 
+This chapter contains results from testing six different models on four test datasets. The six models consists of three SSD models and three Yolo models trained on different data. This produces a significant amount of results, and it makes the task of presenting the results in an orderly fashion challenging. To try to overcome this challenge this chapter is structured in the following way:
+
+\begin{enumerate}
+    \item Present datasets and models. Explain abbreviations used later in the chapter.
+    \item Overview of results.
+    \item Present case studies of more interesting aspects of results.
+\end{enumerate}
+
+In this chapter datasets are mentioned when referring both to training and testing of models. All the custom datasets are split into test and training subsets, which are used respectively for testing and training.
+
+\section{Terminology and Abbreviations}
 Yolo and SSD were trained on three different combinations of datasets:
+
 
 \begin{enumerate}
     \item Trondheimsfjorden, boats\_far, boats\_close
@@ -10,24 +23,24 @@ Yolo and SSD were trained on three different combinations of datasets:
 
 \vspace{3mm}
 
-The following abbreviations will be used for the datasets
+The following abbreviations will be used for the datasets. 
 
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{c|c}
-        Abbreviation & Dataset \\
-        \hline
-        bb & boats\_buildings \\
-        bbnb & boats\_buildings\_buildings\_not\_labelled \\
-        bc & boats\_close \\ 
-        bf & boats\_far \\
-        build & buildings \\
-        trf & Trondheimsfjorden 
-    \end{tabular}
-    \caption{Dataset abbreviations}
-    \label{tab:abbreviations}
+\begin{table}[]
+\begin{tabular}{l|l|l}
+Abbreviation & Explanation                                      & Datasets                                  \\ \hline
+bh           & {[}B{]}oats {[}H{]}ouses                         & boats\_buildings                          \\
+bhnl         & {[}B{]}oats {[}H{]}ouses {[}N{]}ot {[}L{]}abeled & boats\_buildings\_buildings\_not\_labeled \\
+bc           & {[}B{]}oats {[}C{]}lose                          & boats\_close                              \\
+bf           & {[}B{]}oats {[}F{]}ar                            & boats\_far                                \\
+build        & Buildings                                        & buildings                                 \\
+trf          & Trondheimsfjorden                                & trondheimsfjorden                        
+\end{tabular}
 \end{table}
 
+\newpage
+The \textit{bhnl} dataset contains the same images as the \textit{bh} dataset, the difference is that the buildings in \textit{bhnl} are not labeled. The letter "h" have been used as an abbreviation for buildings (houses) to differentiate it from "b" which is used for boats.
+
+\vspace{3mm}
 
 Henceforth the model names in table \ref{tab_models} will be used to distinguish the models trained on different data.
 
@@ -35,9 +48,9 @@ Henceforth the model names in table \ref{tab_models} will be used to distinguish
 \centering
 \begin{tabular}{l|ll}
 Model name  & Trained on datasets    & Description                        \\ \hline
-Yolo1, SSD1 & trf, bc, bf            & Boats sailing                           \\
-Yolo2, SSD2 & trf, bc, bf, bbnb      & Boats sailing, boats moored            \\
-Yolo3, SSD3 & trf, bc, bf, bb, build & Boats sailing, boats moored, buildings
+Yolo1, SSD1 & \textit{trf}, \textit{bc}, \textit{bf}            & Boats sailing                           \\
+Yolo2, SSD2 & \textit{trf}, \textit{bc}, \textit{bf}, \textit{bhnl}      & Boats sailing, boats moored            \\
+Yolo3, SSD3 & \textit{trf}, \textit{bc}, \textit{bf}, \textit{bh}, \textit{build} & Boats sailing, boats moored, buildings
 \end{tabular}
 \caption{Model description}
 \label{tab_models}
@@ -45,11 +58,84 @@ Yolo3, SSD3 & trf, bc, bf, bb, build & Boats sailing, boats moored, buildings
 
 \vspace{3mm}
 
-As mentioned in chapter REF, the datasets trondheimsfjorden, boats\_close and boats\_far consist of boats in open sea. Boats\_buildings includes boats in coast near environments, where the majority of boats are moored with buildings and land as background. Boats\_buildings\_buildings\_not\_labelled is the same dataset as boats\_buildings, but the buildings are not annotated. The buildings dataset consists of images of waterfront buildings. 
+The model number signifies which data, and how much data, the model has been trained on. The higher the model number, the higher the amount of training data.
 
-\vspace{3mm}
 
-Four combinations of datasets were selected as test datasets. The average precision of the models on the different test datasets is shown in table \ref{ap_tab}. When stating that a model is tested on a dataset, it is tested on test-specific images, and not the images used in training.
+\section{Results Overview}
+
+Four combinations of datasets were selected as test datasets. The average precision of the models on the different test datasets is shown in table \ref{ap_tab}. 
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{l|ll|ll|ll}
+Tested on   & Yolo1 & SSD1  & Yolo2 & SSD2  & Yolo3 & SSD3  \\ \hline
+\textit{bhnl}        & 0.182 & 0.140 & 0.707 & 0.515 & 0.701 & 0.586 \\
+\textit{trf}         & 0.885 & 0.860 & 0.900 & 0.750 & 0.908 & 0.876 \\
+\textit{bc}, \textit{bf}      & 0.509 & 0.278 & 0.533 & 0.239 & 0.647 & 0.292 \\
+\textit{bc}, \textit{bf}, \textit{trf} & 0.577 & 0.375 & 0.600 & 0.329 & 0.726 & 0.391
+\end{tabular}
+\caption{Average precisions}
+\label{ap_tab}
+\end{table}
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[]
+\centering
+\begin{tabular}{c|ll}
+\multicolumn{1}{l|}{}  & \multicolumn{2}{l}{Dataset (Number of objects in dataset)} \\ \hline
+\multirow{2}{*}{Model} & True positives        & False positives                    \\
+                       & False negatives       & True negatives (Not relevant)     
+\end{tabular}
+\end{table}
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[]
+\centering
+\begin{tabular}{l|ll|ll|ll|ll}
+                       & \multicolumn{2}{l|}{BB (58)} & \multicolumn{2}{l|}{TRF (174)} & \multicolumn{2}{l|}{BcBf (818)} & \multicolumn{2}{l}{BcBfTrf (992)} \\ \hline
+\multirow{2}{*}{Yolo1} & 13            & 21           & 164            & 22            & 551            & 435            & 715              & 457             \\
+                       & 46            &              & 10             &               & 267            &                & 277              &                 \\ \hline
+
+\multirow{2}{*}{Yolo2} & 39            & 4            & 167            & 8             & 555            & 263            & 722              & 271             \\
+                       & 19            &              & 7              &               & 263            &                & 270              &                 \\ \hline
+\multirow{2}{*}{Yolo3} & 40            & 6            & 173            & 3             & 611            & 214            & 784              & 217             \\
+                       & 18            &              & 1              &               & 207            &                & 208              &                 \\ \hline
+\multirow{2}{*}{SSD1}  & 7             & 15           & 151            & 17            & 359            & 315            & 510              & 332             \\
+                       & 52            &              & 23             &               & 459            &                & 482              &                 \\ \hline
+\multirow{2}{*}{SSD2}  & 32            & 20           & 146            & 34            & 323            & 437            & 469              & 471             \\
+                       & 26            &              & 28             &               & 495            &                & 523              &                 \\ \hline
+
+\multirow{2}{*}{SSD3}  & 32            & 13           & 150            & 23            & 365            & 282            & 515              & 305             \\
+                       & 26            &              & 24             &               & 453            &                & 477              &                
+\end{tabular}
+\caption{Confidence threshold set to 0.25}
+\end{table}
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[h!]
+\centering
+\begin{tabular}{l|ll|ll|ll|ll}
+                       & \multicolumn{2}{l|}{BB (58)} & \multicolumn{2}{l|}{TRF (174)} & \multicolumn{2}{l|}{BcBf (818)} & \multicolumn{2}{l|}{BcBfTrf (992)} \\ \hline
+\multirow{2}{*}{Yolo1} & 11            & 10           & 160            & 15            & 524            & 311            & 684              & 326             \\
+                       & 48            &              & 14             &               & 294            &                & 308              &                 \\ \hline
+\multirow{2}{*}{Yolo2} & 35            & 1            & 165            & 6             & 498            & 198            & 663              & 204             \\
+                       & 23            &              & 9              &               & 320            &                & 329              &                 \\ \hline
+\multirow{2}{*}{Yolo3} & 36            & 4            & 170            & 2             & 577            & 149            & 747              & 151             \\
+                       & 22            &              & 4              &               & 241            &                & 245              &                 \\ \hline
+\multirow{2}{*}{SSD1}  & 6             & 11           & 142            & 11            & 333            & 251            & 475              & 262             \\
+                       & 53            &              & 32             &               & 485            &                & 517              &                 \\ \hline
+\multirow{2}{*}{SSD2}  & 29            & 9            & 136            & 22            & 299            & 338            & 435              & 360             \\
+                       & 29            &              & 38             &               & 519            &                & 557              &                 \\ \hline
+\multirow{2}{*}{SSD3}  & 31            & 6            & 147            & 14            & 319            & 214            & 466              & 228             \\
+                       & 27            &              & 27             &               & 499            &                & 526              &                
+\end{tabular}
+\caption{Confidence threshold set to 0.5}
+\end{table}
 
 \vspace{3mm}
 
@@ -59,7 +145,7 @@ The test datasets and the training data for the models were chosen to shed some 
     \item How does training on a building class affect the performance on detection of boats
     \item How does training on boats in coast near environments affect detection accuracy in open sea
     \item How does SSD compare to Yolo when trained and tested on the same data
-    \item In which situations do the detection algorithms struggle, and in which situations does it perform well
+    \item In which situations do the detection algorithms struggle, and in which situations is the performance satisfactory
 \end{itemize}
 
 
@@ -67,26 +153,17 @@ The test datasets and the training data for the models were chosen to shed some 
 
 The detection models have been tested on different combinations of the test datasets as well as new data, including video. In table \ref{ap_tab} the average precision of each model is shown for the four test cases. 
 
-\begin{table}[h!]
-\centering
-\begin{tabular}{l|ll|ll|ll}
-Tested on   & Yolo1 & SSD1  & Yolo2 & SSD2  & Yolo3 & SSD3  \\ \hline
-bbnb        & 0.182 & 0.140 & 0.707 & 0.515 & 0.701 & 0.586 \\
-trf         & 0.885 & 0.860 & 0.900 & 0.750 & 0.908 & 0.876 \\
-bc, bf      & 0.509 & 0.278 & 0.533 & 0.239 & 0.647 & 0.292 \\
-bc, bf, trf & 0.577 & 0.375 & 0.600 & 0.329 & 0.726 & 0.391
-\end{tabular}
-\caption{Average precisions}
-\label{ap_tab}
-\end{table}
 
-Testing six different detection models on four different test datasets produces a considerable amount of results, some more interesting than others. This chapter is structured into case-studies of the more exciting aspects of the results.
+
+
+
+
 
 \newpage
 
-\section{Effect from training on buildings}
+\section{Case Study 1: Effect from training on buildings}
 
-Both \citep{Tangstad2017} and \citep{Kamsvag2018} implemented an object detector for maritime vessels using Faster R-CNN. A problem stated in both these projects was the misclassification of waterfront buildings as boats. To address this problem the datasets \textit{building\_boats} and \textit{buildings} were produced. By training the object detector on a building class, it may be able to detect the buildings as buildings and thus suppress the classifications of waterfront buildings as boats. As a first step in trying to verify this hypothesis, both Yolo and SSD were trained on two different sets of data. The two datasets they are trained on contains the same set of images with two exceptions:
+Both \citep{Tangstad2017} and \citep{Kamsvag2018} implemented an object detector for maritime vessels using Faster R-CNN. A challenge highlighted in both these projects was the misclassification of waterfront buildings as boats. To address this problem the datasets \textit{building\_boats} and \textit{buildings} were produced. By training the object detector on a building class, it may be able to detect the buildings as buildings and thus suppress the classifications of waterfront buildings as boats. As a first step in trying to verify this hypothesis, both Yolo and SSD were trained on two different sets of data. The two datasets they are trained on contains the same set of images with two exceptions:
 
 \vspace{1mm}
 
@@ -101,58 +178,58 @@ Thus, all the models have been trained on the same boat objects, while Yolo3 and
 
 \vspace{3mm}
 
-In figure \ref{fig:case_build} the precision/recall-curves for the models are plotted for the four test cases. For both SSD and Yolo the model trained on buildings generally performs better than Yolo2 and SSD2. However, the difference is more significant for SSD than for Yolo. How much training on a building class affects the results differ depending on which dataset was used for testing. 
+In figure \ref{fig:case_build} the precision/recall-curves for the models are displayed for the four test cases. For both SSD and Yolo the model trained on buildings generally performs better than Yolo2 and SSD2. However, the difference is more significant for SSD than for Yolo. How much training on a building class affects the results differ depending on which dataset was used for testing. 
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/bb.png}
+  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/bb.eps}
   \caption{Yolo tested on bbnb}
   \label{fig:sfig1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/bb.png}
+  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/bb.eps}
   \caption{SSD tested on bbnb}
   \label{fig:sfig2}
 \end{subfigure}
 
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/bcbf.png}
-  \caption{Yolo tested on bc, bf}
+  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/bcbf.eps}
+  \caption{Yolo tested on \textit{bc}, \textit{bf}}
   \label{fig:sfig1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/bcbf.png}
-  \caption{SSD tested on bc, bf}
+  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/bcbf.eps}
+  \caption{SSD tested on \textit{bc}, \textit{bf}}
   \label{fig:sfig2}
 \end{subfigure}
 
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/trf.png}
-  \caption{Yolo tested on trf}
+  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/trf.eps}
+  \caption{Yolo tested on \textit{trf}}
   \label{fig:sfig1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/trf.png}
-  \caption{SSD tested on trf}
+  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/trf.eps}
+  \caption{SSD tested on \textit{trf}}
   \label{fig:sfig2}
 \end{subfigure}
 
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/bcbftrf.png}
-  \caption{Yolo tested on bd, bf, trf}
+  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/bcbftrf.eps}
+  \caption{Yolo tested on \textit{bc}, \textit{bf}, \textit{trf}}
   \label{fig:sfig1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/bcbftrf.png}
-  \caption{SSD tested on bc, bf, trf}
+  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/bcbftrf.eps}
+  \caption{SSD tested on \textit{bc}, \textit{bf}, \textit{trf}}
   \label{fig:sfig2}
 \end{subfigure}
 \caption{Precision/recall curves of Yolo2, Yolo3, SSD2 and SSD3}
@@ -162,7 +239,7 @@ In figure \ref{fig:case_build} the precision/recall-curves for the models are pl
 \newpage
 
 
-\subsection{Tested on bbnb}
+\subsection{Tested on \textit{bbnb}}
 
 The hypothesis before running the experiment was that the bbnb dataset would be the most positively affected by training on a building class. Since \textit{bbnb} consists of mostly moored boats, where there are images that contain buildings close to sea level one could suspect could be mistaken as boats, as shown in \ref{img:bbnb_ex}. The building in the bottom left corner is close to sea level, while also being relatively close in size to the boats compared to the other buildings in the image, which makes it a good candidate for a misclassification. However, neither Yolo2 nor SSD2 classifies this building as a boat. All the detectors, Yolo2, Yolo3, SSD2 and SSD3 detects all the boats in the image. Both SSD2 and SSD3 detects the rightmost boat two times, and the bounding box differences between Yolo2 and Yolo3 and between SSD2 and SSD3 are so insignificant that training on the building class does not seem to help improve performance on this particular image. Both Yolo3 and ssd3 detects the buildings in the image well, as can be seen in figure \ref{fig:ex_bbnb_yolo3} and \ref{fig:ex_bbnb_ssd3}.
 
@@ -170,13 +247,13 @@ The hypothesis before running the experiment was that the bbnb dataset would be 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/bb.png}
+  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/bb.eps}
   \caption{Yolo tested on bbnb}
   \label{fig:ex_bnbb_prec_rec_yolo}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/bb.png}
+  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/bb.eps}
   \caption{SSD tested on bbnb}
   \label{fig:ex_bnbb_prec_rec_ssd}
 \end{subfigure}
@@ -211,21 +288,21 @@ The hypothesis before running the experiment was that the bbnb dataset would be 
 
 \newpage
 
-\subsection{Tested on bc, bf}
+\subsection{Tested on \textit{bc}, \textit{bf}}
 
 The datasets \textit{bc} and \textit{bf} consists mostly of images taken towards open sea, of boats that are sailing, i.e., the boats are not moored. It is on this dataset the performance differences between Yolo2 and Yolo3 and between SSD2 and SSD3 differ the most, as can be seen in figure \ref{fig:bcbf_prec}.
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/bcbf.png}
-  \caption{Yolo tested on bc, bf}
+  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/bcbf.eps}
+  \caption{Yolo tested on \textit{bc}, \textit{bf}}
   \label{fig:ex_bcbf_prec_rec_yolo}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/bcbf.png}
-  \caption{SSD tested on bc, bf}
+  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/bcbf.eps}
+  \caption{SSD tested on \textit{bc}, \textit{bf}}
   \label{fig:ex_bcbf_prec_rec_ssd}
 \end{subfigure}
 \caption{Yolo2, Yolo3, SSD2, SSD3 example image from \textit{bbnb} test set. Green bounding boxes are ground truth, red bounding boxes are detected boats, blue bounding boxes are detected buildings}
@@ -234,9 +311,9 @@ The datasets \textit{bc} and \textit{bf} consists mostly of images taken towards
 
 \vspace{3mm}
 
-By going through the around 300 test images, some differences between the models become apparent. While the differences between SSD2 and SSD3 are somewhat obvious, the difference between Yolo2 and Yolo3 are more nuanced. 
+By going through the approximately 300 test images, some differences between the models become apparent. While the differences between SSD2 and SSD3 are somewhat obvious, the difference between Yolo2 and Yolo3 are more nuanced. 
 
-\subsubsection{SSD2 and SSD3 on bc, bf}
+\subsubsection{SSD2 and SSD3 on \textit{bc}, \textit{bf}}
 In around 10 percent of the test images, SSD2 detects land as a boat, in none of these images does SSD3 perform the same way. An example of this is shown in figure \ref{img:bixbox_ssd}. More examples of this behavior can be found in Appendix C in chapter \ref{sec:bigbox}
 
 \begin{figure}[h!]
@@ -278,12 +355,12 @@ There are also some examples where SSD2 misclassifies buildings as boats, while 
 \vspace{3mm}
 \newpage
 
-\subsubsection{Yolo2 and Yolo3 on bc, bf}
+\subsubsection{Yolo2 and Yolo3 on \textit{bc}, \textit{bf}}
 
 As mentioned Yolo2 and Yolo3 does not differ as clearly as SSD2 and SSD3. There are examples of Yolo2 performing better than Yolo3 and vice versa. In many of the misclassifications in the test data both Yolo2 and Yolo3 mistakes the same object as a boat. By analyzing the results from both Yolo2 and Yolo3, the following tendencies can be seen:
 
 \begin{itemize}
-    \item Yolo2 and Yolo3 have the disposition to mistake the same objects as boats. See Appendix C chapter \ref{sec:same_mistake} for example images.
+    \item Yolo2 and Yolo3 have the disposition to wrongly classify the same objects as boats. See Appendix C chapter \ref{sec:same_mistake} for example images.
     \item Yolo2 performs better in some cases, while Yolo3 performs better in other. It is not clear what makes one better than the other in each specific case. See Appendix C chapter \ref{sec:3better} and \ref{sec:2better} for example images
     \item Yolo2 makes some misclassifications that could imply that training on a building class makes Yolo3 more robust to the more incomprehensible misclassifications. See appendix C chapter \ref{sec:yolo2_spec_misc} for example images.
 \end{itemize}
@@ -309,35 +386,36 @@ As opposed to the differences between SSD2 and SSD3 the differences in the resul
 
 \newpage
 
-\subsection{Tested on trf}
+\subsection{Tested on \textit{trf}}
+\label{sec:test_on_trf}
 
-The precision/recall curve for Yolo2, Yolo3, SSD2, and SSD3 on trf can be seen in figure \ref{fig:trf_prec}. All the models perform very well on this dataset, where Yolo3 almost gets a perfect score with an average precision of 0.908, meaning it is very close to detect all the objects while having practically no misclassifications. This result could be an indication of overtraining on this dataset and will be discussed further in chapter \ref{dataset_divers}. 
+The precision/recall curve for Yolo2, Yolo3, SSD2, and SSD3 on \textit{trf} can be seen in figure \ref{fig:trf_prec}. All the models perform very well on this dataset, where Yolo3 almost gets a perfect score with an average precision of 0.908, meaning it is very close to detect all the objects while having practically no misclassifications. This result could be an indication of overtraining on this dataset and will be discussed further in chapter \ref{dataset_divers}. 
 
 \vspace{3mm}
 
-Both the models trained on the building class, perform better than the model only trained on the boat class. As for the tests on bc and bf the differences between SSD2 and SSD3 are more evident than the differences between Yolo2 and Yolo3. The performance difference between SSD2 and SSD3 is also more significant than between Yolo2 and Yolo3, as can be seen in figure \ref{fig:trf_prec}
+Both the models trained on the building class, perform better than the model only trained on the boat class. As for the tests on \textit{bc} and \textit{bf} the differences between SSD2 and SSD3 are more evident than the differences between Yolo2 and Yolo3. The performance difference between SSD2 and SSD3 is also more significant than between Yolo2 and Yolo3, as can be seen in figure \ref{fig:trf_prec}
 
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/trf.png}
-  \caption{Yolo tested on trf}
+  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/trf.eps}
+  \caption{Yolo tested on \textit{trf}}
   \label{fig:ex_trf_prec_rec_yolo}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/trf.png}
-  \caption{SSD tested on trf}
+  \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/trf.eps}
+  \caption{SSD tested on \textit{trf}}
   \label{fig:ex_trf_prec_rec_ssd}
 \end{subfigure}
-\caption{Precision/recall curves for Yolo2, Yolo3, SSD2 and SSD3 on trf}
+\caption{Precision/recall curves for Yolo2, Yolo3, SSD2 and SSD3 on \textit{trf}}
 \label{fig:trf_prec}
 \end{figure}
 
-\subsubsection{SSD2 and SSD3 on trf}
+\subsubsection{SSD2 and SSD3 on \textit{trf}}
 
-SSD2 has some of the same behaviors on trf as it had on bc and bf. For instance, it sometimes classifies land as a boat, as shown in figure \ref{fig:ssd_trf_bigbox}. More examples of this behavior can be seen in Appendix C, chapter \ref{fig:ssd_trf_bigbox}.
+SSD2 has some of the same behaviors on \textit{trf} as it had on \textit{bc} and \textit{bf}. For instance, it sometimes classifies land as a boat, as shown in figure \ref{fig:ssd_trf_bigbox}. More examples of this behavior can be seen in Appendix C, chapter \ref{fig:ssd_trf_bigbox}.
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -379,9 +457,9 @@ In this figure \ref{fig:ssd3_misclassify} SSD3 does not detect the buildings as 
 
 \vspace{3mm}
 
-\subsubsection{Yolo2 and Yolo3 on trf}
+\subsubsection{Yolo2 and Yolo3 on \textit{trf}}
 
-Yolo2 and Yolo3 both have outstanding results on trf, but Yolo2 has a few misclassifications that Yolo3 does not have. In figure \ref{fig:yolo2_misclassify} Yolo2 detects land as a boat, and in figure \ref{fig:Yolo3_better_trf} Yolo3 detects a boat that Yolo2 does not. There are not many examples where their performance differs much, but there are a few which makes Yolo3 a little more robust than Yolo2.
+Yolo2 and Yolo3 both have outstanding results on \textit{trf}, but Yolo2 has a few misclassifications that Yolo3 does not have. In figure \ref{fig:yolo2_misclassify} Yolo2 detects land as a boat, and in figure \ref{fig:Yolo3_better_trf} Yolo3 detects a boat that Yolo2 does not. There are not many examples where their performance differs much, but there are a few which makes Yolo3 a little more robust than Yolo2.
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -420,43 +498,44 @@ Yolo2 and Yolo3 both have outstanding results on trf, but Yolo2 has a few miscla
 \newpage
 \clearpage
 
-\section{Effect of training on moored boats testing for sailing boats}
+\section{Case Study 2: Effect of training on moored boats testing for sailing boats}
+\label{sec:moored_boats}
 
-Since Yolo3's results on trf are nearly perfect, as shown in figure \ref{fig:moor_trf} and suspicion of overtraining was raised, a case-study of how training on moored boats (bbnb) affect the results on detection of sailing boats (bc, bf, trf), was done. Since Yolo2's and Yolo3's results on trf are better than Yolo1's, without more training on the same data, it could imply that the good results are not connected to overtraining. This will be further discussed in \ref{dataset_divers}.
+Since Yolo3's results on \textit{trf} are nearly perfect, as shown in figure \ref{fig:moor_trf} it is necessary to investigate if the model have been fitted to this type of data in a larger extent than it should. Therefore, a case study of how training on moored boats (bbnb) affect the results on detection of sailing boats (\textit{bc}, \textit{bf}, \textit{trf}), was done. Since Yolo2's and Yolo3's results on \textit{trf} are better than Yolo1's, without more training on the same data, it could imply that the accuracy of the results are not connected to overtraining. This will be further discussed in \ref{dataset_divers}.
 
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=0.8\linewidth]{results/case_tr_moor/prec_recall/bb.png}
+  \includegraphics[width=0.8\linewidth]{results/case_tr_moor/prec_recall/bb.eps}
   \caption{Yolo1, Yolo2 and Yolo3 on bbnb}
   \label{fig:moor_bb}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.8\linewidth]{results/case_tr_moor/prec_recall/trf.png}
-  \caption{Yolo1, Yolo2 and Yolo3 on trf}
+  \includegraphics[width=.8\linewidth]{results/case_tr_moor/prec_recall/trf.eps}
+  \caption{Yolo1, Yolo2 and Yolo3 on \textit{trf}}
   \label{fig:moor_trf}
 \end{subfigure}
 
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=0.8\linewidth]{results/case_tr_moor/prec_recall/bcbf.png}
-  \caption{Yolo1, Yolo2 and Yolo3 on bc, bf}
+  \includegraphics[width=0.8\linewidth]{results/case_tr_moor/prec_recall/bcbf.eps}
+  \caption{Yolo1, Yolo2 and Yolo3 on \textit{bc}, \textit{bf}}
   %\label{fig:moor_bcbf}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=.8\linewidth]{results/case_tr_moor/prec_recall/bcbftrf.png}
-  \caption{Yolo1, Yolo2 and Yolo3 on bc, bf, trf}
+  \includegraphics[width=.8\linewidth]{results/case_tr_moor/prec_recall/bcbftrf.eps}
+  \caption{Yolo1, Yolo2 and Yolo3 on \textit{bc}, \textit{bf}, \textit{trf}}
   %\label{fig:moor_bcbftrf}
 \end{subfigure}
-\caption{Precision/recall curves for Yolo1, Yolo2, SSD1 and SSD2 on bb and on bc, bf, trf}
+\caption{Precision/recall curves for Yolo1, Yolo2, SSD1 and SSD2 on bb and on \textit{bc}, \textit{bf}, \textit{trf}}
 \label{fig:prec_rec_case_moor}
 
 \end{figure}
 
-In figure \ref{fig:prec_rec_case_moor} the precision/recall curves for Yolo1, Yolo2 and Yolo3 are plotted. In all the test cases are Yolo2 and Yolo3 better than Yolo1. While this is expected behavior when testing on bbnb, the results are not intuitive for the other test cases. 
+In figure \ref{fig:prec_rec_case_moor} the precision/recall curves for Yolo1, Yolo2 and Yolo3 are shown. Yolo2 and 3 are better than Yolo1 in all the test cases. While this is expected behavior when testing on bbnb, the results are not obvious for the other test cases. 
 
 \vspace{3mm}
 
@@ -502,12 +581,12 @@ Yolo1 also has a penchant to detect the same boat twice, where Yolo2 does not, a
 
 \newpage
 
-\section{Video streaks}
+\section{Case Study 3: Video streaks}
 In \citep{Bohn2018} the issue of detections in data over time is addressed, and is to referred to as \textit{streaks}. The goal is to make a detector that robustly detects boats in a video. This does not necessarily mean that the boat needs to be detected in every frame of a video since this can be solved e.g., by using a Markov chain as in \citep{Markov}. Still, the boat needs to be detected by some frequency, for the tracking algorithm to be able to track it. To implement a tracking algorithm is not a part of this project. However, an experiment on how well the detection algorithms work on video has been done. 
 
 \vspace{3mm}
 
-Three videos of boats in the Trondheim fjord has been captured, each approximately 20 seconds long. Yolo1 was run on each of them. The three videos are merged and available at \url{https://www.youtube.com/watch?v=kcirhao_PQc}. Frames from each of the videos are shown in figure \ref{fig:videos}.
+Three videos of boats in the Trondheim fjord have been captured, each approximately 20 seconds long. Yolo1 was tested on each of them. The three videos are merged and available at \url{https://www.youtube.com/watch?v=kcirhao_PQc}. Frames from each of the videos are shown in figure \ref{fig:videos}.
 
 \begin{figure}[h!]
 \centering
@@ -564,13 +643,13 @@ In video1 and video2 the boat is detected correctly in every frame. Thus streaks
 In video3 all parts of boats are detected as boats, though two boats are classified as one big boat instead of two smaller ones when one is in the shadow of the other. This is a hard problem to solve for an object detector alone, and will be discussed further in chapter \ref{sec:boat_parts}. 
 
 
-\section{Video from \citep{Kamsvag2018}}
+\section{Case Study 4: Video from \citep{Kamsvag2018}}
 
-in \citep{Kamsvag2018} Faster R-CNN was implemented for boat detection. One of the prominent problems encountered in this work was the misclassification of buildings as boats. This was one of the main reasons to train SSD and Yolo on a building class, to see if this could help suppress these detections. Yolo1, Yolo2 and Yolo3 was run on a video used in \citep{Kamsvag2018}, and the results can be found on \url{https://www.youtube.com/watch?v=A_qETwNuFYI}. Example frames from the video are shown in figure \ref{fig:kamsvaag_vid}.
+in \citep{Kamsvag2018} Faster R-CNN was implemented for boat detection. One of the prominent problems encountered in this work was the misclassification of buildings as boats. This was one of the main reasons to train SSD and Yolo on a building class, to see if this could help suppress these detections. Yolo1, Yolo2 and Yolo3 were run on a video used in \citep{Kamsvag2018}, and the results can be found on \url{https://www.youtube.com/watch?v=A_qETwNuFYI}. Example frames from the video are shown in figure \ref{fig:kamsvaag_vid}.
 
 \vspace{3mm}
 
-In this video the images are captured much closer to sea level than the ones used in training, which may have affected the results. Yolo1, Yolo2 and Yolo3 does all have some problems detecting the boats in the video in every frame, while Yolo1 gets the worst results. Yolo3 and Yolo2 have similar results on boat detection, but Yolo3 has more misclassifications of buildings as boats than Yolo2. Yolo3 classifies some of the buildings as buildings, but this does not seem to help suppress the wrong identifications. This will be further discussed in CHAP REF
+In this video the images are captured much closer to sea level than the ones used in training, which may have affected the results. Yolo1, Yolo2 and Yolo3 do all have some problems with detecting the boats in the video in every frame, while Yolo1 has the poorest preformance. Yolo3 and Yolo2 have similar results on boat detection, but Yolo3 has more misclassifications of buildings as boats than Yolo2. Yolo3 classifies some of the buildings as buildings, but this does not seem to help suppress the wrong identifications. This will be further discussed in CHAP REF
 
 \begin{figure}[h!]
 \centering

@@ -2,11 +2,11 @@
 
 \section{Dataset diversity}
 \label{dataset_divers}
-As mentioned in chap trf, Yolo performs almost perfectly on the trf dataset, which could be an indication of overtraining. The trf dataset consists of approximately 500 images taken in the Trondheimfjord during a ferry trip back and forth between Trondheim and Brekstad. The images were all captured the same day, under the same weather and lighting conditions. Also, due to a limited amount of boats at sea during the ferry trip, multiple images were captured of the same boats. Thus even though the images the detection models were tested on and trained on were separated, the images used in both testing and training had some common features. While this might give the impression that the results are biased, and not representative of how the algorithm would perform in a completely new environment, some arguments would suggest otherwise.
+As mentioned in chapter \ref{sec:test_on_trf}, Yolo performs almost perfectly on the \textit{trf} dataset, which could be an indication of overtraining. The \textit{trf} dataset consists of approximately 500 images taken in the Trondheimfjord during a ferry trip back and forth between Trondheim and Brekstad. The images were all captured the same day, under the same weather and lighting conditions. Also, due to a limited amount of boats at sea during the ferry trip, multiple images were captured of the same boats. Thus even though the images the detection models were tested on and trained on were separated, the images used in both testing and training had some common features. While this might give the impression that the results are biased, and not representative of how the algorithm would perform in a completely new environment, some arguments would suggest otherwise.
 
 \vspace{3mm}
 
-First of all, as shown in chap, Yolo2 and Yolo3 get better results than Yolo1 on the trf dataset. All these detection models are trained on datasets bc, bf, trf, while Yolo2 and Yolo3 are also trained on other datasets that do not contain similar images as trf. This could imply that what makes the results of Yolo2 and Yolo3 suspiciously good on trf, are not caused by overtraining on the trf dataset, but rather the ability to recognize features in more diverse environments. While all the Yolo models perform worse on the bc, bf test dataset, they perform well on images that contain separated boats, similar to the photos in the trf dataset. What makes them perform worse are images that include clusters of small boats, as shown in image \ref{fig:yolo3_clutter}. 
+First of all, as shown in chapter \ref{sec:moored_boats}, Yolo2 and Yolo3 perform better than Yolo1 on the \textit{trf} dataset. All these detection models are trained on datasets \textit{bc}, \textit{bf} and \textit{trf}, while Yolo2 and Yolo3 are also trained on other datasets that do not contain similar images as \textit{trf}. This could imply that what improves the results of Yolo2 and Yolo3 suspiciously good on \textit{trf}, are not caused by overtraining on the \textit{trf} dataset, but rather the ability to recognize features in more diverse environments. While all the Yolo models perform worse on the \textit{bc} and \textit{bf} test dataset, they perform well on images that contain separated boats, similar to the photos in the \textit{trf} dataset. What makes them perform worse are images that include clusters of small boats, as shown in image \ref{fig:yolo3_clutter}. 
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -42,11 +42,11 @@ In the majority of the images, Yolo3 also gets excellent results in this dataset
   %\caption{Yolo3 on clu}
   %\label{fig:yolo2_multibox}
 \end{subfigure}
-\caption{Yolo3 on separated boats in bc bf, red bounding boxes are detections, green bounding boxes are ground truth}
+\caption{Yolo3 on separated boats in \textit{bc} \textit{bf}, red bounding boxes are detections, green bounding boxes are ground truth}
 \label{fig:yolo3_good_ex}
 \end{figure}
 
-In the images in figure \ref{fig:yolo3_clutter} it not easy to correctly detect all the boats by human assessment either. When boats are separated, Yolo3 gets good results consistently. When vessels are more prominent, cluttering does not seem to be as problematic. This could partly be because big ships do not tend to stay very close together, and thus, the examples are fewer. An example of how Yolo1 handles three big tow boats close together is shown in \ref{fig:yolo1_clutter}.
+In the images in figure \ref{fig:yolo3_clutter} it is not easy to correctly detect all the boats by human assessment either. When boats are separated, Yolo3 gets good results consistently. When vessels are more prominent, cluttering does not seem to be as problematic. This could partly be because big ships do not tend to stay very close together, and thus, the examples are fewer. An example of how Yolo1 handles three big tow boats close together is shown in \ref{fig:yolo1_clutter}.
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -69,11 +69,11 @@ In both figure \ref{fig:yolo1_clut_tow} and \ref{fig:yolo1_sep} there are three 
 
 \vspace{3mm}
 
-One cannot rule out that the results are unaffected by overtraining. To verify if the detection model is overtrained or not one would have to evaluate it in completely unseen environments. At the same time, it does not serve any purpose to test the detection algorithm on a dataset that is nothing alike the trf dataset, since this is the environment the algorithm is meant to perform well. The trf dataset contains many different types of boats and ships, it contains large camouflaged military vessels, small motor boats, and ferries, and is diverse relative to how different the boats and ships in the Trondheimfjord generally is. 
+One cannot rule out that the results are unaffected by overtraining. To verify if the detection model is overtrained or not one would have to evaluate it in completely unseen environments. At the same time, it does not serve any purpose to test the detection algorithm on a dataset that is nothing alike the \textit{trf} dataset, since this is the environment the algorithm is meant to perform well in. The \textit{trf} dataset contains many different types of boats and ships, it contains large camouflaged military vessels, small motor boats, and ferries, and is diverse relative to how different the boats and ships in the Trondheimfjord generally is. 
 
 \vspace{3mm}
 
-The good results Yolo3 has on the trf dataset might also be because the detection problem of maritime vessels in the Trondheimfjord is not where Yolo struggles. It will depend on each case, but the results in this project indicate that Yolo can robustly detect sailing boats in the Trondheimfjord under good weather conditions. To verify this claim one would need an even more diverse dataset, to ensure that the good results are not a consequence of overtraining. Still, there is no limit to how diverse a dataset could be and building a dataset that could verify this claim one hundred percent seems like an impossible task. 
+The accuracy of the results Yolo3 has on the \textit{trf} dataset might also be because the detection problem of maritime vessels in the Trondheimfjord is not where Yolo struggles. It will depend on each case, but the results in this project indicate that Yolo can robustly detect sailing boats in the Trondheimfjord under good weather conditions. To verify this claim one would need an even more diverse dataset, to ensure that the good results are not a consequence of overtraining. Still, there is no limit to how diverse a dataset could be and building a dataset that could verify this claim one hundred percent seems like an impossible task. 
 
 \vspace{3mm}
 
@@ -84,18 +84,18 @@ The effect of training on buildings seems to have a positive influence on the re
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/trf.png}
-  \caption{Yolo tested on trf}
+  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/trf.eps}
+  \caption{Yolo tested on \textit{trf}}
   \label{fig:ex_trf_prec_rec_yolo}
-\caption{Precision/recall curves for Yolo2 and Yolo3 on trf}
+\caption{Precision/recall curves for Yolo2 and Yolo3 on \textit{trf}}
 \label{fig:yolo_trf_prec}
 \end{figure}
 
 \newpage
 
-\subsection{Non-detected buildings in trf}
+\subsection{Non-detected buildings in \textit{trf}}
 \label{sec:build_trf}
-In the trf dataset, there are buildings in the background which Yolo3 does not detect, even though it is trained on a building class. The building dataset contains images taken in Trondheim close to Nidelva and a canal, and the buildings are in the majority of the images close up, as shown in figure \ref{fig:buildings}
+In the \textit{trf} dataset, there are buildings in the background which Yolo3 does not detect, even though it is trained on a building class. The building dataset contains images taken in Trondheim close to Nidelva and a canal, and the buildings are in the majority of the images close up, as shown in figure \ref{fig:buildings}
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -114,7 +114,7 @@ In the trf dataset, there are buildings in the background which Yolo3 does not d
 \label{fig:buildings}
 \end{figure}
 
-In trf, there are examples where Yolo3 fails to detect buildings, as shown in figure \ref{fig:yolo3_no_build}.
+In \textit{trf}, there are examples where Yolo3 fails to detect buildings, as shown in figure \ref{fig:yolo3_no_build}.
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -140,7 +140,7 @@ The buildings in figure \ref{fig:buildings} and in figure \ref{fig:yolo3_no_buil
 
 \section{Labeling}
 
-During labeling of the dataset, the guidelines mentioned in CHAP was used. Three problems were encountered during the work with this project related to how the boats were labeled
+During labeling of the dataset, the guidelines mentioned in chapter \ref{sec:labeling} was used. Three problems were encountered during the work with this project related to how the boats were labeled
 
 \subsection{Labeling of sail boats}
 
@@ -176,10 +176,14 @@ The detection models seem to struggle when boats are partly covered by other boa
 
 
 \section{Yolo vs. SSD}
-In CHAP REF, it was made clear that Yolo performs better than SSD in this project. One of the critical differences between Yolo and SSD was discussed in CHAP 3, where SSD uses grids at multiple scales to detect objects, while Yolo only applies one. The hypothesis was that this would make SSD better at identifying boats that varied more in size, while Yolo would only detect boats within a certain size range. This hypothesis was not confirmed during the work on this project. Yolo has both better recall and better precision than SSD, meaning that it detects more boats and has fewer misclassifications.
+In chapter \ref{sec:results}, it was made clear that Yolo performs better than SSD in this project. One of the critical differences between Yolo and SSD was discussed in chapter \ref{sec:obj_det}, where SSD uses grids at multiple scales to detect objects, while Yolo only applies one. The hypothesis was that this would make SSD better at identifying boats that varied more in size, while Yolo would only detect boats within a certain size range. This hypothesis was not confirmed during the work on this project. Yolo has both better recall and better precision than SSD, meaning that it detects more boats and has fewer misclassifications. 
+
+\vspace{3mm}
+
+In this project SSD mobilenet was used, a lightweight version of SSD meant for real-time solutions. SSD Mobilenet is faster, but less accurate compared to the original implementation. The reason for choosing Mobilenet over the original implementation was that it was used in a project at DNV GL the summer of 2018 with promising results. While Yolo and the original implementation of SSD has comparable accuracy, the accuracy of SSD Mobilenet is lower, meaning Yolo's superior accuracy is not entirely unexpected. 
 
 \section{Clustered boats}
-Both Yolo and SSD have good results when there is a limited amount of boats in the image, and they are separated. When small boats are clustered together, like in figure \ref{fig:yolo3_clutter} both detection algorithms has trouble detecting them. This is not surprising as it is hard to make out the boats individually, also by human assessment. 
+Both Yolo and SSD have good results when there is a limited amount of boats in the image, and they are separated. When small boats are clustered together, like in figure \ref{fig:yolo3_clutter} both detection algorithms have trouble detecting them. This is not surprising as it is hard to make out the boats individually, also by human assessment. 
 
 \vspace{3mm}
 
@@ -187,11 +191,7 @@ For Yolo, there are two main ways of approaching this problem. Either the grid c
 
 \section{Results on video from \citep{Kamsvag2018}}
 
-The purpose of training Yolo3 on a building class was for it to be more robust to misclassifications of boats as buildings. In the results shown in CHAP REF, this was not the case. Yolo2, which is not trained on the building class, has fewer detections of buildings as boats than Yolo3. Yolo1, Yolo2 and Yolo3 all gets worse results on this video compared to the results on the rest of the test data. This is not entirely unexpected, since the video from \citep{Kamsvag2018} are different from the training data in several ways. Firstly, the video from \citep{Kamsvag2018} is captured from a small boat close to sea level. This makes the angle between the center of the camera and the center of the boats vastly different compared to the ones in e.g. the trf dataset, where the images are taken from the top of a ferry. While the features of the boat does not change much due to the change of angle, the background be different, expecially in coast-near environments. When the pictures are captured from a higher point above sea level the background of the boat will be more uniform, and in some cases consists of only water, while the background can be buildings or land in images taken closer to sea level as in figure \ref{fig:kamsvaag_vid}. 
-
-\vspace{3mm}
-
-While this can be a factor to the weaker boat detections on the video from \citep{Kamsvag2018}, it does not explain why Yolo3 classifies more buildings as boats than Yolo2. MER HER
+The purpose of training Yolo3 on a building class was for it to be more robust to misclassifications of boats as buildings. In the results shown in CHAP REF, this was not the case. Yolo2, which is not trained on the building class, has fewer detections of buildings as boats than Yolo3. Yolo1, Yolo2 and Yolo3 all gets worse results on this video compared to the results on the rest of the test data. This is not entirely unexpected, since the video from \citep{Kamsvag2018} are different from the training data in several ways. Firstly, the video from \citep{Kamsvag2018} is captured from a small boat close to sea level. This makes the angle between the center of the camera and the center of the boats vastly different compared to the ones in e.g. the \textit{trf} dataset, where the images are taken from the top of a ferry. While the features of the boat does not change much due to the change of angle, the background be different, expecially in coast-near environments. When the pictures are captured from a higher point above sea level the background of the boat will be more uniform, and in some cases consists of only water, while the background can be buildings or land in images taken closer to sea level as in figure \ref{fig:kamsvaag_vid}. While this can be a factor to the weaker boat detections on the video from \citep{Kamsvag2018}, it does not explain why Yolo3 classifies more buildings as boats than Yolo2.
 
 \vspace{3mm}
 

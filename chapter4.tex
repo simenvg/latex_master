@@ -5,7 +5,7 @@
 This chapter covers how the cloud detection framework was implemented, how it works, and why it is implemented the way it is. It also covers datasets relevant to this project. For a more thorough walkthrough of how to use the cloud detection framework, see the Appendix. A user manual can also be found in the GitHub repository for this project at \url{https://github.com/simenvg/cloud_detection_framework}
 
 \section{Datasets}
-The object detection algorithms used in this report all comes with the possibility to train on pre-trained weights. This means that the network has been trained on a dataset and thus already has learned to find features in images and classify them. This is helpful even if the object one wishes to train the algorithm for, is not within the dataset used for finding the pre-trained weights. Using pre-trained weights during training saves computational time for training, and it reduces the number of required training images of the object the detector will be trained on.
+The object detection algorithms used in this report all comes with the possibility to train on pre-trained weights. This means that the network has been trained on a dataset and thus already has learned to find features in images and classify them. This is helpful even if the object one wishes to train the algorithm for, is not within the dataset used for finding the pre-trained weights. Using pre-trained weights during training saves computational time for training, and it reduces the required number of training images of the object the detector will be trained on.
 
 \vspace{3mm}
 
@@ -14,7 +14,7 @@ The detection algorithms used in this project comes with several different pre-t
 
 
 \subsubsection{ImageNet}
-ImageNet is a "large-scale ontology of images" \citep{Deng2009}. When \citep{Deng2009} was released in 2009 it stated that the goal of ImageNet was to populate 80,000 synsets with 500 to 1000 images. The ImageNet dataset is structured into subtrees and synsets, in an IS A relationship. Meaning that if class A is a synset of class B, any object that satisfies class A's specification also satisfies class B's specification. E.g., fish would be a synset of an animal. ImageNet contains more than 14 million images that have been annotated by ImageNet with the objects that are in the image. In more than one million of the images bounding boxes are also provided. 
+ImageNet is a "large-scale ontology of images" \citep{Deng2009}. When \citep{Deng2009} was released in 2009 it stated that the goal of ImageNet was to populate 80,000 synsets with 500 to 1000 images. The ImageNet dataset is structured into subtrees and synsets, in an IS A relationship. Meaning that if class A is a synset of class B, any object that satisfies class A's specification also satisfies class B's specification. For instance would fish be a synset of an animal. ImageNet contains more than 14 million images that have been annotated by ImageNet with the objects that are in the images. In more than one million of the images bounding boxes are also provided. 
 
 
 \subsubsection{Pascal, VOC 2007 and VOC 2012}
@@ -48,7 +48,8 @@ In 2015 Microsoft released the COCO (Common Objects in Context) dataset \citep{L
 \end{figure}
 
 \subsection{Custom datasets}
-A big part of this project has been to compile and annotate a dataset of images relevant to this project. Meaning images taken in environments where the algorithm should perform well, this being in areas around the Trondheim fjord or similar areas.
+\label{sec:cust_dataset}
+A big part of this project has been to compile and annotate a dataset of images relevant to this project. This means that images are captured in environments where the algorithm should perform well, this being in areas around the Trondheim fjord or similar areas.
 
 
 \begin{table}[h!]
@@ -78,7 +79,7 @@ Buildings         & 89               & Buildings                  & 89
 \end{tabular}
 \end{table}
 
-In \citep{Tangstad2017}, the detection algorithm used misclassified buildings as boats, and this problem has also been seen during testing of YOLO and SSD. For this reason, datasets consisting of images of buildings was compiled, to be able to verify if training on these images will reduce these misclassifications. The dataset "Trondheimsfjorden" has been kept as is, and not split into the other sub-datasets. The reasoning for this is that how the algorithm performs in this environment is an interesting performance metric in this project. 
+In \citep{Tangstad2017}, the detection algorithm used misclassified buildings as boats, and this issue has also been observed during testing of YOLO and SSD. For this reason, datasets consisting of images of buildings were compiled, to be able to verify if training on these images will reduce these misclassifications. The dataset "Trondheimsfjorden" has been kept as is, and not split into the other sub-datasets. The reasoning for this is that how the algorithm performs in this environment is an interesting performance metric in this project. 
 
 
 \vspace{3mm}
@@ -86,6 +87,7 @@ In \citep{Tangstad2017}, the detection algorithm used misclassified buildings as
 All the datasets have been split into test and train directories, where 75 percent of the images are used in training, and 25 percent are employed in testing. This is done randomly, but the same configuration is used in all training and testing to ensure that the detection algorithms have the same preconditions.
 
 \subsubsection{Labeling of Custom Dataset}
+\label{sec:labeling}
 The custom dataset was annotated using LabelImg (\url{https://github.com/tzutalin/labelImg}). LabelImg lets the user choose the output format and simplifies the labeling process, also for multiclass-labeling. During labeling the VOC Annotation Guidelines \citep{Everingham2012} have been used, which are:
 
 \begin{outline}
@@ -116,18 +118,25 @@ The custom dataset was annotated using LabelImg (\url{https://github.com/tzutali
 \end{outline}
 
 \section{Detection framework}
-Object detection using deep learning based methods is a field of research which is rapidly changing, and new algorithms and methods have consistently been presented in recent years. When new methods and articles are released to the public, these algorithms have performance data which makes it possible to compare them to already existing algorithms. These statistics are based on the performance of the algorithms on standard datasets, such as COCO \citep{COCO}, VOC Pascal \citep{Everingham2007} \citep{Everingham2012}, and Imagenet \citep{Imagenet}, and gives an estimate of how fast and how accurate the algorithm is. When trained on these datasets, which include multiple classes, they become general purpose object detectors. I.e., object detectors which are trained to handle different objects in different settings. In this project, the object of interest is maritime vessels, and possibly other objects related to navigation and a maritime environment. Thus, the focus in this report is a specialized object detector that is trained for detecting the objects mentioned above. The performance statistics from object detection articles can thus only be used as a guideline for how well it will perform as a specialized object detector in a maritime environment. 
+Object detection using deep learning based methods is a field of research which is rapidly changing, and new algorithms and methods have consistently been presented in recent years. When new methods and articles are released to the public, these algorithms have performance data which makes it possible to compare them to already existing algorithms. These statistics are based on the performance of the algorithms on standard datasets, such as COCO \citep{COCO}, VOC Pascal \citep{Everingham2007} \citep{Everingham2012}, and Imagenet \citep{Imagenet}, and gives an estimate of how fast and how accurate the algorithm is. When trained on these datasets, which include multiple classes, they become general purpose object detectors. In other words, object detectors which are trained to handle different objects in different settings. In this project, the object of interest is maritime vessels, and possibly other objects related to navigation and obstacle avoidance. Thus, the focus in this report is a specialized object detector that is trained for detecting the objects mentioned above. The performance statistics from object detection articles can thus only be used as a guideline for how well it will perform as a specialized object detector in a maritime environment. 
 
 \vspace{3mm}
 
 The different, currently existing, object detection algorithms could potentially perform on a vastly different level depending, e.g. on the lighting conditions, how big the object of interest is in the image, and which data they are trained on. Their performance can also significantly differ based on how the algorithm is configured. Yolo, for instance, can perform better on smaller objects by increasing the grid size mentioned in chapter \ref{sec:yolo}. The performance of different detection algorithms in maritime environments based on their configuration and on which data it is trained on is a landscape that is not explored fully. This project aims to make it possible to more efficiently and systematically navigate in this landscape and to begin a heuristic approach to find directions worth continuing to research.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8 \textwidth]{images/cloud_detection_pic.eps}
+    \caption{Example image from the Cloud Detection Framework, here the user is prompted which datasets to test Yolo on.}
+    \label{fig:cloud_det}
+\end{figure}
 
 \subsection{Hardware}
 One of the first issues one encounters while trying to train a convolutional neural network is the need for specific hardware that has the computational capacity to train and test the network in a reasonable amount of time. All the object detection algorithms mentioned in this thesis are implemented with support for Graphics Processing Unit (GPU) computations. According to Nvidia, GPUs alone increased the computational speed by a factor of 1000 over a span of 10 years, greatly supporting the progress in deep learning \citep{Dettmers2015}. The most popular library used for GPU processing for neural networks is today CUDA, which is developed by Nvidia. Hence, the GPU needed for more efficient training and testing of neural networks has to be a Nvidia GPU. 
 
 \vspace{3mm}
 
-Another problem that arises when working with the cutting edge detection algorithms is to get an environment set up correctly. Where libraries, programs, and drivers are installed, the correct way and paths are set accordingly. This may sound trivial, but the road from an annotated dataset to a trained object detector can be long and frustrating. A goal in this project is to make this as simple possible, this way potential future master students or researchers can focus more on the actual problem more than spending time setting up the system. 
+Another problem that arises when working with the cutting edge detection algorithms is to get an environment set up correctly. Libraries, programs, and drivers have to be installed the correct way, and configuration files and paths must be set accordingly. This may sound trivial, but the road from an annotated dataset to a trained object detector can be long and frustrating. A goal in this project is to make this process as simple possible, this enables future master students or researchers to focus more on the actual problem and not spend time on creating the system. 
 
 \subsection{Google Cloud}
 The solution to the hardware problem in this project is to use a cloud computing service, in this case, Google Cloud. Other cloud computing solutions exist, where some of the most popular are Amazon AWS and Microsoft Azure. Google Cloud was chosen because they give 300\$ in free credit for opening an account, which makes it an economical choice in a testing phase.
@@ -138,10 +147,10 @@ Google Cloud lets you open an instance where you can specify the operating syste
 
 \vspace{3mm}
 
-It should also be noted that this system should also work on other cloud computing services, as long as the hardware satisfies the requirements. 
+It should also be noted that this system work on other cloud computing services, as long as the hardware satisfies the requirements. 
 
 \subsection{Cloud Instance Setup}
-The Google Cloud instance can be set up by cloning the Github repository \url{https://github.com/simenvg/cloud_detection_framework}. Running the setup.sh file will install and set up the following 
+The Google Cloud instance can be configured by cloning the Github repository \url{https://github.com/simenvg/cloud_detection_framework}. Running the setup.sh file will install and set up the following 
 
 \begin{outline}
     \1 CUDA and cudnn
@@ -160,7 +169,7 @@ The Google Cloud instance can be set up by cloning the Github repository \url{ht
 
 
 
-When the setup file has been run, data can be uploaded to the Google cloud instance. When both the data has been uploaded, and the Google cloud instance has been set up by running \url{setup.sh}, the system is ready to train.
+When the setup file has been executed, data can be uploaded to the Google cloud instance. When data have been uploaded, and the Google cloud instance has been set up by running \url{setup.sh}, the system is ready to train.
 
 \subsection{Training Yolo}
 In this project Yolov3 is used, the latest version of Yolo at the time of writing. To train Yolo, run the file \url{train_yolo.py}, this will:
@@ -176,7 +185,7 @@ In this project Yolov3 is used, the latest version of Yolo at the time of writin
     \item Begin training.
 \end{itemize}
 
-During training, Yolo will save weights every 400 iterations to the model repository. It will continue training until the user exits the process, or when it gets to 40 000 iterations. When the process runs the average loss will be written to the terminal for every iteration, and training can be stopped when this is sufficiently low. In this project all the detection models were trained for approximately 24 hours.
+During training, Yolo will save weights every 400 iterations to the model repository. It will continue training until the user exits the process, or when it reaches 40 000 iterations. When the process runs the average loss will be written to the terminal for every iteration, and training can be stopped when it is sufficiently low. In this project all the detection models were trained for approximately 24 hours.
 
 \newpage
 
@@ -219,7 +228,7 @@ In this project Tensorflows implementation of SSD Mobilenet is used. To train SS
 
 \begin{itemize}
     \item Prompt the user and ask which datasets the user wishes to train on
-    \item Convert annotations and images to tfrecords, which Tensorflow needs to train.
+    \item Convert annotations and images to tfrecords \footnote{Tfrecords are Tensorflows binary file format. Binary files uses less storage and are beneficial when working with large datasets.}, which Tensorflow needs to train.
     \item Update SSD's configuration file with correct paths to training data, classes, and filters.
     \item Load pre-trained weights
     \item Begin training
@@ -228,7 +237,7 @@ In this project Tensorflows implementation of SSD Mobilenet is used. To train SS
 \url{train_ssd.py} will also save all files needed for testing to the model directory. It will save the weights based on time, and not based on iterations like Yolo. At what iteration the happens depends on the size of the dataset and the hardware used. 
 
 \subsubsection{Pre-trained weights SSD}
-SSD is implemented using Tensorflow's object detection API. Tensorflow offers several detection algorithms shown in table \ref{ssd_tab}. These are trained on the Coco dataset, comes with different configurations. The cloud detection framework is designed to be able to implement other detection algorithms easily. The SSD version chosen in this project is ssd\_mobilenet\_v1\_coco. The Cloud Detection Framework is designed such that to implement any of the other models shown in figure \ref{ssd_tab} one only needs to download another model and edit a few lines in a configuration file. The models implemented in Tensorflow's object detection API is also rapidly expanding. In the summer of 2017, there were eight models available, in December of 2018, there are 25. This means that by using the Cloud Detection Framework one can easily train and test new, cutting-edge models that Google supply through Tensorflow.
+SSD is implemented using Tensorflow's object detection API. Tensorflow offers several detection algorithms shown in table \ref{ssd_tab}. These are trained on the Coco dataset and comes with different configurations. The cloud detection framework is designed to be able to implement other detection algorithms easily. The SSD version chosen in this project is ssd\_mobilenet\_v1\_coco. The Cloud Detection Framework is designed such that to implement any of the other models shown in figure \ref{ssd_tab} one only needs to download another model and edit a few lines in a configuration file. The models implemented in Tensorflow's object detection API is also rapidly expanding. In the summer of 2017, there were eight models available, in December of 2018, there are 25. This means that by using the Cloud Detection Framework one can easily train and test new, cutting-edge models that Google supply through Tensorflow.
 
 \begin{table}[h!]
 \begin{tabular}{lll}
@@ -267,7 +276,7 @@ mask\_rcnn\_resnet50\_atrous\_coco                              & 343         & 
 \newpage
 
 \subsection{Testing with Cloud Detection Framework}
-During testing of the detection algorithms, a problem arose when testing on large datasets. When testing on hundreds of images containing several objects the data could not be saved in JSON format as a txt-file due to it taking too much memory. Thus, a different solution was implemented where detections were saved in a database using SQL. This divides the process of testing into two phases. One where the algorithm is run on the test images and all detections are written to a database. The other phase draws the detections, and the ground truth bounding boxes onto the test images and saves them, and calculates statistics on how well the algorithm performed. These results are saved to the "results" directory.
+During testing of the detection algorithms, a problem arose when testing on large datasets. When testing on hundreds of images containing several objects the data could not be saved in JSON format as a txt-file due to heavy memory requirements. Thus, a different solution was implemented where detections were saved in a database using SQL. This divides the process of testing into two phases. One where the algorithm is run on the test images and all detections are written to a database. The other phase draws the detections, and the ground truth bounding boxes onto the test images and saves them, and calculates statistics on how well the algorithm performed. These results are saved to the "results" directory.
 
 \vspace{3mm}
 
