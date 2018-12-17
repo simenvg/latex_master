@@ -10,7 +10,7 @@ Two common performance measures used in object detection are \textit{precision} 
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.35]{fig/recall_precision.png}
+    \includegraphics[scale=0.33]{fig/recall_precision.png}
     \caption{Precision and recall}
     \label{fig:prec_recall}
 \end{figure}
@@ -62,10 +62,27 @@ Meaning that for each recall value in {0.0, ... , 1.0} the highest precision lev
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.6]{fig/p_interp.png}
+    \includegraphics[scale=0.5]{fig/p_interp.png}
     \caption{$p(r) and p_{interp}(r)$}
     \label{fig:p_interp}
 \end{figure}
+
+\section{Confusion Matrix}
+\label{sec:conf_mat}
+A confusion matrix is another way of presenting the performance of a classification algorithm. The confusion matrix gives a more intuitive representation of the results, and gives a clearer indication on how well the detection algorithm would work in a real scenario. In this project the goal is to identify boats, thus it is a two-class problem with boat and not-boat as the two classes. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width = 0.7 \textwidth]{fig/conf_e.png}
+    \caption{Confidence matrix}
+    \label{fig:conf_exp}
+\end{figure}
+
+\newpage
+
+Table \ref{fig:conf_exp} shows how the confusion matrix will be used in this project. True positives are boats detected correctly, false positives are detections that are uncorrect, false negatives are undetected boats. The detections algorithms developed in this project does not seek to identify non-boat objects, rather to overlook them, thus true negatives cannot be quantized and are not relevant in this work.
+
+
 
 
 

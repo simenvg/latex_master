@@ -63,7 +63,11 @@ The model number signifies which data, and how much data, the model has been tra
 
 \section{Results Overview}
 
-Four combinations of datasets were selected as test datasets. The average precision of the models on the different test datasets is shown in table \ref{ap_tab}. 
+To present an overview of the results two statistics have been used. The first one is a table of the average precision (AP) of each model on four test datasets. The second is confusion matrices. 
+
+\subsection{Average Precision}
+
+The average precision of the models on the different test datasets is shown in table \ref{ap_tab}. 
 
 \begin{table}[h!]
 \centering
@@ -78,33 +82,43 @@ Tested on   & Yolo1 & SSD1  & Yolo2 & SSD2  & Yolo3 & SSD3  \\ \hline
 \label{ap_tab}
 \end{table}
 
+The results vary depending on both test dataset and model. Yolo2 and 3 has the best overall performance, and outperforms the other models on all datasets. Yolo2 and 3 has comparable results on all datasets except on \textit{bc} and \textit{bf} where Yolo3 has an AP of 0.647 and Yolo2 has 0.533. The most impressive results are Yolo2 and Yolo3's performance on the \textit{trf} dataset
+
+
+\subsection{Confusion Matrices}
+
+As explained in chapter \ref{sec:conf_mat}, confusion matrices gives an intuitive understanding of the results. In this chapter two tables are presented, in the tables each model's confusion matrix on the four datasets are presented. The difference between the two tables are the confidence threshold set for the detection. The bounding boxes Yolo and SSD outputs comes with a confidence score, indicating how confident the algorithm is in the detection. A higher confidence threshold would lead to fewer false positives, but possibly also fewer true positives, the confidence thresholds used for the two tables presented here are 0.25 and 0.5. The confusion matrices are presented as shown in table \ref{tab:conf_exp}.
+
+
 
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \begin{tabular}{c|ll}
 \multicolumn{1}{l|}{}  & \multicolumn{2}{l}{Dataset (Number of objects in dataset)} \\ \hline
 \multirow{2}{*}{Model} & True positives        & False positives                    \\
                        & False negatives       & True negatives (Not relevant)     
 \end{tabular}
+\caption{Confusion matrix explanation}
+\label{tab:conf_exp}
 \end{table}
 
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \begin{tabular}{l|ll|ll|ll|ll}
                        & \multicolumn{2}{l|}{BB (58)} & \multicolumn{2}{l|}{TRF (174)} & \multicolumn{2}{l|}{BcBf (818)} & \multicolumn{2}{l}{BcBfTrf (992)} \\ \hline
 \multirow{2}{*}{Yolo1} & 13            & 21           & 164            & 22            & 551            & 435            & 715              & 457             \\
-                       & 46            &              & 10             &               & 267            &                & 277              &                 \\ \hline
+                       & 45            &              & 10             &               & 267            &                & 277              &                 \\ \hline
 
 \multirow{2}{*}{Yolo2} & 39            & 4            & 167            & 8             & 555            & 263            & 722              & 271             \\
                        & 19            &              & 7              &               & 263            &                & 270              &                 \\ \hline
 \multirow{2}{*}{Yolo3} & 40            & 6            & 173            & 3             & 611            & 214            & 784              & 217             \\
                        & 18            &              & 1              &               & 207            &                & 208              &                 \\ \hline
 \multirow{2}{*}{SSD1}  & 7             & 15           & 151            & 17            & 359            & 315            & 510              & 332             \\
-                       & 52            &              & 23             &               & 459            &                & 482              &                 \\ \hline
+                       & 51            &              & 23             &               & 459            &                & 482              &                 \\ \hline
 \multirow{2}{*}{SSD2}  & 32            & 20           & 146            & 34            & 323            & 437            & 469              & 471             \\
                        & 26            &              & 28             &               & 495            &                & 523              &                 \\ \hline
 
@@ -122,13 +136,13 @@ Tested on   & Yolo1 & SSD1  & Yolo2 & SSD2  & Yolo3 & SSD3  \\ \hline
 \begin{tabular}{l|ll|ll|ll|ll}
                        & \multicolumn{2}{l|}{BB (58)} & \multicolumn{2}{l|}{TRF (174)} & \multicolumn{2}{l|}{BcBf (818)} & \multicolumn{2}{l|}{BcBfTrf (992)} \\ \hline
 \multirow{2}{*}{Yolo1} & 11            & 10           & 160            & 15            & 524            & 311            & 684              & 326             \\
-                       & 48            &              & 14             &               & 294            &                & 308              &                 \\ \hline
+                       & 47            &              & 14             &               & 294            &                & 308              &                 \\ \hline
 \multirow{2}{*}{Yolo2} & 35            & 1            & 165            & 6             & 498            & 198            & 663              & 204             \\
                        & 23            &              & 9              &               & 320            &                & 329              &                 \\ \hline
 \multirow{2}{*}{Yolo3} & 36            & 4            & 170            & 2             & 577            & 149            & 747              & 151             \\
                        & 22            &              & 4              &               & 241            &                & 245              &                 \\ \hline
 \multirow{2}{*}{SSD1}  & 6             & 11           & 142            & 11            & 333            & 251            & 475              & 262             \\
-                       & 53            &              & 32             &               & 485            &                & 517              &                 \\ \hline
+                       & 52            &              & 32             &               & 485            &                & 517              &                 \\ \hline
 \multirow{2}{*}{SSD2}  & 29            & 9            & 136            & 22            & 299            & 338            & 435              & 360             \\
                        & 29            &              & 38             &               & 519            &                & 557              &                 \\ \hline
 \multirow{2}{*}{SSD3}  & 31            & 6            & 147            & 14            & 319            & 214            & 466              & 228             \\
