@@ -1,7 +1,7 @@
 \chapter{Results}
 \label{sec:results}
 
-This chapter contains results from testing six different models on four test datasets. The six models consists of three SSD models and three Yolo models trained on different data. This produces a significant amount of results, and it makes the task of presenting the results in an orderly fashion challenging. To try to overcome this challenge this chapter is structured in the following way:
+This chapter contains results from testing six different models on four test datasets. The six models consists of three SSD models and three Yolo models trained on different data. This produces a significant amount of results, and makes the task of presenting the results in an orderly fashion challenging. To try to overcome this challenge this chapter is structured in the following way:
 
 \begin{enumerate}
     \item Present datasets and models. Explain abbreviations used later in the chapter.
@@ -170,11 +170,11 @@ As explained in chapter \ref{sec:conf_mat}, confusion matrices gives an intuitiv
 \subsection{Main results}
 \label{subsec:main}
 
-\subsubsection{Yolo3}
-Yolo3 has the best overall results. On the \textit{trf} dataset Yolo3 has an average precision of 0.908, which is impressive. Table \ref{tab:conf_025}, where the confidence threshold is set to 0.25, shows that Yolo3 detects 173 out of 174 boats in this dataset, with only three false positives. When the confidence threshold is set to 0.5, Yolo3 detects 170 out of 174 boats, with two false positives, as shown in table \ref{tab:conf_05}. Even though the results on the other datasets are worse than on the \textit{trf} dataset, they are not bad. In \citep{YOLOv3}, Yolo gets a mean average precision, which is AP for multi-class detection, of 0.553 on the COCO dataset. To compare the average precision on the custom datasets to the results on the multi-class detection problem on the COCO dataset is not a fair comparison, but it still is worth noting to give a better intuition for what the average precisions shown in table \ref{ap_tab} means. 
+\subsubsection{Best results}
+Yolo3 has the best overall results. On the \textit{trf} dataset Yolo3 has an average precision of 0.908, which is impressive. Table \ref{tab:conf_025}, where the confidence threshold is set to 0.25, shows that Yolo3 detects 173 out of 174 boats in this dataset, with only three false positives. When the confidence threshold is set to 0.5, Yolo3 detects 170 out of 174 boats, with two false positives, as shown in table \ref{tab:conf_05}. Even though the results on the other datasets are worse than on the \textit{trf} dataset, they are not bad. In \citep{YOLOv3}, Yolo gets a mean average precision, which is average precision for multi-class detection, of 0.553 on the COCO dataset. To compare the average precision on the custom datasets to the results on the multi-class detection problem on the COCO dataset is not a fair comparison, but it still is worth noting to give a better intuition for what the average precisions shown in table \ref{ap_tab} means. 
 
 \subsubsection{Effect of training differences}
-The hypothesis before running the tests in this work was that more relevant training data used in a model, the better the test results. This means that the expected results was that Yolo3 would be better than Yolo2 which again would be better than Yolo1, and the same for the SSD models. While Yolo3 and SSD3 is better their MODELS??,  Yolo2 and SSD2 are outperformed by Yolo1 and SSD1 in most cases. This means that training on the \textit{build} dataset has a big effect on the test results on all datasets. This will be further discussed in chapter \ref{case_study:eff_build}.  YOLO2 HAR BEDRE AP, IKKE BEDRE PÅ CONFUSION MATRIX.
+The hypothesis before running the tests in this work was that more relevant training data used in a model, the better the test results. This means that the expected results was that Yolo3 would be better than Yolo2 which again would be better than Yolo1, and the same for the SSD models. Table \ref{ap_tab} shows this hypothesis to be correct except for SSD1 and 2, where SSD1 performs better than SSD2. Yolo2 is only slightly better than Yolo1 on all datasets except the \textit{bhnl} dataset. This means that, since Yolo3 and SSD3 have the best results, training on the \textit{build} dataset has a significant effect on the test results on all datasets. This will be further discussed in chapter \ref{case_study:eff_build}. SSD1 and Yolo1 has the worst results on the \textit{bhnl} dataset, this is expected since these are the only models that have not been trained on data similar to this dataset.
 
 \subsubsection{Yolo vs. SSD}
 As shown in the tables in chapter \ref{subsec:ap} and \ref{subsec:cm}, Yolo performs better than SSD in this project. One of the critical differences between Yolo and SSD was discussed in chapter \ref{sec:obj_det}, where SSD uses grids at multiple scales to detect objects, while Yolo only applies one. The hypothesis was that this would make SSD better at identifying boats that varied more in size, while Yolo would only detect boats within a certain size range. This hypothesis was not confirmed during the work on this project. Yolo detects more boats and has fewer misclassifications than SSD in all the tests done in this work.
@@ -182,14 +182,6 @@ As shown in the tables in chapter \ref{subsec:ap} and \ref{subsec:cm}, Yolo perf
 \vspace{3mm}
 
 In this project SSD mobilenet was used, a lightweight version of SSD meant for real-time solutions. SSD Mobilenet is faster, but less accurate compared to the original implementation. The reason for choosing Mobilenet over the original implementation was that it was used in a project at DNV GL the summer of 2018 with promising results. While Yolo and the original implementation of SSD has comparable accuracy, the accuracy of SSD Mobilenet is lower, meaning Yolo's superior accuracy is not entirely unexpected. 
-
-
-
-
-\vspace{1cm}
-
-BC BF not taken from a boat
-Angle on image
 
 
 
@@ -279,9 +271,9 @@ In figure \ref{fig:case_build} the precision/recall-curves for the models are di
 \newpage
 
 
-\subsection{Tested on \textit{bbnb}}
+\subsection{Tested on the \textit{bhnl} dataset}
 
-The hypothesis before running the experiment was that the bbnb dataset would be the most positively affected by training on a building class. Since \textit{bbnb} consists of mostly moored boats, where there are images that contain buildings close to sea level one could suspect could be mistaken as boats, as shown in \ref{img:bbnb_ex}. The building in the bottom left corner is close to sea level, while also being relatively close in size to the boats compared to the other buildings in the image, which makes it a good candidate for a misclassification. However, neither Yolo2 nor SSD2 classifies this building as a boat. All the detectors, Yolo2, Yolo3, SSD2 and SSD3 detects all the boats in the image. Both SSD2 and SSD3 detects the rightmost boat two times, and the bounding box differences between Yolo2 and Yolo3 and between SSD2 and SSD3 are so insignificant that training on the building class does not seem to help improve performance on this particular image. Both Yolo3 and ssd3 detects the buildings in the image well, as can be seen in figure \ref{fig:ex_bbnb_yolo3} and \ref{fig:ex_bbnb_ssd3}.
+The hypothesis before running the experiment was that the \textit{bhnl} dataset would be the most positively affected by training on a building class. Since \textit{bhnl} consists of mostly moored boats, where there are images that contain buildings close to sea level one could suspect could be mistaken as boats, as shown in \ref{img:bbnb_ex}. The building in the bottom left corner is close to sea level, while also being relatively close in size to the boats compared to the other buildings in the image, which makes it a good candidate for a misclassification. However, neither Yolo2 nor SSD2 classifies this building as a boat. All the detectors, Yolo2, Yolo3, SSD2 and SSD3 detects all the boats in the image. Both SSD2 and SSD3 detects the rightmost boat two times, and the bounding box differences between Yolo2 and Yolo3 and between SSD2 and SSD3 are so insignificant that training on the building class does not seem to help improve performance on this particular image. Both Yolo3 and ssd3 detects the buildings in the image well, as can be seen in figure \ref{fig:ex_bbnb_yolo3} and \ref{fig:ex_bbnb_ssd3}.
 
 
 \begin{figure}[h!]
@@ -328,7 +320,7 @@ The hypothesis before running the experiment was that the bbnb dataset would be 
 
 \newpage
 
-\subsection{Tested on \textit{bc}, \textit{bf}}
+\subsection{Tested on the \textit{bc} and \textit{bf} datasets}
 
 The datasets \textit{bc} and \textit{bf} consists mostly of images taken towards open sea, of boats that are sailing, i.e., the boats are not moored. It is on this dataset the performance differences between Yolo2 and Yolo3 and between SSD2 and SSD3 differ the most, as can be seen in figure \ref{fig:bcbf_prec}.
 
@@ -353,7 +345,7 @@ The datasets \textit{bc} and \textit{bf} consists mostly of images taken towards
 
 By going through the approximately 300 test images, some differences between the models become apparent. While the differences between SSD2 and SSD3 are somewhat obvious, the difference between Yolo2 and Yolo3 are more nuanced. 
 
-\subsubsection{SSD2 and SSD3 on \textit{bc}, \textit{bf}}
+\subsubsection{SSD2 and SSD3 on \textit{bc} and \textit{bf}}
 In around 10 percent of the test images, SSD2 detects land as a boat, in none of these images does SSD3 perform the same way. An example of this is shown in figure \ref{img:bixbox_ssd}. More examples of this behavior can be found in Appendix C in chapter \ref{sec:bigbox}
 
 \begin{figure}[h!]
@@ -395,7 +387,7 @@ There are also some examples where SSD2 misclassifies buildings as boats, while 
 \vspace{3mm}
 \newpage
 
-\subsubsection{Yolo2 and Yolo3 on \textit{bc}, \textit{bf}}
+\subsubsection{Yolo2 and Yolo3 on \textit{bc} and \textit{bf}}
 
 As mentioned Yolo2 and Yolo3 does not differ as clearly as SSD2 and SSD3. There are examples of Yolo2 performing better than Yolo3 and vice versa. In many of the misclassifications in the test data both Yolo2 and Yolo3 mistakes the same object as a boat. By analyzing the results from both Yolo2 and Yolo3, the following tendencies can be seen:
 
@@ -455,7 +447,7 @@ Both the models trained on the building class, perform better than the model onl
 
 \subsubsection{SSD2 and SSD3 on \textit{trf}}
 
-SSD2 has some of the same behaviors on \textit{trf} as it had on \textit{bc} and \textit{bf}. For instance, it sometimes classifies land as a boat, as shown in figure \ref{fig:ssd_trf_bigbox}. More examples of this behavior can be seen in Appendix C, chapter \ref{fig:ssd_trf_bigbox}.
+SSD2 has some of the same behaviors on \textit{trf} as it had on \textit{bc} and \textit{bf}. For instance, it sometimes classifies land as a boat, as shown in figure \ref{fig:ssd_trf_bigbox}. This happens in approximately 5 percent of the test images. More examples of this behavior can be seen in Appendix C, chapter \ref{fig:ssd_trf_bigbox}.
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -497,7 +489,7 @@ In this figure \ref{fig:ssd3_misclassify} SSD3 does not detect the buildings as 
 
 \vspace{3mm}
 
-\subsubsection{Yolo2 and Yolo3 on \textit{trf}}
+\subsubsection{Yolo2 and Yolo3 on the \textit{trf} dataset}
 
 Yolo2 and Yolo3 both have outstanding results on \textit{trf}, but Yolo2 has a few misclassifications that Yolo3 does not have. In figure \ref{fig:yolo2_misclassify} Yolo2 detects land as a boat, and in figure \ref{fig:Yolo3_better_trf} Yolo3 detects a boat that Yolo2 does not. There are not many examples where their performance differs much, but there are a few which makes Yolo3 a little more robust than Yolo2.
 
@@ -533,6 +525,17 @@ Yolo2 and Yolo3 both have outstanding results on \textit{trf}, but Yolo2 has a f
 \end{subfigure}
 \caption{Yolo2 does not detect rightmost boat, Yolo3 does}
 \label{fig:Yolo3_better_trf}
+\end{figure}
+
+Summed up, the effect of training on buildings seems to have a positive influence on the results. Yolo3 outperforms Yolo2 on all test datasets, and thus, this could indicate that training on a building class is beneficial for a boat detector. However, training on the building dataset also provides negative information for boat detection. By training on the building dataset, where there are no boats, the detector can also extract information about where there are no boats. Yolo3 has trained on the same boat objects as Yolo2, but Yolo3 could extract contextual information about the images in the building dataset, making it more able to identify objects that are not boats. This also conforms with the plot in figure \ref{fig:yolo_trf_prec}, where the Yolo3's precision is higher than Yolo2's, meaning Yolo3 has fewer misclassifications.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/trf.eps}
+  \caption{Yolo tested on \textit{trf}}
+  \label{fig:ex_trf_prec_rec_yolo}
+\caption{Precision/recall curves for Yolo2 and Yolo3 on \textit{trf}}
+\label{fig:yolo_trf_prec}
 \end{figure}
 
 \newpage
@@ -621,10 +624,10 @@ Yolo1 also has a penchant to detect the same boat twice, where Yolo2 does not, a
 
 \newpage
 
-\section{Case Study 3: Video streaks}
+\section{Case Study 3: Video and temporal data}
 In \citep{Bohn2018} the issue of detections in data over time is addressed, and is to referred to as \textit{streaks}. The goal is to make a detector that robustly detects boats in a video. This does not necessarily mean that the boat needs to be detected in every frame of a video since this can be solved e.g., by using a Markov chain as in \citep{Markov}. Still, the boat needs to be detected by some frequency, for the tracking algorithm to be able to track it. To implement a tracking algorithm is not a part of this project. However, an experiment on how well the detection algorithms work on video has been done. 
 
-\vspace{3mm}
+\subsection{Video from Trondheimsfjorden}
 
 Three videos of boats in the Trondheim fjord have been captured, each approximately 20 seconds long. Yolo1 was tested on each of them. The three videos are merged and available at \url{https://www.youtube.com/watch?v=kcirhao_PQc}. Frames from each of the videos are shown in figure \ref{fig:videos}.
 
@@ -683,7 +686,7 @@ In video1 and video2 the boat is detected correctly in every frame. Thus streaks
 In video3 all parts of boats are detected as boats, though two boats are classified as one big boat instead of two smaller ones when one is in the shadow of the other. This is a hard problem to solve for an object detector alone, and will be discussed further in chapter \ref{sec:boat_parts}. 
 
 
-\section{Case Study 4: Video from \citep{Kamsvag2018}}
+\subsection{Video from \citep{Kamsvag2018}}
 
 in \citep{Kamsvag2018} Faster R-CNN was implemented for boat detection. One of the prominent problems encountered in this work was the misclassification of buildings as boats. This was one of the main reasons to train SSD and Yolo on a building class, to see if this could help suppress these detections. Yolo1, Yolo2 and Yolo3 were run on a video used in \citep{Kamsvag2018}, and the results can be found on \url{https://www.youtube.com/watch?v=A_qETwNuFYI}. Example frames from the video are shown in figure \ref{fig:kamsvaag_vid}.
 
@@ -715,7 +718,7 @@ In this video the images are captured much closer to sea level than the ones use
 \end{figure}
 
 
-The purpose of training Yolo3 on a building class was for it to be more robust to misclassifications of boats as buildings. In the results shown in CHAP REF, this was not the case. Yolo2, which is not trained on the building class, has fewer detections of buildings as boats than Yolo3. Yolo1, Yolo2 and Yolo3 all gets worse results on this video compared to the results on the rest of the test data. This is not entirely unexpected, since the video from \citep{Kamsvag2018} are different from the training data in several ways. Firstly, the video from \citep{Kamsvag2018} is captured from a small boat close to sea level. This makes the angle between the center of the camera and the center of the boats vastly different compared to the ones in e.g. the \textit{trf} dataset, where the images are taken from the top of a ferry. While the features of the boat does not change much due to the change of angle, the background be different, expecially in coast-near environments. When the pictures are captured from a higher point above sea level the background of the boat will be more uniform, and in some cases consists of only water, while the background can be buildings or land in images taken closer to sea level as in figure \ref{fig:kamsvaag_vid}. While this can be a factor to the weaker boat detections on the video from \citep{Kamsvag2018}, it does not explain why Yolo3 classifies more buildings as boats than Yolo2.
+The purpose of training Yolo3 on a building class was for it to be more robust to misclassifications of boats as buildings. In the results shown in CHAP REF, this was not the case. Yolo2, which is not trained on the building class, has fewer detections of buildings as boats than Yolo3. Yolo1, Yolo2 and Yolo3 all gets worse results on this video compared to the results on the rest of the test data. This is not entirely unexpected, since the video from \citep{Kamsvag2018} is different from the training data in several ways. Firstly, the video from \citep{Kamsvag2018} is captured from a small boat close to sea level. This makes the angle between the center of the camera and the center of the boats vastly different compared to the ones in e.g. the \textit{trf} dataset, where the images are taken from the top of a ferry. While the features of the boat does not change much due to the change of angle, the background be different, expecially in coast-near environments. When the pictures are captured from a higher point above sea level the background of the boat will be more uniform, and in some cases consists of only water, while the background can be buildings or land in images taken closer to sea level as in figure \ref{fig:kamsvaag_vid}. While this can be a factor to the weaker boat detections on the video from \citep{Kamsvag2018}, it does not explain why Yolo3 classifies more buildings as boats than Yolo2.
 
 \vspace{3mm}
 

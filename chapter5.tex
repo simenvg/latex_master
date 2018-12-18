@@ -32,13 +32,9 @@ The area of overlap is the same as intersect over union explained in figure \ref
 
 
 
-\section{Precision/Recall Curves}
+\section{Precision/recall Curves}
 
 In the VOC challenge \citep{Everinghama} the detection task is judged by a precision/recall curve. The precision/recall curve is made by checking the precision and recall for the detection algorithm at different confidence score thresholds. The confidence score used is the score returned from the detection algorithms along with the bounding box, i.e., how confident the algorithm is in the bounding box. If the confidence score threshold is low, the detection algorithm will likely detect more objects of interest, but also identify more false positives. This means that for a low confidence score threshold the recall will be high and the precision low. In figure \ref{fig:yolo_prec_recall} an example of a precision/recall curve is shown, and the results in this report will be presented in the same manner. 
-
-\vspace{3mm}
-
-We want both the recall and the precision to be as high as possible, meaning that in the precision/recall curve we would like to get as far up in the top right corner as possible. As shown in figure \ref{fig:yolo_prec_recall}, the precision decreases while the recall increases. This is the expected behavior since more boats are detected when the threshold based on the confidence score is lowered. More detections also increase the number of false negatives. Sometimes it can be hard to decide precisely what the optimal confidence score threshold should be, since this is a trade-off between recall and precision and will be discussed further in the next chapter. 
 
 \begin{figure}[h!]
     \centering
@@ -47,8 +43,12 @@ We want both the recall and the precision to be as high as possible, meaning tha
     \label{fig:yolo_prec_recall}
 \end{figure}
 
+We want both the recall and the precision to be as high as possible, meaning that in the precision/recall curve we would like to get as far up in the top right corner as possible. As shown in figure \ref{fig:yolo_prec_recall}, the precision decreases while the recall increases. This is the expected behavior since more boats are detected when the threshold based on the confidence score is lowered. More detections also increase the number of false negatives. Sometimes it can be hard to decide precisely what the optimal confidence score threshold should be, since this is a trade-off between recall and precision and will be discussed further in the next chapter. 
+
+
+
 \section{Average precision}
-Average precision (AP) is a commonly used metric in object detection and is used in the papers of, e.g. Faster R-CNN, YOLO, and SSD. It is the average of the maximum precision at different recall levels.
+Average precision is a commonly used metric in object detection and is used in the papers of, e.g. Faster R-CNN, YOLO, and SSD. It is the average of the maximum precision at different recall levels.
 
 \begin{equation}
     AP = \frac{1}{11} \Sigma_{r \in \{0.0, ... , 1.0\}} p_{interp}(r)
@@ -70,7 +70,7 @@ Meaning that for each recall value in {0.0, ... , 1.0} the highest precision lev
 
 \section{Confusion Matrix}
 \label{sec:conf_mat}
-A confusion matrix is another way of presenting the performance of a classification algorithm. The confusion matrix gives a more intuitive representation of the results, and gives a clearer indication on how well the detection algorithm would work in a real scenario. In this project the goal is to identify boats, thus it is a two-class problem with boat and not-boat as the two classes. 
+A confusion matrix is another way of presenting the performance of a classification algorithm. The confusion matrix gives a more intuitive representation of the results, and gives a good indication of how well the detection algorithm would work in a real scenario. In this project the goal is to identify boats, thus it is a two-class problem with boat and not-boat as the two classes. 
 
 \begin{figure}[h!]
     \centering

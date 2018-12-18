@@ -79,17 +79,10 @@ The accuracy of the results Yolo3 has on the \textit{trf} dataset might also be 
 
 That being said, the weather conditions do not vary much, neither in the test or training dataset. Ideally, a dataset with a diverse set of ships and boats under different weather conditions such as dark lighting conditions, fog and snow should be made. The Cloud Detection Framework can be easily used to address the different scenarios, but the compilation of a dataset for these conditions should be done in future research on this topic.
 
-\section{Effect of training on buildings}
-The effect of training on buildings seems to have a positive influence on the results. Yolo3 outperforms Yolo2 on all test datasets, and thus, this could indicate that training on a building class is beneficial for a boat detector. However, training on the building dataset also provides negative information for boat detection. By training on the building dataset, where there are no boats, the detector can also extract information about where there are no boats. Yolo3 has trained on the same boat objects as Yolo2, but Yolo3 could extract contextual information about the images in the building dataset, making it more able to identify objects that are not boats. This also conforms with the plot in figure \ref{fig:yolo_trf_prec}, where the Yolo3's precision is higher than Yolo2's, meaning Yolo3 has fewer misclassifications.
 
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/trf.eps}
-  \caption{Yolo tested on \textit{trf}}
-  \label{fig:ex_trf_prec_rec_yolo}
-\caption{Precision/recall curves for Yolo2 and Yolo3 on \textit{trf}}
-\label{fig:yolo_trf_prec}
-\end{figure}
+
+
+
 
 \newpage
 
