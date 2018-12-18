@@ -175,13 +175,6 @@ The detection models seem to struggle when boats are partly covered by other boa
 
 
 
-\section{Yolo vs. SSD}
-In chapter \ref{sec:results}, it was made clear that Yolo performs better than SSD in this project. One of the critical differences between Yolo and SSD was discussed in chapter \ref{sec:obj_det}, where SSD uses grids at multiple scales to detect objects, while Yolo only applies one. The hypothesis was that this would make SSD better at identifying boats that varied more in size, while Yolo would only detect boats within a certain size range. This hypothesis was not confirmed during the work on this project. Yolo has both better recall and better precision than SSD, meaning that it detects more boats and has fewer misclassifications. 
-
-\vspace{3mm}
-
-In this project SSD mobilenet was used, a lightweight version of SSD meant for real-time solutions. SSD Mobilenet is faster, but less accurate compared to the original implementation. The reason for choosing Mobilenet over the original implementation was that it was used in a project at DNV GL the summer of 2018 with promising results. While Yolo and the original implementation of SSD has comparable accuracy, the accuracy of SSD Mobilenet is lower, meaning Yolo's superior accuracy is not entirely unexpected. 
-
 \section{Clustered boats}
 Both Yolo and SSD have good results when there is a limited amount of boats in the image, and they are separated. When small boats are clustered together, like in figure \ref{fig:yolo3_clutter} both detection algorithms have trouble detecting them. This is not surprising as it is hard to make out the boats individually, also by human assessment. 
 
@@ -189,10 +182,3 @@ Both Yolo and SSD have good results when there is a limited amount of boats in t
 
 For Yolo, there are two main ways of approaching this problem. Either the grid can be resized and that way Yolo can detect smaller objects. This because there will be more cells in the grid, thereby creating more object proposals. The other solution, which might work better in this case, is to identify where there might be clusters and run Yolo on this sub-region of the image. This would require some form of cluster detection, which has been done in \citep{VanEtten}, though on detection of boats in satellite images. 
 
-\section{Results on video from \citep{Kamsvag2018}}
-
-The purpose of training Yolo3 on a building class was for it to be more robust to misclassifications of boats as buildings. In the results shown in CHAP REF, this was not the case. Yolo2, which is not trained on the building class, has fewer detections of buildings as boats than Yolo3. Yolo1, Yolo2 and Yolo3 all gets worse results on this video compared to the results on the rest of the test data. This is not entirely unexpected, since the video from \citep{Kamsvag2018} are different from the training data in several ways. Firstly, the video from \citep{Kamsvag2018} is captured from a small boat close to sea level. This makes the angle between the center of the camera and the center of the boats vastly different compared to the ones in e.g. the \textit{trf} dataset, where the images are taken from the top of a ferry. While the features of the boat does not change much due to the change of angle, the background be different, expecially in coast-near environments. When the pictures are captured from a higher point above sea level the background of the boat will be more uniform, and in some cases consists of only water, while the background can be buildings or land in images taken closer to sea level as in figure \ref{fig:kamsvaag_vid}. While this can be a factor to the weaker boat detections on the video from \citep{Kamsvag2018}, it does not explain why Yolo3 classifies more buildings as boats than Yolo2.
-
-\vspace{3mm}
-
-This being said, it should be noted that the detections of buildings as boats are not consistent over time, and could probably be filtered out in post processing.
