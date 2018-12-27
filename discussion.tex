@@ -2,51 +2,51 @@
 
 \section{Dataset diversity}
 \label{dataset_divers}
-As mentioned in chapter \ref{sec:test_on_trf}, Yolo performs almost perfectly on the \textit{trf} dataset, which could be an indication of overtraining. The \textit{trf} dataset consists of approximately 500 images taken in the Trondheimfjord during a ferry trip back and forth between Trondheim and Brekstad. The images were all captured the same day, under the same weather and lighting conditions. Also, due to a limited amount of boats at sea during the ferry trip, multiple images were captured of the same boats. Thus even though the images the detection models were tested on and trained on were separated, the images used in both testing and training had some common features. While this might give the impression that the results are biased, and not representative of how the algorithm would perform in a completely new environment, some arguments would suggest otherwise.
+As mentioned in chapter \ref{sec:test_on_trf}, Yolo performs almost perfectly on the Trondheimsfjorden dataset, which could be an indication of overtraining. The Trondheimsfjorden dataset consists of approximately 500 images taken in the Trondheimfjord during a ferry trip back and forth between Trondheim and Brekstad. The images were all captured the same day, under the same weather and lighting conditions. Also, due to a limited amount of boats at sea during the ferry trip, multiple images were captured of the same boats. Thus even though the images the detection models were tested on and trained on were separated, the images used in both testing and training had some common features. While this might give the impression that the results are biased, and not representative of how the algorithm would perform in a completely new environment, some arguments would suggest otherwise.
 
 \vspace{3mm}
 
-First of all, as shown in chapter \ref{sec:moored_boats}, Yolo2 and Yolo3 perform better than Yolo1 on the \textit{trf} dataset. All these detection models are trained on datasets \textit{bc}, \textit{bf} and \textit{trf}, while Yolo2 and Yolo3 are also trained on other datasets that do not contain similar images as \textit{trf}. This could imply that what improves the results of Yolo2 and Yolo3 suspiciously good on \textit{trf}, are not caused by overtraining on the \textit{trf} dataset, but rather the ability to recognize features in more diverse environments. While all the Yolo models perform worse on the \textit{bc} and \textit{bf} test dataset, they perform well on images that contain separated boats, similar to the photos in the \textit{trf} dataset. What makes them perform worse are images that include clusters of small boats, as shown in image \ref{fig:yolo3_clutter}. 
+First of all, as shown in chapter \ref{sec:moored_boats}, Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ perform better than Yolo$_{\text{BS}}$ on the Trondheimsfjorden dataset. All these detection models are trained on datasets BoatsClose, BoatsFar and Trondheimsfjorden, while Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ are also trained on other datasets that do not contain similar images as Trondheimsfjorden. This could imply that what improves the results of Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ suspiciously good on Trondheimsfjorden, are not caused by overtraining on the Trondheimsfjorden dataset, but rather the ability to recognize features in more diverse environments. While all the Yolo models perform worse on the BoatsClose and BoatsFar test dataset, they perform well on images that contain separated boats, similar to the photos in the Trondheimsfjorden dataset. What makes them perform worse are images that include clusters of small boats, as shown in image \ref{fig:yolo3_clutter}. 
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=0.8\linewidth]{discussion/clutter_yolo3/selected_08_10_frame0130.jpg}
-  %\caption{Yolo3 on cluttered small boats}
+  %\caption{Yolo$_{\text{BSMH}}$ on cluttered small boats}
   %\label{fig:yolo1_multibox}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.8\linewidth]{discussion/clutter_yolo3/selected_08_11_frame6630.jpg}
-  %\caption{Yolo3 on clu}
+  %\caption{Yolo$_{\text{BSMH}}$ on clu}
   %\label{fig:yolo2_multibox}
 \end{subfigure}
-\caption{Yolo3 on cluttered small boats, red bounding boxes are detections, green bounding boxes are ground truth}
+\caption{Yolo$_{\text{BSMH}}$ on cluttered small boats, red bounding boxes are detections, green bounding boxes are ground truth}
 \label{fig:yolo3_clutter}
 \end{figure}
 
 \newpage
 
-In the majority of the images, Yolo3 also gets excellent results in this dataset, as shown in figure \ref{fig:yolo3_good_ex}
+In the majority of the images, Yolo$_{\text{BSMH}}$ also gets excellent results in this dataset, as shown in figure \ref{fig:yolo3_good_ex}
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=0.8\linewidth]{discussion/good_ex/selected_08_14_frame1140.jpg}
-  %\caption{Yolo3 on cluttered small boats}
+  %\caption{Yolo$_{\text{BSMH}}$ on cluttered small boats}
   %\label{fig:yolo1_multibox}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.8\linewidth]{discussion/good_ex/selected_08_11_frame1380.jpg}
-  %\caption{Yolo3 on clu}
+  %\caption{Yolo$_{\text{BSMH}}$ on clu}
   %\label{fig:yolo2_multibox}
 \end{subfigure}
-\caption{Yolo3 on separated boats in \textit{bc} \textit{bf}, red bounding boxes are detections, green bounding boxes are ground truth}
+\caption{Yolo$_{\text{BSMH}}$ on separated boats in BoatsClose BoatsFar, red bounding boxes are detections, green bounding boxes are ground truth}
 \label{fig:yolo3_good_ex}
 \end{figure}
 
-In the images in figure \ref{fig:yolo3_clutter} it is not easy to correctly detect all the boats by human assessment either. When boats are separated, Yolo3 gets good results consistently. When vessels are more prominent, cluttering does not seem to be as problematic. This could partly be because big ships do not tend to stay very close together, and thus, the examples are fewer. An example of how Yolo1 handles three big tow boats close together is shown in \ref{fig:yolo1_clutter}.
+In the images in figure \ref{fig:yolo3_clutter} it is not easy to correctly detect all the boats by human assessment either. When boats are separated, Yolo$_{\text{BSMH}}$ gets good results consistently. When vessels are more prominent, cluttering does not seem to be as problematic. This could partly be because big ships do not tend to stay very close together, and thus, the examples are fewer. An example of how Yolo$_{\text{BS}}$ handles three big tow boats close together is shown in \ref{fig:yolo1_clutter}.
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -61,7 +61,7 @@ In the images in figure \ref{fig:yolo3_clutter} it is not easy to correctly dete
   \caption{Three tow boats separated}
   \label{fig:yolo1_sep}
 \end{subfigure}
-\caption{Yolo1 on big boat clutter, red bounding boxes are detections, green bounding boxes are ground truth}
+\caption{Yolo$_{\text{BS}}$ on big boat clutter, red bounding boxes are detections, green bounding boxes are ground truth}
 \label{fig:yolo1_clutter}
 \end{figure}
 
@@ -69,11 +69,11 @@ In both figure \ref{fig:yolo1_clut_tow} and \ref{fig:yolo1_sep} there are three 
 
 \vspace{3mm}
 
-One cannot rule out that the results are unaffected by overtraining. To verify if the detection model is overtrained or not one would have to evaluate it in completely unseen environments. At the same time, it does not serve any purpose to test the detection algorithm on a dataset that is nothing alike the \textit{trf} dataset, since this is the environment the algorithm is meant to perform well in. The \textit{trf} dataset contains many different types of boats and ships, it contains large camouflaged military vessels, small motor boats, and ferries, and is diverse relative to how different the boats and ships in the Trondheimfjord generally is. 
+One cannot rule out that the results are unaffected by overtraining. To verify if the detection model is overtrained or not one would have to evaluate it in completely unseen environments. At the same time, it does not serve any purpose to test the detection algorithm on a dataset that is nothing alike the Trondheimsfjorden dataset, since this is the environment the algorithm is meant to perform well in. The Trondheimsfjorden dataset contains many different types of boats and ships, it contains large camouflaged military vessels, small motor boats, and ferries, and is diverse relative to how different the boats and ships in the Trondheimfjord generally is. 
 
 \vspace{3mm}
 
-The accuracy of the results Yolo3 has on the \textit{trf} dataset might also be because the detection problem of maritime vessels in the Trondheimfjord is not where Yolo struggles. It will depend on each case, but the results in this project indicate that Yolo can robustly detect sailing boats in the Trondheimfjord under good weather conditions. To verify this claim one would need an even more diverse dataset, to ensure that the good results are not a consequence of overtraining. Still, there is no limit to how diverse a dataset could be and building a dataset that could verify this claim one hundred percent seems like an impossible task. 
+The accuracy of the results Yolo$_{\text{BSMH}}$ has on the Trondheimsfjorden dataset might also be because the detection problem of maritime vessels in the Trondheimfjord is not where Yolo struggles. It will depend on each case, but the results in this project indicate that Yolo can robustly detect sailing boats in the Trondheimfjord under good weather conditions. To verify this claim one would need an even more diverse dataset, to ensure that the good results are not a consequence of overtraining. Still, there is no limit to how diverse a dataset could be and building a dataset that could verify this claim one hundred percent seems like an impossible task. 
 
 \vspace{3mm}
 
@@ -86,9 +86,9 @@ That being said, the weather conditions do not vary much, neither in the test or
 
 \newpage
 
-\subsection{Non-detected buildings in \textit{trf}}
+\subsection{Non-detected buildings in Trondheimsfjorden}
 \label{sec:build_trf}
-In the \textit{trf} dataset, there are buildings in the background which Yolo3 does not detect, even though it is trained on a building class. The building dataset contains images taken in Trondheim close to Nidelva and a canal, and the buildings are in the majority of the images close up, as shown in figure \ref{fig:buildings}
+In the Trondheimsfjorden dataset, there are buildings in the background which Yolo$_{\text{BSMH}}$ does not detect, even though it is trained on a building class. The building dataset contains images taken in Trondheim close to Nidelva and a canal, and the buildings are in the majority of the images close up, as shown in figure \ref{fig:buildings}
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -107,7 +107,7 @@ In the \textit{trf} dataset, there are buildings in the background which Yolo3 d
 \label{fig:buildings}
 \end{figure}
 
-In \textit{trf}, there are examples where Yolo3 fails to detect buildings, as shown in figure \ref{fig:yolo3_no_build}.
+In Trondheimsfjorden, there are examples where Yolo$_{\text{BSMH}}$ fails to detect buildings, as shown in figure \ref{fig:yolo3_no_build}.
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -122,7 +122,7 @@ In \textit{trf}, there are examples where Yolo3 fails to detect buildings, as sh
   %\caption{Three tow boats separated}
   %\label{fig:yolo1_sep}
 \end{subfigure}
-\caption{Yolo3 fails to detect buildings in the background}
+\caption{Yolo$_{\text{BSMH}}$ fails to detect buildings in the background}
 \label{fig:yolo3_no_build}
 \end{figure}
 
@@ -145,7 +145,7 @@ As shown in figure \ref{fig:yolo3_sailboat} there are examples where sailboats a
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=0.8\linewidth]{discussion/sailboat/selected_06_25_frame0349.jpg}
-  \caption{Yolo3 detects whole sailboat}
+  \caption{Yolo$_{\text{BSMH}}$ detects whole sailboat}
   \label{fig:yolo3_sailboat_whol}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
@@ -154,7 +154,7 @@ As shown in figure \ref{fig:yolo3_sailboat} there are examples where sailboats a
   \caption{Yolo detects part of sailboat}
   \label{fig:yolo3_sailboat_part}
 \end{subfigure}
-\caption{Yolo3 detects two sailboats differently}
+\caption{Yolo$_{\text{BSMH}}$ detects two sailboats differently}
 \label{fig:yolo3_sailboat}
 \end{figure}
 

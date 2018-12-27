@@ -73,14 +73,16 @@ These datasets were then divided into the following datasets
 \begin{tabular}{l|l|l|l}
 Category                   & Dataset           & Number of images & Category total \\ \hline
                            & Trondheimsfjorden & 472              &                \\
-                           & Boats\_far        & 1215             &                \\
-Sailing boats              & Boats\_close      & 36               & 1723           \\ \hline
-Moored boats and buildings & Boats\_buildings  & 108              & 108            \\ \hline
-Buildings                  & Buildings         & 89               & 89            
+                           & BoatsFar        & 1215             &                \\
+Sailing boats              & BoatsClose      & 36               & 1723           \\ \hline
+ & MooredBoats  & 108              &             \\
+Moored boats and buildings & MooredBoatsHouses  & 108              & 108            \\ \hline
+Buildings                  & Houses         & 89               & 89            
 \end{tabular}
+\caption{In the dataset names houses are used for buildings to let the abbreviation "h" be used for buildings ([h]ouses), since "b" is used for boats later in this work. MooredBoats and MooredBoatsHouses contains the same images, in MooredBoatsHouses the buildings in the dataset are labeled as buildings, in MooredBoats they are not.}
 \end{table}
 
-In \citep{Tangstad2017}, the detection algorithm used misclassified buildings as boats, and this issue has also been observed during testing of YOLO and SSD. For this reason, datasets consisting images of buildings were compiled, to be able to verify whether training on these images will reduce these misclassifications. The Trondheimsfjorden dataset has been kept as is, and not split into the other sub-datasets. The reasoning for this is that how the algorithm performs in this environment is an interesting performance metric in this project. 
+In \citep{Tangstad2017}, the detection algorithm used misclassified buildings as boats, and this issue has also been observed during testing of Yolo and SSD. For this reason, datasets consisting images of buildings were compiled, to be able to verify whether training on these images will reduce these misclassifications. The Trondheimsfjorden dataset has been kept as is, and not split into the other sub-datasets. The reasoning for this is that how the algorithm performs in this environment is an interesting performance metric in this project. 
 
 
 \vspace{3mm}
@@ -151,7 +153,7 @@ Google Cloud lets you open an instance where you can specify the operating syste
 It should also be noted that this system work on other cloud computing services, as long as the hardware satisfies the requirements. 
 
 \subsection{Cloud Instance Setup}
-The Google Cloud instance can be configured by cloning the Github repository \url{https://github.com/simenvg/cloud_detection_framework}. Running the setup.sh file will install and set up the following 
+The Google Cloud instance can be configured by cloning the Cloud Detection Framework Github repository\footnote{https://github.com/simenvg/cloud\_detection\_framework}. Running the setup.sh file will install and set up the following 
 
 \begin{outline}
     \1 CUDA and cudnn
