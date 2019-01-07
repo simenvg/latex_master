@@ -4,7 +4,7 @@
 
 \chapter{Object Detection}
 \label{sec:obj_det}
-The problem of detecting objects in an image is harder than classifying an image only containing one object. In object detection, the goal is both to classify objects and locate the exact location of the object in the image. That makes the problem twofold, first we need to find subregions in the image, and then we need to classify them. Since the latter part of the problem has been solved by CNNs, the part that remains is to find these subregions. 
+The problem of detecting objects in an image is harder than classifying an image only containing one object. In object detection, the goal is both to classify objects and locate the exact location of the object in the image. That makes the problem twofold, first we need to find subregions in the image, and then we need to classify them. Since the latter part of the problem has been solved by CNNs, the part that remains is to find these subregions. An example of detected boats in an image is shown in figure \ref{fig:boat_detection}.
 
 \begin{figure}[h!]
     \centering
@@ -15,18 +15,19 @@ The problem of detecting objects in an image is harder than classifying an image
 
 
 \section{Sliding Window (OverFeat)}
-The most straightforward solution to find subregions in an image is to use a sliding window, and OverFeat \citep{Sermanet2013} is a method that applies this technique. The sliding window is a window that convolves over the image, like the filters explained in chapter \ref{sec:conv}, and looks at small regions of the image one at a time. This region is then passed through a classification network to determine if this region contains an object of interest. If the classification network returns a high confidence score, OverFeat considers it as an object. 
+The most straightforward solution to find subregions in an image is to use a sliding window, and OverFeat is a method that applies this technique \citep{Sermanet2013}. The sliding window is a window that convolves over the image, like the filters explained in chapter \ref{sec:conv}, and looks at small regions of the image one at a time. This region is then passed through a classification network to determine if this region contains an object of interest. If the classification network returns a high confidence score, OverFeat considers it as an object. 
 
 \vspace{3mm}
 
-The problem with this approach is that it is very computationally exhaustive, and it is also not scale invariant, meaning we have to try several different scales for the sliding windows to be able to detect objects of different sizes. This means that OverFeat has to classify very many subregions, and is therefore not a good option for real-time systems.
+\noindent
+The problem with this approach is that it is very computationally exhaustive, and it is also not scale invariant, meaning we have to try several different scales for the sliding windows to be able to detect objects of different sizes. This means that OverFeat has to classify many subregions, and is therefore not a good option for real-time systems.
 
 
-\section{R-CNN - Regions with Convolutional Neural Networks }
+\section{R-CNN – Regions with Convolutional Neural Networks }
 R-CNN (Regions with Convolutional Neural Networks  \citep{R-CNN}), attacks the problem differently than OverFeat. Instead of trying arbitrary subregions, they propose a solution using the Selective Search algorithm for region proposals.
 
 \subsection{Selective Search }
-The Selective Search algorithm \citep{SelSearch} groups adjacent pixels based on color, texture, and intensity together and creates segmented pictures as shown in figure \ref{fig:sel_serach}. It is designed to have a very high recall, meaning that it is acceptable to suggest several false positives, as long as it gets all the true positives. Recall is explained further in chapter \ref{sec:prec_rec}.
+The Selective Search algorithm \citep{SelSearch} groups adjacent pixels based on color, texture, and intensity together and creates segmented pictures as shown in figure \ref{fig:sel_serach}. It is designed to have a very high recall, meaning that it is acceptable to suggest several false positives, as long as it gets all the true positives. False positives are incorrect detections, while true positives are correct detections. Recall is explained further in chapter \ref{sec:prec_rec}.
 
 \begin{figure}[h!]
     \centering
@@ -35,6 +36,7 @@ The Selective Search algorithm \citep{SelSearch} groups adjacent pixels based on
     \label{fig:sel_serach}
 \end{figure}
 
+\noindent
 The Selective Search algorithm takes a segmented image as initial input and performs the following steps:
 \begin{enumerate}
   \item Add bounding boxes corresponding to segmented parts to the list of region proposals. This means that regions with the same color (as shown in figure \ref{fig:sel_serach}) will be grouped in a bounding box. A bounding box is a rectangular box that surrounds a potential object.
@@ -42,21 +44,21 @@ The Selective Search algorithm takes a segmented image as initial input and perf
   \item Go to step 1.
 \end{enumerate}
 
-
+\noindent
 After Selective search has created the region proposals, R-CNN inputs these to a convolutional neural network. The CNN classifies all the region proposals, and if the confidence of the classification is high, the bounding box with its class is outputted from the algorithm. 
 
 
 \section{Fast R-CNN}
 
-Two years after the release of R-CNN, Fast R-CNN  \citep{FastR-CNN} was released by the same author. In this time he had discovered two drawbacks with R-CNN and found solutions to the problems. 
+Two years after the release of R-CNN, Fast R-CNN was released by the same author  \citep{FastR-CNN}. In this time he had discovered two drawbacks with R-CNN and found solutions to the problems. 
 
 \begin{enumerate}
     \item R-CNN consists of three different models that all have to be trained. In addition to the CNN, R-CNN consists of a Support Vector Machine (SVM) for classification, and a bounding box regressor, which tightens the bounding boxes around detected objects. Since R-CNN consists of three parts that are trained independently, it makes it harder to train the network as a whole. This is because they are optimizing for themselves and not for the entire system. 
-    \subsubsection{Solution to Problem 1}
+    \subsubsection{Solution}
 Instead of training the three parts of the network individually, Fast R-CNN changed the structure in a way that let the whole system be trained together.
      
     \item The CNN has to run once for every region proposal from Selective Search. Since Selective Search is designed to have a very high recall, this ends up being a bottleneck. 
-    \subsubsection{Solution to Problem 2}
+    \subsubsection{Solution}
 Instead of calculating the CNN features for every subregion of the image, the CNN features for the entire image were calculated once. Then the features of every region were extracted from this feature map.
 \end{enumerate}
 
@@ -71,17 +73,19 @@ The bottleneck in Fast R-CNN was the region proposals and the Selective Search a
 
 
 
-\section{YOLO - You Only Look Once }
+\section{Yolo - You Only Look Once }
 \label{sec:yolo}
 What separates YOLO \citep{YOLOv1}, \citep{YOLOv2} and \citep{YOLOv3} from R-CNN methods is that YOLO only looks once at the picture, and there is only one network for the entire detection process. "We reframe object detection as a single regression problem, straight from image pixels to bounding box coordinates and class probabilities. Using our system, you only look once (YOLO) at an image to predict what objects are present and where they are." \citep{YOLOv1}. 
 \vspace{0.5cm}
 
+\noindent
 Yolo starts by dividing the input image into an \textit{S}x\textit{S} grid. The goal for each cell is to predict B bounding boxes and confidence scores for these boxes. If an object has its center in a cell, that cell is responsible for detecting that object. The score of the box says how confident it is that the bounding box contains an object and how accurate it thinks the box is. 
 
 \begin{equation}
-    \text{Confidence score} = \text{P(Object)} \cdot \text{IoU}
+    \text{Confidence score} = P\text{(Object)} \cdot \text{IoU}
 \end{equation}
 
+\noindent
 IoU is the \textit{Intersect over Union} between the predicted box and ground truth, shown in figure \ref{fig:IoU}. Ground truth is here a manually drawn box over a correct object in the image.
 
 
@@ -92,26 +96,28 @@ IoU is the \textit{Intersect over Union} between the predicted box and ground tr
 \label{fig:IoU}
 \end{figure}
 
-Each grid cell also predicts C conditional class probabilities, which are conditional on that cell containing an object. 
+\noindent
+Each grid cell also predicts \textit{C} conditional class probabilities, which are conditional on that cell containing an object. 
 
 \begin{equation}
-  \text{P(Class}|\text{Object)}
+  P\text{(Class}|\text{Object)}
 \end{equation}
 
-
+\noindent
 For each cell, only one set of class probabilities is calculated. To get class specific scores for each bounding box, we multiply these together. 
 
 \begin{equation}
-    \text{P(Class}|\text{Object)} \cdot \text{P(Object)} \cdot \text{IoU}
+    P\text{(Class}|\text{Object)} \cdot P\text{(Object)} \cdot \text{IoU}
     \label{eq:yolo}
 \end{equation}
 
+\noindent
 This gives a value of how well the predicted box fits the object and the probability of that class appearing in the box. When we have this value, we can set a threshold, and only use the results that are probable as output. This is shown in figure \ref{fig:yolo_flow}.  
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.8 \textwidth]{images/yolo_flow.png}
-\caption{YOLO flow, Top image shows predicted bounding boxes, the thicker the line the higher the confidence score. The bottom picture shows the class probability map. These combined together gives the output image, (Equation \ref{eq:yolo}), image from \citep{YOLOv1}}
+\caption{YOLO flow, Top image shows predicted bounding boxes, the thicker the line the higher the confidence score. The bottom picture shows the class probability map. These combined gives the output image (Equation \ref{eq:yolo}), image from \citep{YOLOv1}}.
 \label{fig:yolo_flow}
 \end{figure}
 
@@ -126,12 +132,12 @@ The Single Shot Multibox Detector works similarly as YOLO compared to Faster R-C
 
 
 
-Figure \ref{fig:ssd_training} shows how SSD detects objects with different sizes using different aspect ratios on the feature map. Each cell in the feature maps tries different \textit{anchors}, that is proportional to the cell size. The \textit{anchors} are the default boxes shown with dotted lines in figure \ref{fig:ssd_training}. The smallest ground truth object in the image was found in the eight by eight grid, while the bigger object is found using the four by four grid, illustrating how different grid sizes detects objects of different size. The anchors for each cell are run through a classifier which gives a confidence score if multiple boxes predict the same class and have a intersect over union of more than 0.5 the bounding box that has the highest confidence score is chosen. This process is called \textit{non-maximum suppression}.
+Figure \ref{fig:ssd_training} shows how SSD detects objects with different sizes using different aspect ratios on the feature map. Each cell in the feature maps tries different \textit{anchors}, that is proportional to the cell size. The anchors are the default boxes shown with dotted lines in figure \ref{fig:ssd_training}. The smallest ground truth object in the image was found in the eight by eight grid, while the bigger object is found using the four by four grid, illustrating how different grid sizes detects objects of different size. The anchors in each cell are run through a classifier which gives a confidence score. If multiple boxes predict the same class and have an intersect over union of more than 0.5 the bounding box that has the highest confidence score is chosen. This process is called \textit{non-maximum suppression}.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9 \textwidth]{images/ssd_train.png}
-    \caption{SSD training process, image from \citep{SSD}}
+    \caption{SSD training process, image from \citep{SSD}.}
     \label{fig:ssd_training}
 \end{figure}
 
@@ -140,7 +146,7 @@ Figure \ref{fig:ssd_training} shows how SSD detects objects with different sizes
 \section{Object Detection in Maritime Environments}
 \label{sec:obj_det}
 
-Several approaches have been proposed for solving the challenge of object detection in maritime environments. Here, the methods have been divided into deep learning-based methods and algorithms based on traditional computer vision methods (Traditional CV). 
+Several approaches have been proposed for solving the challenge of object detection in maritime environments. Here, the methods have been divided into algorithms based on traditional computer vision methods (Traditional CV) anddeep learning-based methods. 
 
 \subsection{Traditional Computer Vision Methods}
 
@@ -152,23 +158,25 @@ Appearance-based methods seek to model the vessels appearance and to classify it
 
 
 \subsection{Deep Learning-based Methods}
-Earlier in this chapter Faster-RCNN, Yolo and SSD were presented, these are general purpose deep learning-based object detectors. They can be trained on new data, to repurpose them as specialiszed object detectors, such as e.g. a boat detector. There also exist several similar algorithms, and they all can be separated into two categories:
+Earlier in this chapter Faster R-CNN, Yolo and SSD were presented, these are general purpose deep learning-based object detectors. They can be trained on new data, to repurpose them as specialiszed object detectors, such as a boat detector. There also exist several similar algorithms, and they all can be separated into two categories:
 
 \begin{enumerate}
 \item Region proposal based methods, which include R-CNN \citep{R-CNN}, Fast R-CNN \citep{FastR-CNN}, Faster R-CNN \citep{FasterR-CNN}, R-FCN \citep{R-FCN}, Mask R-CNN \citep{MaskRCNN}
 \item Regression/classification based methods, which include SSD \citep{SSD}, YOLO \citep{YOLOv1}, \citep{YOLOv2}, \citep{YOLOv3}, MultiBox \citep{Multibox} and RetinaNet \citep{Retinanet}
 \end{enumerate}
 
-
+\noindent
 \citep{SSD_detection2018} aims to develop a real-time detection and tracking system for surveillance cameras in harbours. They have gathered a dataset of 48,966 images containing 70,513 ships from several viewpoints and trained a detector based on SSD to perform detection \citep{SSD}. 
 
 \vspace{3mm}
 
+\noindent
 In \citep{VanEtten2018}, a combination of traditional CV methods and Deep Learning based methods are used to detect boats in satellite images. Large parts of the satellite images do not contain boats, while smaller subframes contains many boats. The solution is to find these subframes by using edge detection methods and then run YOLO. This problem is to some degree relatable to the issue of detecting boats from ships. However, satellite images are less prone to background noise, e.g., from waves. Thus, running the same edge detection algorithms on images taken at sea level returns a lot of noise, and the result is therefore hard to replicate with the same success.
 
 \vspace{3mm}
 
-In \citep{Goring2017}, deep learning-based detection algorithms are trained and tested on detecting maritime navigational markers. In this work they also review of how this can be implemented on a boat, with hardware specifications, is also done. 
+\noindent
+In \citep{Goring2017}, deep learning-based detection algorithms are trained and tested on detecting maritime navigational markers. In this work they also review how this can be implemented on a boat, with hardware specifications. 
 
 
 \subsection{Challenges in Detection of Maritime Vessels}
@@ -184,15 +192,17 @@ The field of vehicle detection for autonomous cars is in some ways similar to de
 
 \vspace{3mm}
 
+\noindent
 For vehicle detection a benchmark suite has been developed. \citep{KITTI} provides a platform to "develop novel challenging benchmarks for the tasks of stereo, optical flow, visual odometry / SLAM, and 3D object detection" called KITTI. KITTI simplifies the process of testing new detection algorithms and evaluating performance against previously tested algorithms. It also provides data of which scenarios the detection algorithms perform well, and where it struggles. This gives an indication of how trustworthy the detector will be in a real scenario, also in different environments. On the KITTI website there are links to the highest performing object detectors, with information on how they were implemented.
 
 \vspace{3mm}
 
+\noindent
 In \citep{Wedel2007} video is used to verify obstacles, and to find obstacle boundaries, to supplement radar signals for autonomous cars. \citep{Sun2006} gives a thorough review of the detection methods used for autonomous cars. 
 
 
 \subsection{Common Challenges in Maritime Object Detection}
-Summed up there are many different approaches to the problem of detecting boats in images. A problem with these articles is that even though they give performance metrics on their dataset, there is no way of concluding that their solution will perform as well in other environments. \citep{SSD_detection2018} for instance, trains an SSD detector for detection of boats, it discusses how the detector performs on boats of different sizes, and it also mentions that it performs worse in "difficult situations such as low light, tiny ships and clutter from in-harbor ships". Still, the only performance statistic provided is how well the detector performs on the entire dataset. This indicates that SSD can be a good option. However, an object detector meant to supplement other sensors on an autonomous ship should have known performance statistics in different environments and under different conditions to be reliable in a real scenario. 
+Summed up there are many different approaches to the problem of detecting boats in images. A problem with these articles is that even though they give performance metrics on their dataset, there is no way of concluding that their solution will perform as well in other environments. \citep{SSD_detection2018} for instance, trains an SSD detector for detection of boats, it discusses how the detector performs on boats of different sizes, and it also mentions that it detects fewer boats in "difficult situations such as low light, tiny ships and clutter from in-harbor ships". Still, the only performance statistic provided is how well the detector performs on the entire dataset. This indicates that SSD can be a good option. However, an object detector meant to supplement other sensors on an autonomous ship should have known performance statistics in different environments and under different conditions to be reliable in a real scenario. 
 
 \vspace{3mm}
 
@@ -200,7 +210,7 @@ For object detectors to be sufficiently trustworthy and implemented on an autono
 
 \vspace{3mm}
 
-A platform such as KITTI \citep{KITTI} for detection of maritime vessels could be highly useful to get the required performance statistics. Such a system could be used to investigate how different training data affects the performance of the algorithm in different environments, how different detection algorithms compare to each other, and to set clear benchmarks for future re.search
+A platform such as KITTI \citep{KITTI} for detection of maritime vessels could be highly useful to get the required performance statistics. Such a system could be used to investigate how different training data affects the performance of the algorithm in different environments, how different detection algorithms compare to each other, and to set clear benchmarks for future research.
 
 
 

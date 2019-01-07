@@ -10,11 +10,11 @@ The object detection algorithms used in this report all comes with the possibili
 \vspace{3mm}
 
 \subsection{Datasets used for pre-trained weights}
-The detection algorithms used in this project comes with several different pre-trained weights, where the differences include both network configuration and datasets used in training. The datasets presented here are some of the most common datasets used in object detection and are also used in the training of the pre-trained weights for both Yolo and SSD.
+The detection algorithms used in this project comes with several different pre-trained weights, where the differences include both network configuration and datasets used in training. The datasets presented here are some of the most common datasets used in object detection and are also used in the training of the pre-trained weights for both Yolo and SSD, including Imagenet, VOC Pascal and COCO.
 
 
 \subsubsection{ImageNet}
-ImageNet is a "large-scale ontology of images" \citep{Deng2009}. When \citep{Deng2009} was released in 2009 it stated that the goal of ImageNet was to populate 80,000 subsets of images with 500 to 1,000 pictures. The ImageNet dataset is structured into subtrees and subsets, in an IS A relationship, meaning that if class A is a subset of class B, any object that satisfies class A's specification also satisfies class B's specification. For instance would fish be a subset of an animal. ImageNet contains more than 14 million images that have been annotated by ImageNet with the objects that are in the images. In more than one million of the images bounding boxes are also provided. 
+ImageNet is a "large-scale ontology of images" \citep{Deng2009}. When \citep{Deng2009} was released in 2009 it stated that the goal of ImageNet was to populate 80,000 subsets of images with 500 to 1,000 pictures. The ImageNet dataset is structured into subtrees and subsets, in an \textit{IS A relationship}, meaning that if class A is a subset of class B, any object that satisfies class A's specification also satisfies class B's specification. For instance would fish be a subset of an animal. ImageNet contains more than 14 million images that have been annotated by ImageNet with the objects that are in the images. In more than one million of the images bounding boxes are also provided. 
 
 
 \subsubsection{Pascal, VOC2007 and VOC2012}
@@ -38,7 +38,7 @@ Pascal delivers the datasets for the annual Visual Object Classes (VOC) Challeng
 \clearpage
 
 \subsubsection{COCO}
-In 2015 Microsoft released the COCO (Common Objects in Context) dataset \citep{Lin2014}, used for object recognition. The COCO dataset consists of 2.5 million labeled instances in 328,000 images, and are "images of complex everyday scenes containing common objects in their natural context" \citep{Lin2014}. Each object in the image is segmented and labeled separately, instead of semantically which is done in many other datasets. This means that objects of the same class are segmented into different instances. The COCO dataset has 3,146 images containing boats. An example image from the COCO dataset is shown in figure \ref{fig:coco}.
+In 2015 Microsoft released the COCO (Common Objects in Context) dataset, used for object recognition \citep{Lin2014}. The COCO dataset consists of 2.5 million labeled instances in 328,000 images, and are "images of complex everyday scenes containing common objects in their natural context" \citep{Lin2014}. Each object in the image is segmented and labeled separately, instead of semantically which is done in many other datasets. This means that objects of the same class are segmented into different instances. The COCO dataset has 3,146 images containing boats. An example image from the COCO dataset is shown in figure \ref{fig:coco}.
 
 \begin{figure}[h!]
     \centering
@@ -49,7 +49,7 @@ In 2015 Microsoft released the COCO (Common Objects in Context) dataset \citep{L
 
 \subsection{Custom datasets}
 \label{sec:cust_dataset}
-A big part of this project has been to compile and annotate a dataset of images relevant to this project. This means that images are captured in environments where the algorithm should perform well, this being in areas around Trondheimsfjorden or similar areas.
+A big part of the project has been to compile and annotate a dataset of images relevant to this project. This means that images are captured in environments where the algorithm should perform well, this being in areas around Trondheimsfjorden or similar areas.
 
 
 \begin{table}[h!]
@@ -58,23 +58,24 @@ A big part of this project has been to compile and annotate a dataset of images 
 Dataset           & Number of images \\ \hline
 Trondheim         & 114              \\
 Trondheimsfjorden & 472              \\
-Hovik             & 1197             \\
+Hovik             & 1,197             \\
 Various           & 133              \\ \hline
-Total             & 1916            
+Total             & 1,916            
 \end{tabular}
 \end{table}
 
 \newpage
 
-These datasets were then divided into the following datasets
+\noindent
+These datasets were then divided into the following datasets divided into three different categories.
 
 \begin{table}[h!]
 \centering
 \begin{tabular}{l|l|l|l}
 Category                   & Dataset           & Number of images & Category total \\ \hline
                            & Trondheimsfjorden & 472              &                \\
-                           & BoatsFar        & 1215             &                \\
-Sailing boats              & BoatsClose      & 36               & 1723           \\ \hline
+                           & BoatsFar        & 1,215             &                \\
+Sailing boats              & BoatsClose      & 36               & 1,723           \\ \hline
  & MooredBoats  & 108              &             \\
 Moored boats and buildings & MooredBoatsHouses  & 108              & 108            \\ \hline
 Buildings                  & Houses         & 89               & 89            
@@ -82,16 +83,20 @@ Buildings                  & Houses         & 89               & 89
 \caption{In the dataset names houses are used for buildings to let the abbreviation "h" be used for buildings ([h]ouses), since "b" is used for boats later in this work. MooredBoats and MooredBoatsHouses contains the same images, in MooredBoatsHouses the buildings in the dataset are labeled as buildings, in MooredBoats they are not.}
 \end{table}
 
+\noindent
 In \citep{Tangstad2017}, the detection algorithm used misclassified buildings as boats, and this issue has also been observed during testing of Yolo and SSD. For this reason, datasets consisting images of buildings were compiled, to be able to verify whether training on these images will reduce these misclassifications. The Trondheimsfjorden dataset has been kept as is, and not split into the other sub-datasets. The reasoning for this is that how the algorithm performs in this environment is an interesting performance metric in this project. 
 
 
 \vspace{3mm}
-
-All the datasets have been split into test and train directories, where 75 percent of the images are used in training, and 25 percent are employed in testing. This is done randomly, but the same configuration is used in all training and testing to ensure that the detection algorithms have the same preconditions.
+\noindent
+All the datasets have been split into test and train directories, where 75 \% of the images are used in training, and 25 \% are employed in testing. This is done randomly, but the same configuration is used in all training and testing to ensure that the detection algorithms have the same preconditions.
 
 \subsubsection{Labeling of Custom Dataset}
 \label{sec:labeling}
 The custom dataset was annotated using LabelImg \footnote{https://github.com/tzutalin/labelImg}. LabelImg lets the user choose the output format and simplifies the labeling process, also for multiclass-labeling. During labeling the VOC Annotation Guidelines \citep{Everingham2012} have been used, which are:
+
+
+
 
 \begin{outline}
     \1 What to label
@@ -121,11 +126,12 @@ The custom dataset was annotated using LabelImg \footnote{https://github.com/tzu
 \end{outline}
 
 \section{Detection framework}
-Object detection using deep learning based methods is a field of research which is rapidly changing, and new algorithms and methods have continously been presented in recent years. When new methods and articles are released to the public, these algorithms have performance data which makes it possible to compare them to already existing algorithms. These statistics are based on the performance of the algorithms on standard datasets, such as COCO \citep{COCO}, VOC Pascal \citep{Everingham2007}, \citep{Everingham2012}, and Imagenet \citep{Imagenet}, and gives an estimate of how fast and how accurate the algorithm is. When trained on these datasets, which include multiple classes, e.g. persons, cars and dogs, they become general purpose object detectors. In other words, object detectors which are trained to handle different objects in different settings. In this project, the object of interest is maritime vessels, and possibly other objects related to navigation and obstacle avoidance. Thus, the focus in this report is a specialized object detector that is trained for detecting the objects mentioned above. The performance statistics from object detection articles can thus only be used as a guideline for how well it will perform as a specialized object detector in a maritime environment. 
+Object detection using deep learning based methods is a field of research which is rapidly changing, and new algorithms and methods have continously been presented in recent years. When new methods and articles are released to the public, these algorithms have performance data which makes it possible to compare them to already existing algorithms. These statistics are based on the performance of the algorithms on standard datasets, such as COCO \citep{COCO}, VOC Pascal \citep{Everingham2007}, \citep{Everingham2012}, and Imagenet \citep{Imagenet}, and gives an estimate of how fast and how accurate the algorithm is. When trained on these datasets, which include multiple classes, e.g. persons, cars and dogs, they become general purpose object detectors. In this project, the object of interest is maritime vessels, and possibly other objects related to navigation and obstacle avoidance. Thus, the focus in this report is a specialized object detector that is trained for detecting these objects. The performance statistics from object detection articles can thus only be used as a guideline for how well it will perform as a specialized object detector in a maritime environment. 
 
 \vspace{3mm}
 
-The different, currently existing, object detection algorithms could potentially perform on a vastly different level depending, e.g. on the lighting conditions, how big the object of interest is in the image, and which data they are trained on. Their performance can also significantly differ based on how the algorithm is configured. Yolo, for instance, can perform better on smaller objects by increasing the grid size mentioned in chapter \ref{sec:yolo}. The performance of different detection algorithms in maritime environments based on their configuration and on which data it is trained on, is a landscape that is not explored fully. This project aims to make it possible to more efficiently and systematically navigate in this landscape and to begin a heuristic approach to find directions worth continuing to research.
+\noindent
+The different, currently existing, object detection algorithms could potentially perform on a vastly different level depending e.g. on the lighting conditions, how big the object of interest is in the image, and which data they are trained on. Their performance can also significantly differ based on how the algorithm is configured. Yolo, for instance, can perform better on smaller objects by increasing the grid size mentioned in chapter \ref{sec:yolo}. The performance of different detection algorithms in maritime environments based on their configuration and on which data it is trained on, is a landscape that is not explored fully. This project aims to make it possible to more efficiently and systematically navigate in this landscape and to begin a heuristic approach to find directions worth continuing to research.
 
 \begin{figure}[h!]
     \centering
@@ -139,17 +145,20 @@ One of the first issues one encounters while trying to train a convolutional neu
 
 \vspace{3mm}
 
+\noindent
 Another problem that arises when working with the cutting edge detection algorithms is to get an environment set up correctly. Libraries, programs, and drivers have to be installed the correct way, and configuration files and paths must be set accordingly. This may sound trivial, but the road from an annotated dataset to a trained object detector can be long and frustrating. A goal in this project is to make this process as simple as possible, this enables future master students or researchers to focus more on the actual problem and not spend time on creating the system. 
 
 \subsection{Google Cloud}
-The solution to the hardware problem in this project is to use a cloud computing service, in this case, Google Cloud. Other cloud computing solutions exist, where some of the most popular are Amazon AWS and Microsoft Azure. Google Cloud was chosen because they give 300\$ in free credit for opening an account, which makes it an economical choice in a testing phase.
+The solution to the hardware problem in this project is to use a cloud computing service, in this case, Google Cloud. Other cloud computing solutions exist, where some of the most popular are Amazon AWS and Microsoft Azure. Google Cloud was chosen because it is an economical choice in a testing phase.
 
 \vspace{3mm}
 
-Google Cloud lets you open an instance where you can specify the operating system and hardware according to the requirements of the user. The instance opens on a clean installation of the selected operating system, and an object detection environment can, therefore, be set up the same way for every instance. In this project, the operating system used is Ubuntu 16.04 and the GPU used is a Nvidia Tesla K80. A detailed explanation of how Google Cloud was configured can be seen in Appendix A in chapter \ref{ap_gcloud}.
+\noindent
+Google Cloud lets you open an instance where you can specify the operating system and hardware according to the requirements of the user. The instance opens on a clean installation of the selected operating system, and an object detection environment can, therefore, be set up the same way for every instance. In this project, the operating system used is Ubuntu 16.04 and the GPU used is a Nvidia Tesla K80. A detailed explanation of how Google Cloud was configured can be seen in appendix \ref{ap_gcloud}.
 
 \vspace{3mm}
 
+\noindent
 It should also be noted that this system work on other cloud computing services, as long as the hardware satisfies the requirements. 
 
 \subsection{Cloud Instance Setup}
@@ -188,7 +197,8 @@ In this project Yolov3 is used, the latest version of Yolo at the time of writin
     \item Begin training.
 \end{itemize}
 
-During training, Yolo will save weights every 400 iterations to the model repository. It will continue training until the user exits the process, or when it reaches 40 000 iterations. When the process runs the average loss will be written to the terminal for every iteration, and training can be stopped when it is sufficiently low. In this project all the detection models were trained for approximately 24 hours.
+\noindent
+During training, Yolo will save weights every 400 iterations to the model repository. It will continue training until the user exits the process, or when it reaches 40,000 iterations. When the process runs the average loss will be written to the terminal for every iteration, and training can be stopped when it is sufficiently low. In this project all the detection models were trained for approximately 24 hours.
 
 \newpage
 
@@ -216,11 +226,11 @@ Densenet 201        & 77.0  & 93.7  & 10.85 Bn & 32.6 ms & 1.38 s & 66 MB   \\
 Darknet53           & 77.2  & 93.8  & 18.57 Bn & 13.7 ms & 2.11 s & 159 MB  \\
 \textbf{Darknet53 448x448}   & \textbf{78.5}  & \textbf{94.7}  & \textbf{56.87 Bn} & \textbf{26.3 ms} & \textbf{7.21 s} & \textbf{159 MB} 
 \end{tabular}
-\caption{Pre-trained weights Yolo}
+\caption{These models are trained on ImageNet, and the top-1 and top-5 columns show the accuracy of the pre-trained model on the ImageNet dataset. In this project, the Darknet53 448x448 model has been used. Table from \citep{YOLOv3}.}
 \label{yolo_tab}
 \end{table}
 
-Table \ref{yolo_tab} is from \citep{YOLOv3}. These models are trained on ImageNet, and the top-1 and top-5 columns show the accuracy of the pre-trained model on the ImageNet dataset. In this project, the Darknet53 448x448 model has been used. 
+
 
 
 
@@ -231,12 +241,13 @@ In this project Tensorflows implementation of SSD Mobilenet is used. To train SS
 
 \begin{itemize}
     \item Prompt the user and ask which datasets the user wishes to train on
-    \item Convert annotations and images to tfrecords\footnote{Tfrecords are Tensorflows binary file format. Binary files uses less storage and are beneficial when working with large datasets.}, which Tensorflow needs to train.
+    \item Convert annotations and images to tfrecords. Tfrecords are Tensorflows binary file format. Binary files uses less storage and are beneficial when working with large datasets.
     \item Update SSD's configuration file with correct paths to training data, classes, and filters.
     \item Load pre-trained weights
     \item Begin training
 \end{itemize}
 
+\noindent
 \url{train_ssd.py} will also save all files needed for testing to the model directory. It will save the weights based on time, and not based on iterations like Yolo. At what iteration the happens depends on the size of the dataset and the hardware used. 
 
 \subsubsection{Pre-trained weights SSD}
@@ -271,7 +282,7 @@ mask\_rcnn\_inception\_v2\_coco                                 & 79          & 
 mask\_rcnn\_resnet101\_atrous\_coco                             & 470         & 33                                \\
 mask\_rcnn\_resnet50\_atrous\_coco                              & 343         & 29                               
 \end{tabular}
-\caption{Pre-trained models SSD}
+\caption{Pre-trained models SSD.}
 \label{ssd_tab}
 \end{table}
 
@@ -283,6 +294,7 @@ During testing of the detection algorithms, a problem arose when testing on larg
 
 \vspace{3mm}
 
+\noindent
 Both YOLO and SSD will assume that the model is set up as it is after training. This means that a trained model can be downloaded, and uploaded to new instances in Google Cloud. This makes it easy to reuse trained models, and to continue working on other's research.
 
 

@@ -17,6 +17,7 @@ After setting up your account, go to the navigation menu in the top left corner,
 \end{figure}
 
 \newpage
+\noindent
 A configuration that has been tested to work is shown in figure \ref{fig:gcloud2}. Here the "Machine type" has been configured with one Nvidia Tesla K80 GPU. Boot disk has been set to Ubuntu 16.04 LTS, and http traffic is allowed. In this example the region is set to "europe-west1(Belgium)", and the zone to "europe-west1-b". The region and zone will affect the hourly price, and some zones and regions does not provide GPUs. There might be different combinations that serves other projects better than the combination chosen in this project. Also the size of the hard drive has been changed from its default value of 10 GB to 100 GB. Which might be necessary when uploading data to the instance. 
 
 \begin{figure}
@@ -26,6 +27,8 @@ A configuration that has been tested to work is shown in figure \ref{fig:gcloud2
     \label{fig:gcloud2}
 \end{figure}
 
+\vspace{3mm}
+\noindent
 Press "create instance" and the site will be directed to figure \ref{fig:created_instance}. The green symbol indicates that the instance is running.
 
 \begin{figure}
@@ -71,6 +74,7 @@ This command will transfer the file image.jpg to the images repository on the cl
 \subsection{SCP repository to instance}
 
 \vspace{3mm}
+\noindent
 To transfer repositories and their content the following command can be used
 
 \begin{lcverbatim}
@@ -84,5 +88,6 @@ gcloud compute scp --recurse /home/data instance-1:/home/ \\
 \end{lcverbatim}
 \vspace{3mm}
 
+\noindent
 This command will transfer the "data" repository and its content to the home directory of the instance.
 

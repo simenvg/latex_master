@@ -1,35 +1,40 @@
 \chapter{Results}
 \label{sec:results}
 
-This chapter contains results from testing six different models on four test datasets. The six models consists of three SSD models and three Yolo models trained on different data. This produces a significant amount of results, and makes the task of presenting the results in an orderly fashion challenging. To try to overcome this challenge this chapter is structured in the following way:
+This chapter contains results from testing six different detection models on four test sets. The six models consists of three SSD models and three Yolo models trained on different data. This produces a significant amount of results, and makes the task of presenting the results in an orderly fashion challenging. To try to overcome this challenge this chapter is structured in the following way:
 
 \begin{enumerate}
-    \item Present datasets and models. Explain abbreviations used later in the chapter.
+    \item Present training sets and models. Explain abbreviations used later in the chapter.
     \item Overview of results.
     \item Present case studies of more interesting aspects of results.
 \end{enumerate}
 
 \noindent
-The case studies  and test datasets were chosen to shed some light on the following questions.
+The case studies  and test sets were chosen to shed some light on the following questions.
 
 \begin{itemize}
-    \item How does training on a building class affect the performance on detection of boats
-    \item How does training on boats in coast near environments affect detection accuracy in open sea
-    \item How does SSD compare to Yolo when trained and tested on the same data
-    \item In which situations do the detection algorithms struggle, and in which situations is the performance satisfactory
+    \item How does training on a building class affect the performance on detection of boats?
+    \item How does training on boats in coast near environments affect detection accuracy in open sea?
+    \item How does SSD compare to Yolo when trained and tested on the same data?
+    \item In which situations do the detection algorithms struggle, and in which situations is the performance satisfactory?
 \end{itemize}
 
-In this chapter, datasets are mentioned when referring both to training and testing of models. All the custom datasets are split into test and training subsets, which are used respectively for testing and training.
+\noindent
+In this chapter, datasets are mentioned when referring both to training and testing of models. All the custom datasets are split into test and training subsets, which are used respectively for testing and training. 
 
-\section{Terminology and Abbreviations}
-Yolo and SSD were trained on three different combinations of datasets. The names of the training sets are given in table \ref{tab:trainingset} along with the datasets each training set is composed of, and their abbreviation.
+\noindent
+The terms "test set" and "training set" is used widely in this chapter. These sets are referring to combinations of one or more datasets that together make up a test set or training set.
+
+\section{Training Sets and Detection Models}
+Yolo and SSD were trained on three different training sets. The names of the training sets are given in table \ref{tab:trainingset} along with the datasets each training set is composed of, and their abbreviation.
 
 \begin{table}[]
-\begin{tabular}{l|l|l}
-Training set name                                                                                            & Abbreviation & Datasets                                                                                                      \\ \hline
-{[}B{]}oats {[}s{]}ailing                                                                                    & BS           & \begin{tabular}[c]{@{}l@{}}Trondheimsfjorden, BoatsClose \\ and BoatsFar\end{tabular}                         \\ \hline
-\begin{tabular}[c]{@{}l@{}}{[}B{]}oats {[}s{]}ailing and \\ {[}m{]}oored boats\end{tabular}                  & BSM          & \begin{tabular}[c]{@{}l@{}}Trondheimsfjorden, BoatsClose, \\ BoatsFar, and MooredBoats\end{tabular}           \\ \hline
-\begin{tabular}[c]{@{}l@{}}{[}B{]}oats {[}s{]}ailing, \\ {[}m{]}oored boats and\\  {[}h{]}ouses\end{tabular} & BSMH         & \begin{tabular}[c]{@{}l@{}}Trondheimsfjorden, BoatsClose, \\ BoatsFar, MooredBoatsHouses, Houses\end{tabular}
+\centering
+\begin{tabular}{l|l}
+Training set                                                                                           & Datasets                                                                                                      \\ \hline
+Boats Sailing (BS)                                                                                            & \begin{tabular}[c]{@{}l@{}}Trondheimsfjorden \\ BoatsClose \\ BoatsFar\end{tabular}                         \\ \hline
+\begin{tabular}[c]{@{}l@{}}Boats Sailing and \\ Moored boats (BSM) \end{tabular}                            & \begin{tabular}[c]{@{}l@{}}Trondheimsfjorden \\ BoatsClose \\ BoatsFar \\ MooredBoats\end{tabular}           \\ \hline
+\begin{tabular}[c]{@{}l@{}}Boats Sailing, Moored boats \\ and  Houses (BSMH) \end{tabular}         & \begin{tabular}[c]{@{}l@{}}Trondheimsfjorden \\ BoatsClose \\ BoatsFar \\ MooredBoatsHouses \\ Houses\end{tabular}
 \end{tabular}
 \caption{Training sets used to train Yolo and SSD models.}
 \label{tab:trainingset}
@@ -37,39 +42,25 @@ Training set name                                                               
 
 
 \vspace{3mm}
+\newpage 
 \noindent
-Henceforth the model names in table \ref{tab_models} will be used to distinguish the models trained on different data.
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{l|ll}
-Model name  & Trained on datasets                        \\ \hline
-Yolo$_{\text{BS}}$, SSD$_{\text{BS}}$   & [B]oats [s]ailing                           \\
-Yolo$_{\text{BSM}}$, SSD$_{\text{BSM}}$ & [B]oats [s]ailing and [m]oored boats           \\
-Yolo$_{\text{BSMH}}$, SSD$_{\text{BSMH}}$ & [B]oats [s]ailing, [m]oored boats and [h]ouses
-\end{tabular}
-\caption{Model description}
-\label{tab_models}
-\end{table}
-
-
+These training sets were used to train three SSD models and three Yolo models. Henceforth these models will be denoted with the training set abbreviation as subscript:  Yolo$_{\text{BS}}$, SSD$_{\text{BS}}$, Yolo$_{\text{BSM}}$, SSD$_{\text{BSM}}$,
+Yolo$_{\text{BSMH}}$ and SSD$_{\text{BSMH}}$.
 
 
 \section{Results Overview}
+\label{sec:res_over}
 
-To present an overview of the results two statistics have been used. The first one is a table of the average precision of each model on four test datasets. The second is confusion matrices. Both average precision and confusion matrices are explained in chapter \ref{sec:eval}. Chapter \ref{subsec:ap} presents the average precision results, chapter \ref{subsec:cm} presents the confusion matrices, chapter \ref{subsec:main} discusses the most important aspects of these results.
+To present an overview of the results two statistics have been used. Average precision is presented in chapter \ref{subsec:ap}, and confusion matrices in chapter \ref{subsec:cm}. Chapter \ref{subsec:main} discusses the most important aspects of these results.
 
-\newpage
-
-\subsection{Average Precision}
+\subsection{Average Precision}¨
 \label{subsec:ap}
+The average precision of the models on the different test sets is shown in table \ref{ap_tab}.
 
-The average precision of the models on the different test datasets is shown in table \ref{ap_tab}. The average precision gives a good indication of how well the detection model perform on a dataset, and gives a more complete picture than confusion matrices.
-
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \begin{tabular}{l|ll|ll|ll}
-Test dataset(s)                                                                               & Yolo$_{\text{BS}}$ & SSD$_{\text{BS}}$ & Yolo$_{\text{BSM}}$ & SSD$_{\text{BSM}}$ & Yolo$_{\text{BSMH}}$ & SSD$_{\text{BSMH}}$ \\ \hline
+Test set                                                                               & Yolo$_{\text{BS}}$ & SSD$_{\text{BS}}$ & Yolo$_{\text{BSM}}$ & SSD$_{\text{BSM}}$ & Yolo$_{\text{BSMH}}$ & SSD$_{\text{BSMH}}$ \\ \hline
 MooredBoats                                                                              & 0.182              & 0.140             & 0.707               & 0.515              & 0.701                & 0.586               \\ \hline
 Trondheimsfjorden                                                                        & 0.885              & 0.860             & 0.900               & 0.750              & 0.908                & 0.876               \\ \hline
 \begin{tabular}[c]{@{}l@{}}BoatsClose and\\ BoatsFar\end{tabular}                        & 0.509              & 0.278             & 0.533               & 0.239              & 0.647                & 0.292               \\ \hline
@@ -84,7 +75,15 @@ Trondheimsfjorden                                                               
 \subsection{Confusion Matrices}
 \label{subsec:cm}
 
-As explained in chapter \ref{sec:conf_mat}, confusion matrices gives an intuitive understanding of the results. In this chapter two tables are presented, in the tables each model's confusion matrix on the four datasets are presented. The difference between the two tables are the confidence threshold set for the detection. The bounding boxes Yolo and SSD outputs comes with a confidence score, indicating how confident the algorithm is in the detection. A higher confidence threshold would lead to fewer false positives, but possibly also fewer true positives, the confidence thresholds used for the two tables presented here are 0.25 and 0.5. The confusion matrices are presented as shown in table \ref{tab:conf_exp}.
+As explained in chapter \ref{sec:conf_mat}, confusion matrices gives a more intuitive understanding of the results than average precisions. In this chapter two tables are presented, table \ref{tab:conf_025} where the confidence threshold is set to 0.25, and \ref{tab:conf_05} with a confidence threshold of 0.5.
+
+\vspace{3mm}
+\noindent
+The bounding boxes Yolo and SSD outputs comes with a confidence score, indicating how confident the algorithm is in the detection. A higher confidence threshold could lead to fewer false positives, but possibly also fewer true positives. Only detections with a higher confidence score than the confidence thresholds set in table \ref{tab:conf_025} and table \ref{tab:conf_05} are accounted for in the tables.
+
+\vspace{3mm}
+\noindent
+Table \ref{tab:conf_025} and \ref{tab:conf_05} are composed of the confusion matrices for all six detection models on the four test sets. Each cell in the table is the confusion matrix for the corresponding detection model and test set. Table \ref{tab:conf_exp} explains what the numbers in each cell represent.
 
 
 
@@ -93,9 +92,9 @@ As explained in chapter \ref{sec:conf_mat}, confusion matrices gives an intuitiv
 \begin{table}[h!]
 \centering
 \begin{tabular}{c|ll}
-\multicolumn{1}{l|}{}  & \multicolumn{2}{l}{Dataset(s) (Number of objects in dataset(s))} \\ \hline
+\multicolumn{1}{l|}{}  & \multicolumn{2}{l}{Test set(s) (Number of objects in test set)} \\ \hline
 \multirow{2}{*}{Model} & True positives        & False positives                    \\
-                       & False negatives       & True negatives (Not relevant)     
+                       & False negatives       &    
 \end{tabular}
 \caption{Confusion matrix explanation}
 \label{tab:conf_exp}
@@ -128,7 +127,7 @@ As explained in chapter \ref{sec:conf_mat}, confusion matrices gives an intuitiv
 \multirow{2}{*}{SSD$_{\text{BSMH}}$}  & 32            & 13           & 150            & 23            & 365            & 282            & 515              & 305             \\
                        & 26            &              & 24             &               & 453            &                & 477              &                
 \end{tabular}
-\caption{Confusion matrix with the confidence threshold set to 0.25}
+\caption{Confusion matrix with the confidence threshold set to 0.25. Explanation of cells in the table can be found in table \ref{tab:conf_exp}.}
 \label{tab:conf_025}
 \end{table}
 
@@ -158,7 +157,7 @@ As explained in chapter \ref{sec:conf_mat}, confusion matrices gives an intuitiv
 \multirow{2}{*}{SSD$_{\text{BSMH}}$}  & 31            & 6            & 147            & 14            & 319            & 214            & 466              & 228             \\
                        & 27            &              & 27             &               & 499            &                & 526              &                
 \end{tabular}
-\caption{Confusion matrix with the confidence threshold set to 0.5}
+\caption{Confusion matrix with the confidence threshold set to 0.5. Explanation of cells in the table can be found in table \ref{tab:conf_exp}.}
 \label{tab:conf_05}
 \end{table}
 
@@ -170,17 +169,18 @@ As explained in chapter \ref{sec:conf_mat}, confusion matrices gives an intuitiv
 \label{subsec:main}
 
 \subsubsection{Best results}
-Yolo$_{\text{BSMH}}$ has the best overall results. On the Trondheimsfjorden dataset Yolo$_{\text{BSMH}}$ has an average precision of 0.908, which is impressive. Table \ref{tab:conf_025}, where the confidence threshold is set to 0.25, shows that Yolo$_{\text{BSMH}}$ detects 173 out of 174 boats in this dataset, with only three false positives. When the confidence threshold is set to 0.5, Yolo$_{\text{BSMH}}$ detects 170 out of 174 boats, with two false positives, as shown in table \ref{tab:conf_05}. Even though the results on the other datasets are worse than on the Trondheimsfjorden dataset, they are not bad. In \citep{YOLOv3}, Yolo gets a mean average precision, which is average precision for multi-class detection, of 0.553 on the COCO dataset. To compare the average precision on the custom datasets to the results on the multi-class detection problem on the COCO dataset is not a fair comparison, but it still is worth noting to give a better intuition for what the average precisions shown in table \ref{ap_tab} means. 
+Yolo$_{\text{BSMH}}$ has the best overall results. On the Trondheimsfjorden test set Yolo$_{\text{BSMH}}$ has an average precision of 0.908, which is impressive. Table \ref{tab:conf_025}, where the confidence threshold is set to 0.25, shows that Yolo$_{\text{BSMH}}$ detects 173 out of 174 boats in this test set, with only three false positives. When the confidence threshold is set to 0.5, Yolo$_{\text{BSMH}}$ detects 170 out of 174 boats, with two false positives, as shown in table \ref{tab:conf_05}. Even though the results on the other test sets are less impressive than on the Trondheimsfjorden test set, they are not bad. In \citep{YOLOv3}, Yolo gets a mean average precision, which is average precision for multi-class detection, of 0.553 on the COCO dataset. To compare the average precision on the custom datasets to the results on the multi-class detection problem on the COCO dataset is not a fair comparison, but it still is worth noting to give a better intuition for what the average precisions shown in table \ref{ap_tab} means. 
 
 \subsubsection{Effect of training differences}
-The hypothesis before running the tests in this work was that more relevant training data used in a model, the better the test results. This means that the expected results was that Yolo$_{\text{BSMH}}$ would be better than Yolo$_{\text{BSM}}$ which again would be better than Yolo$_{\text{BS}}$, and the same for the SSD models. Table \ref{ap_tab} shows this hypothesis to be correct except for SSD$_{\text{BS}}$ and SSD$_{\text{BSM}}$, where SSD$_{\text{BS}}$ performs better than SSD$_{\text{BSM}}$. Yolo$_{\text{BSM}}$ is only slightly better than Yolo$_{\text{BS}}$ on all datasets except the MooredBoats dataset. This means that, since Yolo$_{\text{BSMH}}$ and SSD$_{\text{BSMH}}$ have the best results, training on the \textit{build} dataset has a significant effect on the test results on all datasets. This will be further discussed in chapter \ref{case_study:eff_build}. SSD$_{\text{BS}}$ and Yolo$_{\text{BS}}$ has the worst results on the MooredBoats dataset, this is expected since these are the only models that have not been trained on data similar to this dataset.
+The hypothesis before running the tests in this work was that more relevant training data used in a model would mean better the test results. This means that the expected results was that Yolo$_{\text{BSMH}}$ would be better than Yolo$_{\text{BSM}}$ which again would be better than Yolo$_{\text{BS}}$, and the same for the SSD models. Table \ref{ap_tab} shows this hypothesis to be correct except for SSD$_{\text{BS}}$ and SSD$_{\text{BSM}}$, where SSD$_{\text{BS}}$ performs better than SSD$_{\text{BSM}}$. Yolo$_{\text{BSM}}$ is only slightly better than Yolo$_{\text{BS}}$ on all datasets except the MooredBoats test set. This means that, since Yolo$_{\text{BSMH}}$ and SSD$_{\text{BSMH}}$ have the best results, training on a building class has a significant effect on the test results on all test sets. This will be further discussed in chapter \ref{case_study:eff_build}. SSD$_{\text{BS}}$ and Yolo$_{\text{BS}}$ detects the least boats on the MooredBoats test set, this is expected since these are the only models that have not been trained on data similar to this test set.
 
 \subsubsection{Yolo vs. SSD}
 As shown in the tables in chapter \ref{subsec:ap} and \ref{subsec:cm}, Yolo performs better than SSD in this project. One of the critical differences between Yolo and SSD was discussed in chapter \ref{sec:obj_det}, where SSD uses grids at multiple scales to detect objects, while Yolo only applies one. The hypothesis was that this would make SSD better at identifying boats that varied more in size, while Yolo would only detect boats within a certain size range. This hypothesis was not confirmed during the work on this project. Yolo detects more boats and has fewer misclassifications than SSD in all the tests done in this work.
 
 \vspace{3mm}
 
-In this project SSD mobilenet was used, a lightweight version of SSD meant for real-time solutions. SSD Mobilenet is faster, but less accurate compared to the original implementation. The reason for choosing Mobilenet over the original implementation was that it was used in a project at DNV GL the summer of 2018 with promising results. While Yolo and the original implementation of SSD has comparable accuracy, the accuracy of SSD Mobilenet is lower, meaning Yolo's superior accuracy is not entirely unexpected. 
+\noindent
+In this project SSD Mobilenet was used, a lightweight version of SSD meant for real-time solutions. SSD Mobilenet is faster, but less accurate compared to the original implementation. The reason for choosing Mobilenet over the original implementation was that it was used in a project at DNV GL the summer of 2018 with promising results. While Yolo and the original implementation of SSD has comparable accuracy, the accuracy of SSD Mobilenet is lower, meaning Yolo's superior accuracy is not entirely unexpected. 
 
 
 
@@ -194,22 +194,22 @@ In this project SSD mobilenet was used, a lightweight version of SSD meant for r
 \section{Case Study 1: Effect from training on buildings}
 \label{case_study:eff_build}
 
-Both \citep{Tangstad2017} and \citep{Kamsvag2018} implemented an object detector for maritime vessels using Faster R-CNN. A challenge highlighted in both these projects was the misclassification of waterfront buildings as boats. To address this problem the datasets \textit{MooredBoatsHouses} and \textit{Houses} were produced. By training the object detector on a building class, it may be able to detect the buildings as buildings and thus suppress the classifications of waterfront buildings as boats. As a first step in trying to verify this hypothesis, both Yolo and SSD were trained on two different sets of data. The two datasets they are trained on contains the same set of images with two exceptions:
+Both \citep{Tangstad2017} and \citep{Kamsvag2018} implemented an object detector for maritime vessels using Faster R-CNN. A challenge highlighted in both these projects was the misclassification of waterfront buildings as boats. To address this problem the datasets MooredBoatsHouses and Houses were produced. By training the object detector on a building class, it may be able to detect the buildings as buildings and thus suppress the classifications of waterfront buildings as boats. As a first step in trying to verify this hypothesis, both Yolo and SSD were trained on two different sets of data. The two datasets they are trained on contains the same set of images with two exceptions:
 
 \vspace{1mm}
 
 \begin{enumerate}
     \item For Yolo$_{\text{BSM}}$ and SSD$_{\text{BSM}}$ only boats are labeled.
-    \item For Yolo$_{\text{BSMH}}$ and SSD$_{\text{BSMH}}$ buildings are labeled in the dataset building\_boats, and a dataset containing only waterfront buildings was added to the training dataset.
+    \item For Yolo$_{\text{BSMH}}$ and SSD$_{\text{BSMH}}$ buildings are labeled in the dataset MooredBoatsHouses, and a dataset containing only waterfront buildings was added to the training set.
 \end{enumerate}
 
 \vspace{1mm}
-
+\noindent
 Thus, all the models have been trained on the same boat objects, while Yolo$_{\text{BSMH}}$ and SSD$_{\text{BSMH}}$ also have been trained on a building class. This has been done to try to minimize the variation in the variables that affect boat detection, and try to only look at how adding a building class affects the boat detection performance.
 
 \vspace{3mm}
-
-In figure \ref{fig:case_build} the precision/recall-curves for the models are displayed for the four test cases. For both SSD and Yolo the model trained on buildings generally performs better than Yolo$_{\text{BSM}}$ and SSD$_{\text{BSM}}$. However, the difference is more significant for SSD than for Yolo. How much training on a building class affects the results differ depending on which dataset was used for testing. 
+\noindent
+In figure \ref{fig:case_build} the precision/recall curves for the models are displayed for the four test cases. For both SSD and Yolo the model trained on buildings generally performs better than Yolo$_{\text{BSM}}$ and SSD$_{\text{BSM}}$. However, the difference is more significant for SSD than for Yolo. 
 
 \begin{figure}[h!]
 \captionsetup[subfigure]{justification=centering}
@@ -229,13 +229,13 @@ In figure \ref{fig:case_build} the precision/recall-curves for the models are di
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/bcbf-eps.png}
-  \caption{Yolo tested on BoatsClose, BoatsFar}
+  \caption{Yolo tested on BoatsClose and BoatsFar}
   \label{fig:sfig1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/bcbf-eps.png}
-  \caption{SSD tested on BoatsClose, BoatsFar}
+  \caption{SSD tested on BoatsClose and BoatsFar}
   \label{fig:sfig2}
 \end{subfigure}
 
@@ -255,13 +255,13 @@ In figure \ref{fig:case_build} the precision/recall-curves for the models are di
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/bcbftrf-eps.png}
-  \caption{Yolo tested on BoatsClose, BoatsFar, Trondheimsfjorden}
+  \caption{Yolo tested on BoatsClose, BoatsFar and Trondheimsfjorden}
   \label{fig:sfig1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/bcbftrf-eps.png}
-  \caption{SSD tested on BoatsClose, BoatsFar, Trondheimsfjorden}
+  \caption{SSD tested on BoatsClose, BoatsFar and Trondheimsfjorden}
   \label{fig:sfig2}
 \end{subfigure}
 \caption{Precision/recall curves of Yolo$_{\text{BSM}}$, Yolo$_{\text{BSMH}}$, SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$}
@@ -269,11 +269,11 @@ In figure \ref{fig:case_build} the precision/recall-curves for the models are di
 \end{figure}
 
 \newpage
+\clearpage
 
+\subsection{Tested on MooredBoats}
 
-\subsection{Tested on the MooredBoats dataset}
-
-The hypothesis before running the experiment was that the MooredBoats dataset would be the most positively affected by training on a building class. Since MooredBoats consists of mostly moored boats, where there are images that contain buildings close to sea level one could suspect could be mistaken as boats, as shown in \ref{img:bbnb_ex}. The building in the bottom left corner is close to sea level, while also being relatively close in size to the boats compared to the other buildings in the image, which makes it a good candidate for a misclassification. However, neither Yolo$_{\text{BSM}}$ nor SSD$_{\text{BSM}}$ classifies this building as a boat. All the detectors, Yolo$_{\text{BSM}}$, Yolo$_{\text{BSMH}}$, SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ detects all the boats in the image. Both SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ detects the rightmost boat two times, and the bounding box differences between Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ and between SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ are so insignificant that training on the building class does not seem to help improve performance on this particular image. Both Yolo$_{\text{BSMH}}$ and SSD$_{\text{BSMH}}$ detects the buildings in the image well, as can be seen in figure \ref{fig:ex_bbnb_yolo3} and \ref{fig:ex_bbnb_ssd3}.
+The hypothesis before running the experiment was that the MooredBoats test set would be the most positively affected by training on a building class. Since MooredBoats consists of mostly moored boats, where there are images that contain buildings close to sea level one could suspect could be mistaken as boats, as shown in figure \ref{img:bbnb_ex}. The building in the bottom left corner is close to sea level, while also being relatively close in size to the boats compared to the other buildings in the image, which makes it a good candidate for a misclassification. However, neither Yolo$_{\text{BSM}}$ nor SSD$_{\text{BSM}}$ classifies this building as a boat. All the detectors, Yolo$_{\text{BSM}}$, Yolo$_{\text{BSMH}}$, SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ detects all the boats in the image. Both SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ detects the rightmost boat two times, and the bounding box differences between Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ and between SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ are so insignificant that training on the building class does not seem to help improve performance on this particular image. Both Yolo$_{\text{BSMH}}$ and SSD$_{\text{BSMH}}$ detects the buildings in the image well, as can be seen in figure \ref{fig:ex_bbnb_yolo3} and \ref{fig:ex_bbnb_ssd3}.
 
 
 \begin{figure}[h!]
@@ -314,27 +314,27 @@ The hypothesis before running the experiment was that the MooredBoats dataset wo
   \caption{SSD$_{\text{BSMH}}$}
   \label{fig:ex_bbnb_ssd3}
 \end{subfigure}
-\caption{Yolo$_{\text{BSM}}$, Yolo$_{\text{BSMH}}$, SSD$_{\text{BSM}}$, SSD$_{\text{BSMH}}$ example image from MooredBoats test set. Green bounding boxes are ground truth, red bounding boxes are detected boats, blue bounding boxes are detected buildings}
+\caption{Yolo$_{\text{BSM}}$, Yolo$_{\text{BSMH}}$, SSD$_{\text{BSM}}$, SSD$_{\text{BSMH}}$ example image from MooredBoats test set. Green bounding boxes are ground truth, red bounding boxes are detected boats, blue bounding boxes are detected buildings.}
 \label{img:bbnb_ex}
 \end{figure}
 
 \newpage
 
-\subsection{Tested on the BoatsClose and BoatsFar datasets}
+\subsection{Tested on the BoatsClose and BoatsFar}
 
-The datasets BoatsClose and BoatsFar consists mostly of images taken towards open sea, of boats that are sailing, i.e., the boats are not moored. It is on this dataset the performance differences between Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ and between SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ differ the most, as can be seen in figure \ref{fig:bcbf_prec}.
+The datasets BoatsClose and BoatsFar consists mostly of images taken towards open sea, of boats that are sailing, i.e., the boats are not moored. It is on this  test set the performance differences between Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ and between SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ differ the most, as can be seen in figure \ref{fig:bcbf_prec}.
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/bcbf-eps.png}
-  \caption{Yolo tested on BoatsClose, BoatsFar}
+  \caption{Yolo tested on BoatsClose and BoatsFar}
   \label{fig:ex_bcbf_prec_rec_yolo}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.8\linewidth]{results/case_buildings/prec_recall/ssd/bcbf-eps.png}
-  \caption{SSD tested on BoatsClose, BoatsFar}
+  \caption{SSD tested on BoatsClose and BoatsFar}
   \label{fig:ex_bcbf_prec_rec_ssd}
 \end{subfigure}
 \caption{Yolo$_{\text{BSM}}$, Yolo$_{\text{BSMH}}$, SSD$_{\text{BSM}}$, SSD$_{\text{BSMH}}$ example image from MooredBoats test set. Green bounding boxes are ground truth, red bounding boxes are detected boats, blue bounding boxes are detected buildings}
@@ -342,11 +342,12 @@ The datasets BoatsClose and BoatsFar consists mostly of images taken towards ope
 \end{figure}
 
 \vspace{3mm}
+\noindent
+By going through the approximately 300 test images, some differences between the models become apparent. The differences between SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ are clearer than the differences between Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$.
 
-By going through the approximately 300 test images, some differences between the models become apparent. While the differences between SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ are somewhat obvious, the difference between Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ are more nuanced. 
 
 \subsubsection{SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ on BoatsClose and BoatsFar}
-In around 10 percent of the test images, SSD$_{\text{BSM}}$ detects land as a boat, in none of these images does SSD$_{\text{BSMH}}$ perform the same way. An example of this is shown in figure \ref{img:bixbox_ssd}. More examples of this behavior can be found in Appendix C in chapter \ref{sec:bigbox}
+In around 10 percent of the test images, SSD$_{\text{BSM}}$ detects land as a boat, in none of these images does SSD$_{\text{BSMH}}$ perform the same way. An example of this is shown in figure \ref{img:bixbox_ssd}. More examples of this behavior can be found in appendix \ref{sec:bigbox}
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -365,7 +366,8 @@ In around 10 percent of the test images, SSD$_{\text{BSM}}$ detects land as a bo
 \label{img:bixbox_ssd}
 \end{figure}
 
-There are also some examples where SSD$_{\text{BSM}}$ misclassifies buildings as boats, while SSD$_{\text{BSMH}}$ does not. One example is shown in figure \ref{img:misclass_ssd}
+\noindent
+There are also some examples where SSD$_{\text{BSM}}$ misclassifies buildings as boats, while SSD$_{\text{BSMH}}$ does not. One example is shown in figure \ref{img:misclass_ssd}.
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -389,15 +391,16 @@ There are also some examples where SSD$_{\text{BSM}}$ misclassifies buildings as
 
 \subsubsection{Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ on BoatsClose and BoatsFar}
 
-As mentioned Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ does not differ as clearly as SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$. There are examples of Yolo$_{\text{BSM}}$ performing better than Yolo$_{\text{BSMH}}$ and vice versa. In many of the misclassifications in the test data both Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ mistakes the same object as a boat. By analyzing the results from both Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$, the following tendencies can be seen:
+As mentioned, Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ do not differ as clearly as SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$. There are examples of Yolo$_{\text{BSM}}$ performing better than Yolo$_{\text{BSMH}}$ and vice versa. In many of the misclassifications in the test data both Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ mistakes the same object as a boat. By analyzing the results from both Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$, the following tendencies can be seen:
 
 \begin{itemize}
-    \item Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ have the disposition to wrongly classify the same objects as boats. See Appendix C chapter \ref{sec:same_mistake} for example images.
-    \item Yolo$_{\text{BSM}}$ performs better in some cases, while Yolo$_{\text{BSMH}}$ performs better in other. It is not clear what makes one better than the other in each specific case. See Appendix C chapter \ref{sec:3better} and \ref{sec:2better} for example images
-    \item Yolo$_{\text{BSM}}$ makes some misclassifications that could imply that training on a building class makes Yolo$_{\text{BSMH}}$ more robust to the more incomprehensible misclassifications. See appendix C chapter \ref{sec:yolo2_spec_misc} for example images.
+    \item Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ have the disposition to wrongly classify the same objects as boats. See appendix \ref{sec:same_mistake} for example images.
+    \item Yolo$_{\text{BSM}}$ performs better in some cases, while Yolo$_{\text{BSMH}}$ performs better in other. It is not clear what makes one better than the other in each specific case. See appendix \ref{sec:3better} and \ref{sec:2better} for example images
+    \item Yolo$_{\text{BSM}}$ makes some misclassifications that could imply that training on a building class makes Yolo$_{\text{BSMH}}$ more robust to the more incomprehensible misclassifications. See appendix \ref{sec:yolo2_spec_misc} for example images.
 \end{itemize}
 
-As opposed to the differences between SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ the differences in the results between Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ are hard to pinpoint. Both Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ makes misclassifications, but Yolo$_{\text{BSM}}$ seems to make slightly more than Yolo$_{\text{BSMH}}$. Yolo$_{\text{BSMH}}$ also avoids making some misclassifications Yolo$_{\text{BSM}}$ makes in the background, as shown in figure \ref{img:misclass_yolo}.
+\noindent
+As opposed to the differences between SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$, the differences in the results between Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ are hard to pinpoint. Both Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ make misclassifications, but Yolo$_{\text{BSM}}$ seems to make slightly more than Yolo$_{\text{BSMH}}$. Yolo$_{\text{BSMH}}$ also avoids making some misclassifications Yolo$_{\text{BSM}}$ makes in the background, as shown in figure \ref{img:misclass_yolo}.
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -412,7 +415,7 @@ As opposed to the differences between SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$
   \caption{Yolo$_{\text{BSMH}}$}
   \label{fig:misclass_yolo3}
 \end{subfigure}
-\caption{Yolo 2 misclassifies a cloud as a boat, Yolo$_{\text{BSMH}}$ does not. Red bounding boxes are detections, green bounding boxes are ground truth.}
+\caption{Yolo$_{\text{BSM}}$ misclassifies a cloud as a boat, Yolo$_{\text{BSMH}}$ does not. Red bounding boxes are detections, green bounding boxes are ground truth.}
 \label{img:misclass_yolo}
 \end{figure}
 
@@ -421,10 +424,11 @@ As opposed to the differences between SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$
 \subsection{Tested on Trondheimsfjorden}
 \label{sec:test_on_trf}
 
-The precision/recall curve for Yolo$_{\text{BSM}}$, Yolo$_{\text{BSMH}}$, SSD$_{\text{BSM}}$, and SSD$_{\text{BSMH}}$ on Trondheimsfjorden can be seen in figure \ref{fig:trf_prec}. All the models perform very well on this dataset, where Yolo$_{\text{BSMH}}$ almost gets a perfect score with an average precision of 0.908, meaning it is very close to detect all the objects while having practically no misclassifications. This result could be an indication of overtraining on this dataset and will be discussed further in chapter \ref{dataset_divers}. 
+The precision/recall curve for Yolo$_{\text{BSM}}$, Yolo$_{\text{BSMH}}$, SSD$_{\text{BSM}}$, and SSD$_{\text{BSMH}}$ on Trondheimsfjorden can be seen in figure \ref{fig:trf_prec}. All the models perform very well on this test set, where Yolo$_{\text{BSMH}}$ almost gets a perfect score with an average precision of 0.908, meaning it is very close to detect all the objects while having practically no misclassifications. In table \ref{tab:conf_025} it is shown that Yolo$_{\text{BSMH}}$ detects 173 of 174 boats in the Tondheimsfjorden test set with a confidence threshold of 0.25. 
 
 \vspace{3mm}
 
+\noindent
 Both the models trained on the building class, perform better than the model only trained on the boat class. As for the tests on BoatsClose and BoatsFar the differences between SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ are more evident than the differences between Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$. The performance difference between SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ is also more significant than between Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$, as can be seen in figure \ref{fig:trf_prec}
 
 
@@ -432,7 +436,7 @@ Both the models trained on the building class, perform better than the model onl
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/trf-eps.png}
-  \caption{Yolo tested on Trondheimsfjorden}
+  \caption{Yolo tested on Trondheimsfjorden.}
   \label{fig:ex_trf_prec_rec_yolo}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
@@ -447,7 +451,7 @@ Both the models trained on the building class, perform better than the model onl
 
 \subsubsection{SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ on Trondheimsfjorden}
 
-SSD$_{\text{BSM}}$ has some of the same behavior on Trondheimsfjorden as it had on BoatsClose and BoatsFar. For instance, it sometimes classifies land as a boat, as shown in figure \ref{fig:ssd_trf_bigbox}. This happens in approximately 5 percent of the test images. More examples of this behavior can be seen in Appendix C, chapter \ref{fig:ssd_trf_bigbox}.
+SSD$_{\text{BSM}}$ has some of the same behavior on Trondheimsfjorden as it had on BoatsClose and BoatsFar. For instance, it sometimes classifies land as a boat, as shown in figure \ref{fig:ssd_trf_bigbox}. This happens in approximately 5 percent of the test images. More examples of this behavior can be seen in appendix \ref{fig:ssd_trf_bigbox}.
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
@@ -462,7 +466,7 @@ SSD$_{\text{BSM}}$ has some of the same behavior on Trondheimsfjorden as it had 
   \caption{SSD$_{\text{BSMH}}$}
   \label{fig:ex_trf_prec_rec_ssd}
 \end{subfigure}
-\caption{SSD$_{\text{BSM}}$ and SSD$_{\text{BSMH}}$ example image}
+\caption{SSD$_{\text{BSM}}$ misclassifies land as boat.}
 \label{fig:ssd_trf_bigbox}
 \end{figure}
 
@@ -485,11 +489,12 @@ There are examples where SSD$_{\text{BSM}}$ detects boats correctly while SSD$_{
 \label{fig:ssd3_misclassify}
 \end{figure}
 
+\noindent
 In this figure \ref{fig:ssd3_misclassify} SSD$_{\text{BSMH}}$ does not detect the buildings as buildings, this will be discussed further in chapter \ref{sec:build_trf}.
 
 \vspace{3mm}
 
-\subsubsection{Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ on the Trondheimsfjorden dataset}
+\subsubsection{Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ tested on Trondheimsfjorden}
 
 Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ both have outstanding results on Trondheimsfjorden, but Yolo$_{\text{BSM}}$ has a few misclassifications that Yolo$_{\text{BSMH}}$ does not have. In figure \ref{fig:yolo2_misclassify} Yolo$_{\text{BSM}}$ detects land as a boat, and in figure \ref{fig:Yolo3_better_trf} Yolo$_{\text{BSMH}}$ detects a boat that Yolo$_{\text{BSM}}$ does not. There are not many examples where their performance differs much, but there are a few which makes Yolo$_{\text{BSMH}}$ a little more robust than Yolo$_{\text{BSM}}$.
 
@@ -527,24 +532,26 @@ Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ both have outstanding results on Tr
 \label{fig:Yolo3_better_trf}
 \end{figure}
 
-Summed up, the effect of training on buildings seems to have a positive influence on the results. Yolo$_{\text{BSMH}}$ outperforms Yolo$_{\text{BSM}}$ on all test datasets, and thus, this could indicate that training on a building class is beneficial for a boat detector. However, training on the building dataset also provides negative information for boat detection. By training on the building dataset, where there are no boats, the detector can also extract information about where there are no boats. Yolo$_{\text{BSMH}}$ has trained on the same boat objects as Yolo$_{\text{BSM}}$, but Yolo$_{\text{BSMH}}$ could extract contextual information about the images in the building dataset, making it more able to identify objects that are not boats. This also conforms with the plot in figure \ref{fig:yolo_trf_prec}, where the Yolo$_{\text{BSMH}}$'s precision is higher than Yolo$_{\text{BSM}}$'s, meaning Yolo$_{\text{BSMH}}$ has fewer misclassifications.
+\vspace{2mm}
+\noindent
+Summed up, the effect of training on buildings seems to have a positive influence on the results. Yolo$_{\text{BSMH}}$ outperforms Yolo$_{\text{BSM}}$ on all test datasets, and thus, this could indicate that training on a building class is beneficial for a boat detector. However, training on the building dataset also provides negative information for boat detection. By training on the building dataset, where there are no boats, the detector can also extract information about where there are no boats. Yolo$_{\text{BSMH}}$ is trained on the same boat objects as Yolo$_{\text{BSM}}$, but Yolo$_{\text{BSMH}}$ could extract contextual information about the images in the building dataset, making it more able to identify objects that are not boats. This also conforms with the plot in figure \ref{fig:yolo_trf_prec}, where the Yolo$_{\text{BSMH}}$'s precision is higher than Yolo$_{\text{BSM}}$'s, meaning Yolo$_{\text{BSMH}}$ has fewer misclassifications.
 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.8\linewidth]{results/case_buildings/prec_recall/yolo/trf-eps.png}
-  \caption{Yolo tested on Trondheimsfjorden}
+  \caption{Yolo tested on Trondheimsfjorden.}
   \label{fig:ex_trf_prec_rec_yolo}
-\caption{Precision/recall curves for Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ on Trondheimsfjorden}
+\caption{Precision/recall curves for Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ on Trondheimsfjorden.}
 \label{fig:yolo_trf_prec}
 \end{figure}
 
 \newpage
 \clearpage
 
-\section{Case Study 2: Effect of training on moored boats testing for sailing boats}
+\section{Case Study 2: Effect of training on moored boats while testing for sailing boats}
 \label{sec:moored_boats}
 
-Since Yolo$_{\text{BSMH}}$'s results on Trondheimsfjorden are nearly perfect, as shown in figure \ref{fig:moor_trf} it is necessary to investigate if the model have been fitted to this type of data in a larger extent than it should. Therefore, a case study of how training on MooredBoats affect the results on detection of sailing boats (BoatsClose, BoatsFar, Trondheimsfjorden), was done. Since Yolo$_{\text{BSM}}$'s and Yolo$_{\text{BSMH}}$'s results on Trondheimsfjorden are better than Yolo$_{\text{BS}}$'s, without more training on the same data, it could imply that the accuracy of the results are not connected to overtraining. This will be further discussed in \ref{dataset_divers}.
+Since Yolo$_{\text{BSMH}}$'s results on Trondheimsfjorden are nearly perfect, as shown in figure \ref{fig:moor_trf}, it is necessary to investigate if the model have been fitted to this type of data to a larger extent than it should. Therefore, a case study of how training on MooredBoats affect the results on detection of sailing boats (BoatsClose, BoatsFar, Trondheimsfjorden), was done. Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ performs better on Trondheimsfjorden than Yolo$_{\text{BS}}$, without training on more data from Trondheimsfjorden. This could imply that the imporved results is not connected to overtraining. This will be further discussed in chapter \ref{dataset_divers}.
 
 
 \begin{figure}[h!]
@@ -571,18 +578,18 @@ Since Yolo$_{\text{BSMH}}$'s results on Trondheimsfjorden are nearly perfect, as
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.8\linewidth]{results/case_tr_moor/prec_recall/bcbftrf-eps2.png}
-  \caption{Yolo$_{\text{BS}}$, Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$  on BoatsClose, BoatsFar, Trondheimsfjorden}
+  \caption{Yolo$_{\text{BS}}$, Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$  on BoatsClose, BoatsFar and Trondheimsfjorden}
   %\label{fig:moor_bcbftrf}
 \end{subfigure}
-\caption{Precision/recall curves for Yolo$_{\text{BS}}$, Yolo$_{\text{BSM}}$, SSD$_{\text{BS}}$ and SSD$_{\text{BSM}}$ on bb and on BoatsClose, BoatsFar, Trondheimsfjorden}
+\caption{}
 \label{fig:prec_rec_case_moor}
 
 \end{figure}
-
+\noindent
 In figure \ref{fig:prec_rec_case_moor} the precision/recall curves for Yolo$_{\text{BS}}$, Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ are shown. Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ are better than Yolo$_{\text{BS}}$ in all the test cases. While this is expected behavior when testing on MooredBoats, the results are not obvious for the other test cases. 
 
 \vspace{3mm}
-
+\noindent
 Two clear differences between Yolo$_{\text{BS}}$ and Yolo$_{\text{BSM}}$ were found while analyzing the results. The first one being that Yolo$_{\text{BS}}$ tends to overestimate the size of large ships, as shown in figure \ref{fig:yolo12_big}. More examples of this behavior can be seen in Appendix C, chapter \ref{sec:yolo1_big_box}
 
 \begin{figure}[h!]
@@ -598,19 +605,20 @@ Two clear differences between Yolo$_{\text{BS}}$ and Yolo$_{\text{BSM}}$ were fo
   \caption{Yolo$_{\text{BSM}}$}
   \label{fig:yolo2_big}
 \end{subfigure}
-\caption{Example of Yolo$_{\text{BS}}$ over estimating size of ship}
+\caption{Example of Yolo$_{\text{BS}}$ over estimating size of ship.}
 \label{fig:yolo12_big}
 \end{figure}
 
 \newpage
 
+\noindent
 Yolo$_{\text{BS}}$ also has a penchant to detect the same boat twice, where Yolo$_{\text{BSM}}$ does not, as shown in figure \ref{fig:yolo12_multibox}. More examples of this behavior are shown in Appendix C, chapter \ref{sec:yolo1_multidetect}.
 
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=0.8\linewidth]{results/case_tr_moor/yolo12/yolo1/2better/IMG_2269.jpg}
-  \caption{Yolo$_{\text{BS}}$}
+  \caption{Yolo$_{\text{BS}}$.}
   \label{fig:yolo1_multibox}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
@@ -619,45 +627,45 @@ Yolo$_{\text{BS}}$ also has a penchant to detect the same boat twice, where Yolo
   \caption{Yolo$_{\text{BSM}}$}
   \label{fig:yolo2_multibox}
 \end{subfigure}
-\caption{Example of Yolo$_{\text{BS}}$ detecting same boat twice}
+\caption{Example of Yolo$_{\text{BS}}$ detecting same boat twice.}
 \label{fig:yolo12_multibox}
 \end{figure}
 
 \newpage
 
 \section{Case Study 3: Video and temporal data}
-In \citep{Bohn2018} the issue of detections in data over time is addressed, and is to referred to as \textit{streaks}. The goal is to make a detector that robustly detects boats in a video. This does not necessarily mean that the boat needs to be detected in every frame of a video since this can be solved e.g., by using a Markov chain as in \citep{Markov}. Still, the boat needs to be detected by some frequency, for the tracking algorithm to be able to track it. To implement a tracking algorithm is not a part of this project. However, an experiment on how well the detection algorithms work on video has been done. 
+In \citep{Bohn2018} the issue of detections in radar data over time is addressed. For a detector to work on temporal data, the object of interest must be detected with some frequency. If a boat is detected every other frame, it could probably be detected consistently using a tracking algorithm, as done in \citep{Markov}. In this work a tracking algorithm has not been implemented. However, an experiment on how well boats are detected over time has been done.
 
 \subsection{Video from Trondheimsfjorden}
 
-Three videos of boats in the Trondheim fjord have been captured, each approximately 20 seconds long. Yolo$_{\text{BS}}$ was tested on each of them. The three videos are merged and available at \url{https://www.youtube.com/watch?v=kcirhao_PQc}. Frames from each of the videos are shown in figure \ref{fig:videos}.
+Three videos of boats in the Trondheim fjord have been captured, each approximately 30 seconds long. Yolo$_{\text{BS}}$ was tested on each of them. The three videos are merged and available on YouTube \footnote{https://www.youtube.com/watch?v=kcirhao\_PQc}. Frames from each of the videos are shown in figure \ref{fig:videos}.
 
 \begin{figure}[h!]
 \centering
 \begin{subfigure}[b]{0.78\textwidth}
    \includegraphics[width=1\linewidth]{results/video/video1/frame35.jpg}
-   \caption{Video1}
+   \caption{Video of small boat (video$_{\text{SB}}$)}
    \label{fig:video1} 
 \end{subfigure}
 
 \begin{subfigure}[b]{0.78\textwidth}
    \includegraphics[width=1\linewidth]{results/video/video2/frame3.jpg}
-   \caption{Video2}
+   \caption{Video of big boat (video$_{\text{BB}}$)}
    \label{fig:video2}
 \end{subfigure}
 
 \begin{subfigure}[b]{0.78\textwidth}
    \includegraphics[width=1\linewidth]{results/video/video3/frame20.jpg}
-   \caption{Video3}
+   \caption{Video of three boat (video$_{\text{3B}}$)}
    \label{fig:video3}
 \end{subfigure}
-\caption{Frames from video1, video2 and video3}
+\caption{Example frames from video$_{\text{SB}}$, video$_{\text{BB}}$ and video$_{\text{3B}}$. Detections shown as red bounding boxes.}
 \label{fig:videos}
 \end{figure}
 
 \newpage
-
-In video1 and video2 the boat is detected correctly in every frame. Thus streaks is not an issue in these videos. In both video1 and video2, there is only one boat present. In video3 there are three boats, where one of the boats passes behind another during the video. Yolo$_{\text{BS}}$ detects the boats in all frames where the boats are separated, as shown in figure \ref{fig:video3_sep}. When the third boat is behind the second, and beginning to emerge behind it, Yolo$_{\text{BS}}$ detects the two boats as one. This is shown in figure \ref{fig:video3_bigboat}. When the third boat is only slightly visible by human assessment, Yolo$_{\text{BS}}$ only detects two boats as shown in figure \ref{fig:video3_slightly}. 
+\noindent
+In video$_{\text{SB}}$ and video$_{\text{BB}}$ the boat is detected correctly in every frame. Thus a tracking algorithm would not be needed to identify undetected boats in these videos. In both video$_{\text{SB}}$ and video$_{\text{BB}}$, there is only one boat present. In video$_{\text{3B}}$ there are three boats, where one of the boats passes behind another during the video. Yolo$_{\text{BS}}$ detects the boats in all frames where the boats are separated, as shown in figure \ref{fig:video3_sep}. When the third boat is behind the second, and beginning to emerge behind it, Yolo$_{\text{BS}}$ detects the two boats as one. This is shown in figure \ref{fig:video3_bigboat}. When the third boat is only slightly visible by human assessment, Yolo$_{\text{BS}}$ only detects two boats as shown in figure \ref{fig:video3_slightly}. 
 
 \begin{figure}[h!]
 \centering
@@ -678,49 +686,49 @@ In video1 and video2 the boat is detected correctly in every frame. Thus streaks
    \caption{Third boat slightly visible}
    \label{fig:video3_slightly}
 \end{subfigure}
-\caption{Example frames from Video3}
+\caption{Example frames from video$_{\text{3b}}$ showing three different occurring scenarios in the video.}
 \label{fig:video3}
 \end{figure}
 
 \newpage
 
-In video3 all parts of boats are detected as boats, though two boats are classified as one big boat instead of two smaller ones when one is in the shadow of the other. This is a hard problem to solve for an object detector alone, and will be discussed further in chapter \ref{sec:boat_parts}. 
+In video$_{\text{3B}}$ all parts of boats are detected as boats, though two boats are classified as one big boat instead of two smaller ones when one is in the shadow of the other. This is a hard problem to solve for an object detector alone, and will be discussed further in chapter \ref{sec:boat_parts}. 
 
 
 \subsection{Video from \citep{Kamsvag2018}}
+\label{sec:vid_kams}
 
-in \citep{Kamsvag2018} Faster R-CNN was implemented for boat detection. One of the prominent problems encountered in this work was the misclassification of buildings as boats. This was one of the main reasons to train SSD and Yolo on a building class, to see if this could help suppress these detections. Yolo$_{\text{BS}}$, Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ were run on a video used in \citep{Kamsvag2018}, and the results can be found on \url{https://www.youtube.com/watch?v=A_qETwNuFYI}. Example frames from the video are shown in figure \ref{fig:kamsvaag_vid}.
+In \citep{Kamsvag2018} Faster R-CNN was implemented for boat detection. One of the prominent problems encountered in this work was the misclassification of buildings as boats. This was one of the main reasons to train SSD and Yolo on a building class, to see if this could help suppress these detections. Yolo$_{\text{BS}}$, Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ were run on a video used in \citep{Kamsvag2018}, and the results can be found on YouTube \footnote{https://www.youtube.com/watch?v=A\_qETwNuFYI}. Example frames from the video are shown in figure \ref{fig:kamsvaag_vid}.
 
 \vspace{3mm}
-
-In this video the images are captured much closer to sea level than the ones used in training, which may have affected the results. Yolo$_{\text{BS}}$, Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ do all have some problems with detecting the boats in the video in every frame, while Yolo$_{\text{BS}}$ has the poorest preformance. Yolo$_{\text{BSMH}}$ and Yolo$_{\text{BSM}}$ have similar results on boat detection, but Yolo$_{\text{BSMH}}$ has more misclassifications of buildings as boats than Yolo$_{\text{BSM}}$. Yolo$_{\text{BSMH}}$ classifies some of the buildings as buildings, but this does not seem to help suppress the wrong identifications. This will be further discussed in CHAP REF
-
 \begin{figure}[h!]
 \centering
 \begin{subfigure}[b]{0.6\textwidth}
    \includegraphics[width=1\linewidth]{results/kamsvag/yolo1_figure_1451.jpg}
-   \caption{Yolo$_{\text{BS}}$}
+   \caption{Yolo$_{\text{BS}}$.}
    %\label{fig:video3_sep} 
 \end{subfigure}
 
 \begin{subfigure}[b]{0.6\textwidth}
    \includegraphics[width=1\linewidth]{results/kamsvag/yolo2_figure_1479.jpg}
-   \caption{Yolo$_{\text{BSM}}$}
+   \caption{Yolo$_{\text{BSM}}$.}
    %\label{fig:video3_bigboat}
 \end{subfigure}
 
 \begin{subfigure}[b]{0.6\textwidth}
    \includegraphics[width=1\linewidth]{results/kamsvag/yolo3_figure_1479.jpg}
-   \caption{Yolo$_{\text{BSMH}}$}
+   \caption{Yolo$_{\text{BSMH}}$.}
    %\label{fig:video3_slightly}
 \end{subfigure}
 \caption{Example frames from video from \citep{Kamsvag2018}. Red bounding boxes are boat detections, blue boxes are building detections for Yolo$_{\text{BSMH}}$.}
 \label{fig:kamsvaag_vid}
 \end{figure}
 
+\noindent
+In this video the images are captured much closer to sea level than the ones used in training, which may have affected the results. Yolo$_{\text{BS}}$, Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ do all have some problems with detecting the boats in every frame, while Yolo$_{\text{BS}}$ has the poorest preformance. Yolo$_{\text{BSMH}}$ and Yolo$_{\text{BSM}}$ have similar results on boat detection, but Yolo$_{\text{BSMH}}$ has more misclassifications of buildings as boats than Yolo$_{\text{BSM}}$. Yolo$_{\text{BSMH}}$ classifies some of the buildings as buildings, but this does not seem to help suppress the wrong identifications. 
 
-The purpose of training Yolo$_{\text{BSMH}}$ on a building class was for it to be more robust to misclassifications of boats as buildings. In the results shown in CHAP REF, this was not the case. Yolo$_{\text{BSM}}$, which is not trained on the building class, has fewer detections of buildings as boats than Yolo$_{\text{BSMH}}$. Yolo$_{\text{BS}}$, Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ all gets worse results on this video compared to the results on the rest of the test data. This is not entirely unexpected, since the video from \citep{Kamsvag2018} is different from the training data in several ways. Firstly, the video from \citep{Kamsvag2018} is captured from a small boat close to sea level. This makes the angle between the center of the camera and the center of the boats vastly different compared to the ones in e.g. the Trondheimsfjorden dataset, where the images are taken from the top of a ferry. While the features of the boat does not change much due to the change of angle, the background be different, expecially in coast-near environments. When the pictures are captured from a higher point above sea level the background of the boat will be more uniform, and in some cases consists of only water, while the background can be buildings or land in images taken closer to sea level as in figure \ref{fig:kamsvaag_vid}. While this can be a factor to the weaker boat detections on the video from \citep{Kamsvag2018}, it does not explain why Yolo$_{\text{BSMH}}$ classifies more buildings as boats than Yolo$_{\text{BSM}}$.
+
 
 \vspace{3mm}
-
-This being said, it should be noted that the detections of buildings as boats are not consistent over time, and could probably be filtered out in post processing.
+\noindent
+The purpose of training Yolo$_{\text{BSMH}}$ on a building class was for it to be more robust to misclassifications of boats as buildings. In the results shown in chapter \ref{sec:res_over}, this was not the case. Yolo$_{\text{BSM}}$, which is not trained on the building class, has fewer detections of buildings as boats than Yolo$_{\text{BSMH}}$. Yolo$_{\text{BS}}$, Yolo$_{\text{BSM}}$ and Yolo$_{\text{BSMH}}$ all have lower accuracy on this video compared to the results on the rest of the test data. This is not entirely unexpected, since the video from \citep{Kamsvag2018} is different from the training data in several ways. Firstly, the video from \citep{Kamsvag2018} is captured from a small boat close to sea level. This makes the angle between the center of the camera and the center of the boats vastly different compared to the ones in e.g. the Trondheimsfjorden dataset, where the images are taken from the top of a ferry. While the features of the boat does not change much due to the change of angle, the background is different, especially in coast-near environments. When the pictures are captured from a higher point above sea level the background of the boat will be more uniform, and in some cases consists of only water, while the background can be buildings or land in images taken closer to sea level as in figure \ref{fig:kamsvaag_vid}. While this can be a factor to the weaker boat detections on the video from \citep{Kamsvag2018}, it does not explain why Yolo$_{\text{BSMH}}$ classifies more buildings as boats than Yolo$_{\text{BSM}}$. This being said, it should be noted that the detections of buildings as boats are not consistent over time, and could probably be filtered out in post processing.

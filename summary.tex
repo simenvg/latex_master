@@ -12,15 +12,16 @@
 \fancypagestyle{plain}{\fancyhf{}\fancyfoot[LE,RO]{\thepage}\renewcommand{\headrulewidth}{0ex}}
 
 \section*{\Huge Summary}
-\addcontentsline{toc}{chapter}{Summary}	
-$\\[0.5cm]$
+
 
 \noindent 
+Machine learning methods based on deep convolutional neural networks (CNN’s) have in recent years came to dominate the state of the art in object recognition. Huge research efforts are currently being devoted to this field, and new network architectures are frequently being proposed. For the particular task of detection of ships in images, these networks must be trained on an appropriate set of annotated images. As these tasks, which are somewhat labor intensive, will have to be repeated many times as new networks and improvements appear, a systematic and reusable framework is highly desirable. To develop this is the goal of this master thesis. In particular, the thesis addresses the following:
 
-%A major challenge for autonomous operations at sea is collision avoidance. Obstacles need to be detected in real-time and this can be achieved with a combination of different sensors. In this work, the performance of using a regular camera for object detection will be studied. It aims to compare how two state-of-the-art deep learning based detection algorithms perform in a maritime environment. A thorough theoretical and experimental analysis are important contributions in this report. 
-
-%\vspace{5mm}
-
-%In the spring of 2017, Espen Tangstad wrote a master thesis about object detection in a maritime environment \citep{Tangstad2017}, and used the detection algorithm Faster R-CNN \citep{FasterR-CNN}. In this report, Tangstad's version of Faster R-CNN is compared to YOLO (You Only Look Once) \citep{YOLOv1} on a custom test dataset. The custom test dataset consists of four sub-datasets with images captured in different environments and lighting conditions. Both Faster R-CNN and YOLO were tested on the dataset and the results show that YOLO has as good, or better, accuracy than Faster R-CNN. YOLO's other great advantage is that its processing time is much lower than Faster R-CNN, and is therefore more applicable in a real-time system such as an autonomous ferry. 
+\begin{enumerate}
+    \item Conduct a literature survey on methods for detection of ships in camera images. In particular, the survey should discuss the rationale for the recent popularity of deep learning techniques, include the most popular CNN approaches, and discuss other machine learning approaches.
+    \item Develop a complete framework for training and testing, so that both training and testing on new image sets can be done with minimal efforts for popular networks. While the training can accept unordered collections of individual images, it is important that the testing can work on video streams, so that temporal detection metrics can be investigated. 
+    \item Train and test the detection algorithms Yolo and SSD on real data
+    \item Write report and discuss strengths and weaknesses for both of the networks, and also for different training and testing sets.
+\end{enumerate}
 
 \clearpage

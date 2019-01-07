@@ -6,12 +6,14 @@ After accessing an instance with SSH, the instance can be set up using the Githu
 git clone https://github.com/simenvg/cloud\_detection\_framework
 \end{lcverbatim}
 
+\noindent
 When the github repository has been cloned, run setup.sh with the following command from your root directory.
 
 \begin{lcverbatim}
 ./cloud\_detection\_framework/setup.sh
 \end{lcverbatim}
 
+\noindent
 This will install CUDA, cudnn, tensorflow and other necessary libraries correctly, build darknet and set up an environment for training and testing both YOLOv3 and SSD. The setup file will run for approximately 10-15 minutes. There exists other releases of the libraries installed, that might be advantageous for other projects. The versions chosen here, are chosen because they are compatible with the hardware used, and work for both the SSD and YOLO implementation. There is no guarantee that anything will work, even after the smallest changes to this file or the hardware of the instance, as I have painfully 
 
 \section{Training}
@@ -51,6 +53,7 @@ To train Yolo, run the file train.py in cloud-detection-framework. To run this f
 python train.py /home/user/darknet /home/user/data
 \end{lcverbatim}
 
+\noindent
 This file will ask the user which datasets in the data directory Yolo should be trained on, and begin training. 
 
 \subsection{Training SSD}
